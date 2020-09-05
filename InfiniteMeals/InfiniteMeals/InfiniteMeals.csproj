@@ -1,0 +1,83 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="NewFolder1\**" />
+    <EmbeddedResource Remove="NewFolder1\**" />
+    <None Remove="NewFolder1\**" />
+    <Compile Remove="Kitchens\Controller\MainPage %28copy%29.xaml.cs" />
+    <EmbeddedResource Remove="Kitchens\Controller\MainPage %28copy%29.xaml" />
+    <Compile Remove="Kitchens\Controller\MainPage %28copy%29.xaml.cs" />
+    <EmbeddedResource Remove="Kitchens\Controller\MainPage %28copy%29.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Xam.Plugin.Media" Version="5.0.1" />
+    <PackageReference Include="Xamarin.Forms" Version="4.7.0.1142" />
+    <PackageReference Include="XamarinFastEntry.Behaviors" Version="1.1.1" />
+    <PackageReference Include="Acr.UserDialogs" Version="7.1.0.446" />
+    <PackageReference Include="Xam.Plugin.LatestVersion" Version="1.1.2" />
+    <PackageReference Include="Xamarin.Forms.Visual.Material" Version="4.7.0.1142" />
+    <PackageReference Include="Stripe.net" Version="37.20.0" />
+    <PackageReference Include="Plugin.GoogleClient" Version="2.1.12" />
+    <PackageReference Include="Plugin.FacebookClient" Version="2.2.1" />
+    <PackageReference Include="Microsoft.Azure.NotificationHubs" Version="3.3.0" />
+    <PackageReference Include="Xamarin.Forms.Maps" Version="4.7.0.1142" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Kitchens\" />
+    <Folder Include="Kitchens\Model\" />
+    <Folder Include="Meals\" />
+    <Folder Include="Meals\Model\" />
+    <Folder Include="Kitchens\Controller\" />
+    <Folder Include="Checkout\" />
+    <Folder Include="Converters\" />
+    <Folder Include="Refund\" />
+    <Folder Include="PromptAddress\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Mono.Android">
+      <HintPath>..\..\..\..\..\..\Library\Frameworks\Xamarin.Android.framework\Versions\9.4.1.0\lib\xamarin.android\xbuild-frameworks\MonoAndroid\v8.1\Mono.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Android">
+      <HintPath>..\..\..\..\..\..\..\Library\Frameworks\Xamarin.Android.framework\Versions\10.3.1.4\lib\xamarin.android\xbuild-frameworks\MonoAndroid\v10.0\Mono.Android.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.iOS">
+      <HintPath>..\..\..\..\..\..\..\Library\Frameworks\Xamarin.iOS.framework\Versions\13.18.2.1\lib\mono\Xamarin.iOS\Xamarin.iOS.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="CreditCardPage.xaml.cs" />
+    <Compile Remove="ViewModels\CreditCardPageViewModel.cs" />
+    <Compile Remove="Meals\Model\CreditCardPageViewModel.cs" />
+    <Compile Remove="Payment\EmptyClass.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="EmptyTextFile.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="MyPage.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Information\InformationPage.xaml.cs">
+      <DependentUpon>InformationPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="PromptAddress\PromptAddress.xaml.cs">
+      <DependentUpon>PromptAddress.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Information\InformationPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

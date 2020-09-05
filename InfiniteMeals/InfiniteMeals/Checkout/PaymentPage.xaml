@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="InfiniteMeals.Checkout.PaymentPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Entry x:Name="CreditCardNumber" Placeholder="Enter your credit card number" Keyboard="Numeric"></Entry>
+            <StackLayout Orientation="Horizontal">
+                <Entry x:Name="ExpMonth" Placeholder="MM" Keyboard="Numeric"></Entry>
+                <Entry x:Name="ExpYear" Placeholder="YY" Keyboard="Numeric"></Entry>
+                <Entry x:Name="CVC" Placeholder="CVV" Keyboard="Numeric"></Entry>
+            </StackLayout>
+            <Button Text="Send" BorderColor="Gray" BackgroundColor="Transparent" HeightRequest="40" BorderWidth="0.5" BorderRadius="10" HorizontalOptions="FillAndExpand" Clicked="placeOrder"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

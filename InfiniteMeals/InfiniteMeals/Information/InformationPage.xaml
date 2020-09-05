@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="InfiniteMeals.Information.InformationPage"
+             Title="Information">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Margin="10,10,10,10">
+                <Label Text="Ordering Process"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                    VerticalOptions="Center" HorizontalOptions="Center"/>
+                <Label Text="Page 1: Select an Open Farm"
+                    VerticalOptions="Center"
+                       FontSize="18"/>
+                <Label Text="Page 2: Select the Produce you want"
+                    VerticalOptions="Center"
+                       FontSize="18"/>
+                <Label Text="Page 3: Enter Address and Phone number"
+                    VerticalOptions="Center"
+                       FontSize="18"/>
+                <Label Text="              Apply Coupon Codes (if any)"
+                    VerticalOptions="Center"
+                       FontSize="18"/>
+                <Label Text="              Verify Order"
+                    VerticalOptions="Center"
+                       FontSize="18"/>
+                <Label Text="              Verify Payment Amount"
+                    VerticalOptions="Center"
+                       FontSize="18"/>
+                <Label Text="Page 4: Checkout using Paypal"
+                    VerticalOptions="Center"
+                       FontSize="18"/>
+                <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="Gray"/>
+                <Label Text="Easy Peasy Return Instructions"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                    VerticalOptions="Center" HorizontalOptions="Center"/>
+                <Label Text="Click on the Refund icon"
+                    VerticalOptions="Center"
+                    FontSize="18"/>
+                <Label Text="1. Take a picture of what's wrong"
+                    VerticalOptions="Center"
+                    FontSize="18"/>
+                <Label Text="2. Enter your email address and a note (required)"
+                    VerticalOptions="Center"
+                    FontSize="18"/>
+                <Label Text="3. Press Send"
+                    VerticalOptions="Center"
+                       FontSize="18"/>
+                <Label Text="We’ll either add your items to our next delivery or issue you a coupon code for your next order! Tell us if you have a preference. Easy Peasy!"
+                       FontSize="15"/>
+                <BoxView HorizontalOptions="FillAndExpand" HeightRequest="1" Color="Gray"/>
+                <Label Text="Enable Notifications"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       VerticalOptions="Center" HorizontalOptions="Center"/>
+
+                <Label Text="Click on the Enable Notifications button"
+                    VerticalOptions="Center"
+                    FontSize="18"/>
+                <Label Text="1. Click on Notifications"
+                    VerticalOptions="Center"
+                    FontSize="18"/>
+                <Label Text="2. Ensure Allow Notifications is On"
+                    VerticalOptions="Center"
+                    FontSize="18"/>
+                <Label Text="3. Exit Settings"
+                    VerticalOptions="Center"
+                    FontSize="18"/>
+                <Label Text="4. Restart the Serving Now App"
+                    VerticalOptions="Center"
+                    FontSize="18"/>
+                <Label Text="Notifications allow us to send Order Confirmations and Delivery Notifications."
+                       FontSize="15"/>
+                <Button Text="Enable Notifications" Clicked="NavigateToAppSetting" TextColor="#a0050f" HeightRequest="40" BorderColor="Gray" BackgroundColor="Transparent" BorderWidth="0.5" BorderRadius="10"></Button>
+                <Label Text="Call (925) 400-7469 or" VerticalOptions="EndAndExpand" HorizontalOptions="Center"/>
+                <Label Text="Email support@servingnow.me" VerticalOptions="End" HorizontalOptions="Center"/>
+                <Label Text="Serving Now v1.8" VerticalOptions="End" HorizontalOptions="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="DisplayGuidAsync" />
+                        </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

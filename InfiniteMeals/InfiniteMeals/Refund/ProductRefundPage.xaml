@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="InfiniteMeals.Refund.ProductRefundPage"
+             Title="Easy Peasy Refunds">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Margin="10,10,10,15" VerticalOptions="End">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Image x:Name="PhotoImage" VerticalOptions="Center" Margin="0,0,0,0" Grid.Row="1"/>
+                    <Button x:Name="CameraButton" BorderColor="Gray" BackgroundColor="Transparent"  BorderWidth="0.5" BorderRadius="10" Text="Take Photo" Grid.Row="2" TextColor="#a0050f"/>
+                    <Button x:Name="GalleryButton" BorderColor="Gray" BackgroundColor="Transparent"  BorderWidth="0.5" BorderRadius="10" Text="Choose Photo from Gallery" Grid.Row="3" TextColor="#a0050f"/>
+                </Grid>
+                <Label Text="Easy Peasy Return Instructions"
+                   FontSize="25"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+                <Label Text="1. Take a picture of what you want to return"
+                    VerticalOptions="Center"/>
+                <Label Text="2. Enter your email address and a note (required)"
+                    VerticalOptions="Center" />
+                <Label Text="3. Press Send"
+                    VerticalOptions="Center" />
+                <Label FontSize="15" Text="We’ll either add your items to our next delivery or issue you a coupon code for your next order! Tell us if you have a preference. Easy Peasy!"/>
+                <Entry x:Name="email" Placeholder="Your Email Here" Keyboard="Email" HeightRequest = "45" />
+                <Entry x:Name="message" Placeholder="Add Note Here" HeightRequest = "45"/>
+                
+                <Button Text="Send" BorderColor="Gray" BackgroundColor="Transparent" HeightRequest="40" BorderWidth="0.5" BorderRadius="10" HorizontalOptions="FillAndExpand" Clicked="sendRefundRequest" TextColor="#a0050f"/>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

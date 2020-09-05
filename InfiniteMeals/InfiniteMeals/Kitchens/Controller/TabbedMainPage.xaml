@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:local="clr-namespace:TabbedPageWithNavigationPage;assembly=TabbedPageWithNavigationPage" xmlns:local1="clr-namespace:InfiniteMeals" xmlns:local2="clr-namespace:InfiniteMeals.Refund" xmlns:local21="clr-namespace:InfiniteMeals.Information"
+            xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+            android:TabbedPage.ToolbarPlacement="Bottom"
+            x:Class="InfiniteMeals.Kitchens.Controller.TabbedMainPage">
+    
+    <NavigationPage Title="Farms" IconImageSource="Home.png">
+        <x:Arguments>
+            <local1:MainPage />
+        </x:Arguments>
+    </NavigationPage>
+    <NavigationPage Title="Refund" IconImageSource="Refund.png">
+        <x:Arguments>
+            <local2:ProductRefundPage />
+        </x:Arguments>
+    </NavigationPage>
+    <NavigationPage Title="Info" IconImageSource="Information.png">
+        <x:Arguments>
+            <local21:InformationPage/>
+        </x:Arguments>
+    </NavigationPage>
+    <!--<local2:ProductRefundPage Title="Refund" IconImageSource="Refund.png"/>
+    <local21:InformationPage Title="Info" IconImageSource="Information.png"/>-->
+</TabbedPage>

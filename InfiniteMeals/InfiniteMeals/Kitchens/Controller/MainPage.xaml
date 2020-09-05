@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:local="clr-namespace:InfiniteMeals" x:Class="InfiniteMeals.MainPage" Title="Farms">
+    <ContentPage.ToolbarItems>
+        <!--<ToolbarItem Text="Refund"
+                 IconImageSource="Refund.png"
+                 Order="Primary"
+                 Priority="0"
+                 Clicked="NavigateToRefund">
+        <ToolbarItem.IconImageSource>
+            <OnPlatform x:TypeArguments="FileImageSource">
+                <On Platform="iOS">Refund.png</On>
+                <On Platform="Android">Refund.png</On>
+            </OnPlatform>
+        </ToolbarItem.IconImageSource>
+        </ToolbarItem>-->
+        <ToolbarItem
+                 Text="Location"
+                 IconImageSource="Location.png"
+                 Order="Primary"
+                 Priority="0" 
+                 Clicked="PromptForAddress">
+            <ToolbarItem.IconImageSource>
+            <OnPlatform x:TypeArguments="FileImageSource">
+                <On Platform="iOS">Location.png</On>
+                <On Platform="Android">Location.png</On>
+            </OnPlatform>
+        </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <!--<NavigationPage.TitleView>
+        <StackLayout Orientation="Horizontal" VerticalOptions="End" Spacing="10" HorizontalOptions="End">
+            <Image Source="Refund.png">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer
+                            Tapped="NavigateToRefund"/>
+                </Image.GestureRecognizers>
+            </Image>
+            <Image Source="Information.png">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer
+                            Tapped="NavigateToInformation"/>
+                </Image.GestureRecognizers>
+            </Image>
+        </StackLayout>
+    </NavigationPage.TitleView>-->
+    <ListView x:Name="kitchensListView" VerticalOptions="StartAndExpand" Footer="" HasUnevenRows="true" IsPullToRefreshEnabled="true">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <StackLayout Margin="15, 15, 15, 15" Orientation="Vertical">
+                        <Label Text="{Binding title}" HorizontalOptions="StartAndExpand" FontSize="Large" FontAttributes="Bold" Opacity="{Binding opacity}"/>
+                        <!--<Label Text="{Binding zipcode}" HorizontalOptions="Start" FontSize="Small" FontAttributes="Italic" Opacity="{Binding opacity}"/>-->
+                        <Label Text="{Binding description}" HorizontalOptions="StartAndExpand" FontSize="Medium" FontAttributes="Italic" Opacity="{Binding opacity}"/>
+
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Accepting Orders: " FontAttributes="Bold" FontSize="Micro" Opacity="{Binding opacity}"/>
+                            <Label Text="{Binding open_hours}" FontSize="Micro" Opacity="{Binding opacity}"/>
+                            <Label Text="{Binding status}" FontSize="Small" FontAttributes="Bold, Italic" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="End" TextColor="{Binding statusColor}" Opacity="{Binding opacity}"/>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Next Delivery: " FontAttributes="Bold" FontSize="Micro" Opacity="{Binding opacity}"/>
+                            <Label Text="{Binding delivery_period}" FontSize="Micro" Opacity="{Binding opacity}"/>
+                        </StackLayout>
+                    </StackLayout>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+</ContentPage>
