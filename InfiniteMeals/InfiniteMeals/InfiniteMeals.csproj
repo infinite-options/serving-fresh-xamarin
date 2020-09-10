@@ -43,6 +43,7 @@
     <Folder Include="Converters\" />
     <Folder Include="Refund\" />
     <Folder Include="PromptAddress\" />
+    <Folder Include="NewUI\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Mono.Android">
