@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="InfiniteMeals.NewUI.FarmPage">
+
+<ContentPage.Resources>
+    <Style TargetType="Label">
+        <Setter Property="TextColor" Value="Gray"/>
+        <Setter Property="FontSize" Value="10"/>
+    </Style>
+    <Style TargetType="Label" Class="white">
+        <Setter Property="TextColor" Value="White"/>
+    </Style>
+    <Style TargetType="Label" Class="center">
+        <Setter Property="HorizontalTextAlignment" Value="Center"/>
+    </Style>
+    <Style TargetType="Label" Class="h1">
+        <Setter Property="FontSize" Value="30"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+    </Style>
+</ContentPage.Resources>
+<NavigationPage.TitleView>
+    <Label Text="Farm" StyleClass="h1, white" HorizontalOptions="End" Margin="5"/>
+</NavigationPage.TitleView>
+
+</ContentPage>

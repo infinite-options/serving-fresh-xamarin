@@ -46,6 +46,7 @@
     <Folder Include="PromptAddress\" />
     <Folder Include="Models\" />
     <Folder Include="Icons\" />
+    <Folder Include="NewUI\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Mono.Android">

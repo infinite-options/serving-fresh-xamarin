@@ -201,6 +201,26 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\76x76%402x.png">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\BreadIcon.imageset\BreadIcon.png" />
+    <ImageAsset Include="Assets.xcassets\BreadIcon.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\CarrotIcon.imageset\CarrotIcon.png" />
+    <ImageAsset Include="Assets.xcassets\CarrotIcon.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\CartIcon.imageset\CartIcon.png" />
+    <ImageAsset Include="Assets.xcassets\CartIcon.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\DonutIcon.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\DonutIcon.imageset\DonutIcon.png" />
+    <ImageAsset Include="Assets.xcassets\HomeIcon.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\HomeIcon.imageset\HomeIcon.png" />
+    <ImageAsset Include="Assets.xcassets\InfoIcon.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\InfoIcon.imageset\InfoIcon.png" />
+    <ImageAsset Include="Assets.xcassets\OrangeIcon.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\OrangeIcon.imageset\OrangeIcon.png" />
+    <ImageAsset Include="Assets.xcassets\RefundIcon.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\RefundIcon.imageset\RefundIcon.png" />
+    <ImageAsset Include="Assets.xcassets\UserIcon.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\UserIcon.imageset\UserIcon.png" />
+    <ImageAsset Include="Assets.xcassets\CalendarIcon.imageset\CalendarIcon.png" />
+    <ImageAsset Include="Assets.xcassets\CalendarIcon.imageset\Contents.json" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -268,5 +288,17 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Entitlements.plist" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets.xcassets\BreadIcon.imageset\" />
+    <Folder Include="Assets.xcassets\CarrotIcon.imageset\" />
+    <Folder Include="Assets.xcassets\CartIcon.imageset\" />
+    <Folder Include="Assets.xcassets\DonutIcon.imageset\" />
+    <Folder Include="Assets.xcassets\HomeIcon.imageset\" />
+    <Folder Include="Assets.xcassets\InfoIcon.imageset\" />
+    <Folder Include="Assets.xcassets\OrangeIcon.imageset\" />
+    <Folder Include="Assets.xcassets\RefundIcon.imageset\" />
+    <Folder Include="Assets.xcassets\UserIcon.imageset\" />
+    <Folder Include="Assets.xcassets\CalendarIcon.imageset\" />
   </ItemGroup>
 </Project>

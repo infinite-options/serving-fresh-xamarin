@@ -34,6 +34,7 @@ namespace InfiniteMeals
             //MainPage = new TabbedMainPage();
             //MainPage = new NavigationPage(new MainPage());
             //MainPage = new MainPage();
+            MainPage = new NewUI.MainPage();
         }
 
         protected override void OnStart()
