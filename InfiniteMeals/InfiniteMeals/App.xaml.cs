@@ -25,7 +25,7 @@ namespace InfiniteMeals
             }
             else
             {
-                MainPage = new NavigationPage(new PromptAddressPage())
+                MainPage = new logInPage();
                 {
                     //BarBackgroundColor = Color.FromHex("#a0050f"),
                     //BarTextColor = Color.White

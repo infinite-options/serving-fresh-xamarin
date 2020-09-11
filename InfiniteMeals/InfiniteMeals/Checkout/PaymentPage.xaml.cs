@@ -18,6 +18,8 @@ namespace InfiniteMeals.Checkout
 
     public partial class PaymentPage : ContentPage
     {
+        private PaymentIntentPaymentMethodDataOptions paymentMethodDataOption;
+
         public PaymentPage()
         {
             InitializeComponent();
@@ -75,12 +77,12 @@ namespace InfiniteMeals.Checkout
                     ExpYear = long.Parse(ExpYear.Text),
                 };
 
-                var paymentMethodDataOption = new PaymentIntentPaymentMethodDataOptions
-                {
-                    Card = paymentMethodCardCreateOption,
-                    Type = "card",
+                //var paymentMethodDataOption = new PaymentIntentPaymentMethodDataOptions
+                //{
+                //    Card = paymentMethodCardCreateOption,
+                //    Type = "card",
                     
-                };
+                //};
                 List<String> methodTypes = new List<String>();
                 methodTypes.Add("pm_card_visa");
                 var confirmOptions = new PaymentIntentConfirmOptions

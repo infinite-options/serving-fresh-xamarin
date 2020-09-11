@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -17,21 +17,22 @@
     <EmbeddedResource Remove="Kitchens\Controller\MainPage %28copy%29.xaml" />
     <Compile Remove="Kitchens\Controller\MainPage %28copy%29.xaml.cs" />
     <EmbeddedResource Remove="Kitchens\Controller\MainPage %28copy%29.xaml" />
+    <Compile Remove="profilePage.xaml.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Xam.Plugin.Media" Version="5.0.1" />
-    <PackageReference Include="Xamarin.Forms" Version="4.7.0.1142" />
+    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1364" />
     <PackageReference Include="XamarinFastEntry.Behaviors" Version="1.1.1" />
-    <PackageReference Include="Acr.UserDialogs" Version="7.1.0.446" />
+    <PackageReference Include="Acr.UserDialogs" Version="7.1.0.452" />
     <PackageReference Include="Xam.Plugin.LatestVersion" Version="1.1.2" />
-    <PackageReference Include="Xamarin.Forms.Visual.Material" Version="4.7.0.1142" />
-    <PackageReference Include="Stripe.net" Version="37.20.0" />
+    <PackageReference Include="Xamarin.Forms.Visual.Material" Version="4.8.0.1364" />
+    <PackageReference Include="Stripe.net" Version="39.3.0" />
     <PackageReference Include="Plugin.GoogleClient" Version="2.1.12" />
     <PackageReference Include="Plugin.FacebookClient" Version="2.2.1" />
-    <PackageReference Include="Microsoft.Azure.NotificationHubs" Version="3.3.0" />
-    <PackageReference Include="Xamarin.Forms.Maps" Version="4.7.0.1142" />
+    <PackageReference Include="Microsoft.Azure.NotificationHubs" Version="4.0.0" />
+    <PackageReference Include="Xamarin.Forms.Maps" Version="4.8.0.1364" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Kitchens\" />
@@ -43,6 +44,8 @@
     <Folder Include="Converters\" />
     <Folder Include="Refund\" />
     <Folder Include="PromptAddress\" />
+    <Folder Include="Models\" />
+    <Folder Include="Icons\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Mono.Android">
@@ -73,6 +76,18 @@
     </Compile>
     <Compile Update="PromptAddress\PromptAddress.xaml.cs">
       <DependentUpon>PromptAddress.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="signUpPage.xaml.cs">
+      <DependentUpon>signUpPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="businessPage.xaml.cs">
+      <DependentUpon>businessPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="businessItems.xaml.cs">
+      <DependentUpon>businessItems.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="profileUser.xaml.cs">
+      <DependentUpon>profileUser.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

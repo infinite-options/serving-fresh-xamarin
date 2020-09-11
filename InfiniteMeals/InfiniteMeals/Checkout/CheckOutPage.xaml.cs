@@ -530,6 +530,11 @@ namespace InfiniteMeals
             }
         }
 
+        //public class UserInfo
+        //{
+        //    public string email { get; set; }
+        //    public string password { get; set; }
+        //}
         async void placeOrder(object sender, System.EventArgs e)
         {
             var button = (Button)sender;
@@ -847,7 +852,7 @@ availableZipcode+" zipcodes.", "OK");
 
                         var paymentMethodDataOption = new PaymentIntentPaymentMethodDataOptions
                         {
-                            Card = paymentMethodCardCreateOption,
+                            //Card = paymentMethodCardCreateOption,
                             Type = "card",
 
                         };

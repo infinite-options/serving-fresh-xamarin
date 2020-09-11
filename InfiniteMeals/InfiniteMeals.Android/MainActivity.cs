@@ -51,6 +51,7 @@ namespace InfiniteMeals.Droid
 
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             Xamarin.FormsMaps.Init(this, savedInstanceState);
+            Window.SetStatusBarColor(Android.Graphics.Color.ParseColor(InfiniteMeals.Models.Constants.PrimaryColor.ToHex()));
             LoadApplication(new App());
             RequestPermissions(permissionGroup,0);
             UserDialogs.Init(this);
