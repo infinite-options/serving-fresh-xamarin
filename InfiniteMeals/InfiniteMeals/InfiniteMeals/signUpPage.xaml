@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="InfiniteMeals.signUpPage"
+    Title="Sign up">
+        <ContentPage.Content>
+        <StackLayout Padding="0,0,0,0">
+            <Frame Padding="0,50,0,0" HeightRequest="100" BackgroundColor="#136D74" HasShadow="False">
+            <StackLayout>
+            <Label HorizontalOptions="CenterAndExpand" Text="Sign up" TextColor="White" FontSize="Large" FontAttributes="Bold"></Label>
+            <Grid
+                VerticalOptions="End"
+                BackgroundColor="#136D74"
+                HeightRequest="50">
+                <Label
+                    Grid.Column="0"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="Center"
+                    Text="Delivery Info"
+                    TextColor="#FF8500">
+                </Label>
+                <Label
+                    Grid.Column="1"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="Center"
+                    Text="Rewards"
+                    TextColor="White">
+                </Label>
+            </Grid>
+            </StackLayout>
+            </Frame>
+            <ScrollView>
+                <StackLayout>
+                    <StackLayout
+                        Margin="10,0,10,0">
+                        <Entry 
+                            Placeholder="Email Address">
+                        </Entry>
+                        <Entry 
+                            Placeholder="Enter Password">
+                        </Entry>
+                        <Entry 
+                            Placeholder="Confirm Password">
+                        </Entry>
+                        <Frame
+                            HasShadow="False"
+                            BorderColor="LightGray">
+                            <Grid>
+                                <Label HorizontalOptions="Start" Grid.Column="0" Text="Push Notification" TextColor="Gray"></Label>
+                                <Switch HorizontalOptions="End" Grid.Column="1" IsToggled="True"></Switch>
+                            </Grid>
+                        </Frame>
+                        <Button
+                            Text="Submit"
+                            TextColor="White"
+                            CornerRadius="5"
+                            BorderColor="LightGray"
+                            BorderWidth="1"
+                            HeightRequest="40"
+                            BackgroundColor="#FF8500"
+                            Clicked="SignUpNewUser">
+                        </Button>
+                        <Label Padding="0,25,0,0" HorizontalOptions="Center" Text="What to do next" TextColor="Black" FontAttributes="Bold"></Label>
+                       
+                        <Grid HeightRequest="30" Grid.Row="0" Grid.Column="0">
+                            <Label Text="1" TextColor="#136D74" FontSize="30" FontAttributes="Bold" HorizontalOptions="Center" Grid.Row="0" Grid.Column="0" ></Label>
+                            <Label Text="Choose delivery day" TextColor="#FF8500" FontAttributes="Bold" VerticalOptions="Center" Grid.Row="0" Grid.Column="1"></Label>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                                <Label HeightRequest="100" Text="Helping local farmers continue their business in the post pandemic world, Serve Fresh bring their produce to your doorstep in the safest way posible." FontSize="Micro" FontAttributes="Italic" Grid.Row="0" Grid.Column="1"></Label>
+                        </Grid>
+                        <Grid HeightRequest="30" Grid.Row="0" Grid.Column="0">
+                            <Label Text="Choose your items" TextColor="#FF8500" FontAttributes="Bold" VerticalOptions="Center"  HorizontalOptions="Center" Grid.Row="0" Grid.Column="0"></Label>
+                            <Label Text="2" TextColor="#136D74" HorizontalOptions="Center" Grid.Row="0" FontSize="30" FontAttributes="Bold" Grid.Column="1"></Label>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <Label HeightRequest="100" Text="Helping local farmers continue their business in the post pandemic world, Serve Fresh bring their produce to your doorstep in the safest way posible." FontSize="Micro" FontAttributes="Italic" Grid.Row="0" Grid.Column="0"></Label>
+                            <Label Grid.Row="0" Grid.Column="1" ></Label>
+                        </Grid>  
+                        <Grid HeightRequest="30" Grid.Row="0" Grid.Column="0">
+                            <Label Text="3" TextColor="#136D74" FontSize="30" FontAttributes="Bold" HorizontalOptions="Center" Grid.Row="0" Grid.Column="0"></Label>
+                            <Label Text="Choose delivery day" TextColor="#FF8500" FontAttributes="Bold" Grid.Row="0" Grid.Column="1"></Label>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                                <Label HeightRequest="100" Text="Helping local farmers continue their business in the post pandemic world, Serve Fresh bring their produce to your doorstep in the safest way posible." FontSize="Micro" FontAttributes="Italic" Grid.Row="0" Grid.Column="1"></Label>
+                        </Grid>  
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

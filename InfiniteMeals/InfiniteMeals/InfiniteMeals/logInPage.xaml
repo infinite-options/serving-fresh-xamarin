@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="InfiniteMeals.logInPage"
+    BackgroundColor="White"
+    >
+    <RelativeLayout>
+    <Image Source="welcomeIcon.png"></Image>
+    <Image Margin="100" Source="servingFreshIcon.png" HeightRequest="150"></Image>
+    <Grid Padding="35,0,0,0">
+    <StackLayout >
+        <Label HeightRequest="350"></Label>
+        <StackLayout VerticalOptions="Center" Padding="50,0,50,0">
+            <Entry x:Name="userEmailAddress" Placeholder="Email Address"></Entry>
+            <Entry x:Name="userPassword" Placeholder="Password"></Entry>
+            <Button Text="LOGIN" TextColor="White" BackgroundColor="#136D74" Clicked="LogInUser"></Button>
+            <Label HeightRequest="10" Opacity="0"></Label>
+        </StackLayout>
+        <Grid HeightRequest="400" HorizontalOptions="Center" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="300"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"></ColumnDefinition>
+                <ColumnDefinition Width="200"></ColumnDefinition> 
+            </Grid.ColumnDefinitions>
+            <!--Text="SIGN UP", Text="PROCEED AS GUEST"-->
+            <Button Grid.Row="0" Grid.Column="1" FontSize="Large" TextColor="#FF8500" FontAttributes="Bold" Clicked="SignUpUser" ></Button>
+            <Button Grid.Row="0" Grid.Column="0" FontSize="Medium"  TextColor="#FF8500" FontAttributes="Bold"  Clicked="ProceedAsGuestUser" ></Button>
+        </Grid>
+   </StackLayout>
+    </Grid>
+    </RelativeLayout>
+</ContentPage>

@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             ios:Page.UseSafeArea="true"
+             xmlns:infinitemeals="clr-namespace:InfiniteMeals"
+             x:Class="InfiniteMeals.NewUI.CheckoutPage">
+    <NavigationPage.TitleView>
+        <FlexLayout Padding="10, 0">
+            <Label FlexLayout.Grow="1" Text="Checkout" StyleClass="h1, white, center"/>
+            <ImageButton Source="CartIcon" StyleClass="imgbtn">
+                <ImageButton.Effects>
+                    <infinitemeals:TintImageEffect TintColor="#FF8500"/>
+                </ImageButton.Effects>
+            </ImageButton>
+        </FlexLayout>
+    </NavigationPage.TitleView>
+
+    <ScrollView>
+        <StackLayout>
+            <Grid Padding="15">
+                <Label Grid.Column="0" Text="Delivery Address:" StyleClass="h3, primary"/>
+                <StackLayout Grid.Column="1" Spacing="15">
+                    <StackLayout Spacing="0">
+                        <Label Text="2391 Emerson Way" StyleClass="p, black"/>
+                        <Label Text="Altadena, CA, 91001" StyleClass="p, black"/>
+                    </StackLayout>
+                    <Label Text="Change address" StyleClass="secondary"/>
+                </StackLayout>
+            </Grid>
+            <BoxView StyleClass="spacer"/>
+            <Grid Padding="20">
+                <Label Grid.Column="0" Text="Expected Delivery:" StyleClass="h3, primary"/>
+                <StackLayout Grid.Column="1">
+                    <Label Text="Wednesday, Aug 20, 2020" StyleClass="p, black"/>
+                    <Label Text="between 6:00 pm to 8:00 pm" StyleClass="p, black"/>
+                </StackLayout>
+            </Grid>
+            <BoxView StyleClass="spacer"/>
+            <FlexLayout JustifyContent="SpaceBetween" Padding="15">
+                <Label Text="Your Order" StyleClass="h2, black"/>
+                <Button Text="+ Add Items" StyleClass="btn, secondary"/>
+            </FlexLayout>
+            <BoxView StyleClass="spacer"/>
+            <Grid Padding="15">
+                <Label Text="Boysenberry Pie (each)" Grid.Column="0" Grid.ColumnSpan="3" StyleClass="h3, black"/>
+                <StackLayout Orientation="Horizontal" Spacing="5" Grid.Column="3" HorizontalOptions="Center">
+                    <Label Text="-" StyleClass="p, secondary">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="onTap"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Label Text="1" StyleClass="p, secondary"/>
+                    <Label Text="+" StyleClass="p, secondary">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="onTap"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </StackLayout>
+                <Label Text="$13.99" StyleClass="h3, black" Grid.Column="4" HorizontalTextAlignment="End"/>
+            </Grid>
+            <BoxView StyleClass="spacer"/>
+            <Grid Padding="15">
+                <Label Text="Early Girl Tomatoes (per lb)" Grid.Column="0" Grid.ColumnSpan="3" StyleClass="h3, black"/>
+                <StackLayout Orientation="Horizontal" Spacing="5" Grid.Column="3" HorizontalOptions="Center">
+                    <Label Text="-" StyleClass="p, secondary">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="onTap"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Label Text="1" StyleClass="p, secondary"/>
+                    <Label Text="+" StyleClass="p, secondary">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="onTap"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </StackLayout>
+                <Label Text="$3.99" StyleClass="h3, black" Grid.Column="4" HorizontalTextAlignment="End"/>
+            </Grid>
+            <BoxView StyleClass="spacer"/>
+            <Grid Padding="15">
+                <Label Text="Almonds (per lb)" Grid.Column="0" Grid.ColumnSpan="3" StyleClass="h3, black"/>
+                <StackLayout Orientation="Horizontal" Spacing="5" Grid.Column="3" HorizontalOptions="Center">
+                    <Label Text="-" StyleClass="p, secondary">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="onTap"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Label Text="2" StyleClass="p, secondary"/>
+                    <Label Text="+" StyleClass="p, secondary">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="onTap"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </StackLayout>
+                <Label Text="$8.00" StyleClass="h3, black" Grid.Column="4" HorizontalTextAlignment="End"/>
+            </Grid>
+            <BoxView StyleClass="spacer"/>
+            <BoxView HeightRequest="200"/>
+            <BoxView StyleClass="spacer"/>
+            <FlexLayout JustifyContent="SpaceBetween" Padding="15">
+                <Label Text="Subtotal" StyleClass="h3, black"/>
+                <Label Text="$25.98" StyleClass="h3, black"/>
+            </FlexLayout>
+            <BoxView StyleClass="spacer"/>
+            <FlexLayout JustifyContent="SpaceBetween" Padding="15">
+                <Label Text="Promo applied" StyleClass="h3, primary"/>
+                <Label Text="-$2.50" StyleClass="h3, black"/>
+            </FlexLayout>
+            <BoxView StyleClass="spacer"/>
+            <FlexLayout JustifyContent="SpaceBetween" Padding="15">
+                <Label Text="Delivery Fee" StyleClass="h3, black"/>
+                <Label Text="$1.50" StyleClass="h3, black"/>
+            </FlexLayout>
+            <BoxView StyleClass="spacer"/>
+            <FlexLayout JustifyContent="SpaceBetween" Padding="15">
+                <Label Text="Taxes" StyleClass="h3, black"/>
+                <Label Text="$1.28" StyleClass="h3, black"/>
+            </FlexLayout>
+            <BoxView StyleClass="spacer"/>
+            <FlexLayout JustifyContent="SpaceBetween" Padding="15">
+                <Label Text="Total" StyleClass="h3, black"/>
+                <Label Text="$23.26" StyleClass="h3, black"/>
+            </FlexLayout>
+            <Button Text="Checkout with Paypal"/>
+        </StackLayout>
+    </ScrollView>
+
+    
+</ContentPage>
