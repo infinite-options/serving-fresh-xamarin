@@ -17,29 +17,29 @@ namespace InfiniteMeals.NewUI
 
         }
 
-        void Button_Clicked(System.Object sender, System.EventArgs e)
-        {
-            Application.Current.MainPage = new logInPage();
-        }
-
-        void ImageButton_Clicked(System.Object sender, System.EventArgs e)
+        void DeliveryDaysClick(System.Object sender, System.EventArgs e)
         {
             Application.Current.MainPage = new NewUI.StartPage();
         }
 
-        void ImageButton_Clicked_1(System.Object sender, System.EventArgs e)
+        void OrdersClick(System.Object sender, System.EventArgs e)
         {
-            
+            Application.Current.MainPage = new OrdersPage();
         }
 
-        void ImageButton_Clicked_2(System.Object sender, System.EventArgs e)
+        void InfoClick(System.Object sender, System.EventArgs e)
         {
-            
+            Application.Current.MainPage = new InfoPage();
         }
 
-        void ImageButton_Clicked_3(System.Object sender, System.EventArgs e)
+        void ProfileClick(System.Object sender, System.EventArgs e)
         {
             Application.Current.MainPage = new profileUser();
+        }
+
+        void CardClick(System.Object sender, System.EventArgs e)
+        {
+            // AGAIN NO ACTION NEEDED
         }
     }
 }

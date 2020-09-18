@@ -168,10 +168,6 @@
       <SubType></SubType>
       <Generator></Generator>
     </AndroidResource>
-    <AndroidResource Include="Resources\drawable\CalendarIcon.png">
-      <SubType></SubType>
-      <Generator></Generator>
-    </AndroidResource>
     <AndroidResource Include="Resources\drawable\welcomeIcon.png">
       <SubType></SubType>
       <Generator></Generator>
@@ -217,6 +213,10 @@
       <Generator></Generator>
     </AndroidResource>
     <AndroidResource Include="Resources\drawable\asGuestIcon.png">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\calendarIcon.png">
       <SubType></SubType>
       <Generator></Generator>
     </AndroidResource>

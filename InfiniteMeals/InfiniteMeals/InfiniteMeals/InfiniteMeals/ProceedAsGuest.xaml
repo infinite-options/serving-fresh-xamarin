@@ -2,6 +2,7 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
     x:Class="InfiniteMeals.ProceedAsGuest">
         <ContentPage.Content>
         <StackLayout Padding="0,0,0,0">
@@ -68,13 +69,11 @@
                                 FontSize="Small">
                             </Entry>
                         </Grid>
-                        <Frame HasShadow="False" BackgroundColor="Gray">
-                            <Label
-                                Text="google maps"
-                                TextColor="White"
-                                HorizontalOptions="Center">
-
-                            </Label>
+                        <Frame HasShadow="False" BackgroundColor="Gray" Padding="0" HeightRequest="200">
+                            <maps:Map
+                                x:Name="map"
+                                IsVisible="true">
+                            </maps:Map>
                         </Frame>
                         <Button
                             Text="Proceed as Guest"

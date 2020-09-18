@@ -48,21 +48,21 @@ namespace InfiniteMeals
         {
             InitializeComponent();
             // CheckVersion();
-            try
-            {
-                GetKitchens();
-            }
-            catch (TaskCanceledException ex)
-            {
-                GetKitchens();
-            }
-            // Kitchens.Clear();
+            //try
+            //{
+            //    GetKitchens();
+            //}
+            //catch (TaskCanceledException ex)
+            //{
+            //    GetKitchens();
+            //}
+            //// Kitchens.Clear();
 
-            kitchensListView.RefreshCommand = new Command(() =>
-            {
-                GetKitchens();
-                kitchensListView.IsRefreshing = false;
-            });
+            //kitchensListView.RefreshCommand = new Command(() =>
+            //{
+            //    GetKitchens();
+            //    kitchensListView.IsRefreshing = false;
+            //});
 
             kitchensListView.ItemSelected += Handle_ItemTapped();
 

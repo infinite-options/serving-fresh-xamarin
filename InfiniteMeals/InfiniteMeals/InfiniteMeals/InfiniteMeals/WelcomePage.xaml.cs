@@ -33,7 +33,6 @@ namespace InfiniteMeals
             public string password { get; set; }
         }
 
-
         public class AccountSalt
         {
             public string password_algorithm { get; set; }

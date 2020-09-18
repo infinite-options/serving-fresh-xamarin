@@ -35,7 +35,8 @@
                     Margin="0,0,25,0"
                     Source="CartIcon"
                     VerticalOptions="Center"
-                    Clicked="CheckOutClickDeliveryDaysPage"></ImageButton>
+                    Clicked="CheckOutClickDeliveryDaysPage"
+                    BackgroundColor="Transparent"></ImageButton>
             </StackLayout>
         </RelativeLayout>
         <BoxView HeightRequest="1" BackgroundColor="Black"/>
@@ -102,10 +103,10 @@
         <StackLayout BackgroundColor="WhiteSmoke">
             <BoxView HeightRequest="1" BackgroundColor="Gray"/>
             <Grid VerticalOptions="End" HeightRequest="40">
-                <ImageButton Grid.Row="0" Grid.Column="0" Source="calendarIcon.png" Clicked="DeliveryDaysClick"></ImageButton>
-                <ImageButton Grid.Row="0" Grid.Column="1" Source="ordersIcon.png" Clicked="OrdersClick" ></ImageButton>
-                <ImageButton Grid.Row="0" Grid.Column="2" Source="informationIcon.png" Clicked="InfoClick" ></ImageButton>
-                <ImageButton Grid.Row="0" Grid.Column="3" Source="profileIcon.png" Clicked="ProfileClick" ></ImageButton>
+                <ImageButton Grid.Row="0" Grid.Column="0" Source="calendarIcon.png" Clicked="DeliveryDaysClick" BackgroundColor="Transparent"></ImageButton>
+                <ImageButton Grid.Row="0" Grid.Column="1" Source="ordersIcon.png" Clicked="OrdersClick" BackgroundColor="Transparent"></ImageButton>
+                <ImageButton Grid.Row="0" Grid.Column="2" Source="informationIcon.png" Clicked="InfoClick" BackgroundColor="Transparent" ></ImageButton>
+                <ImageButton Grid.Row="0" Grid.Column="3" Source="profileIcon.png" Clicked="ProfileClick" BackgroundColor="Transparent"></ImageButton>
             </Grid>
             <Grid HeightRequest="50">
                 <Label Grid.Row="0" Grid.Column="0" Text="Days" HorizontalOptions="Center" VerticalOptions="Start"></Label>

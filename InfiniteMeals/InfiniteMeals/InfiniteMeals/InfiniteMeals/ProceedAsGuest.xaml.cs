@@ -20,6 +20,8 @@ namespace InfiniteMeals
             InitializeComponent();
         }
 
+        // IF ANDROID DOESN'T LET YOU IN, THEN COMMENT EVERYTHING INSIDE THIS FUNCTION
+        // EXCEPT THE LAST LINE. 
         async void ProceedAsGuestClick(object sender, System.EventArgs e)
         {
             if (userAddress.Text != null)
