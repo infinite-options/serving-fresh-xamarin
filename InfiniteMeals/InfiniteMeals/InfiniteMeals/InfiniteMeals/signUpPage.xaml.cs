@@ -103,7 +103,7 @@ namespace InfiniteMeals
 
             if (userEmailAddress.Text != null)
             {
-                Application.Current.Properties["userEmailAddress"] = userEmailAddress.Text;
+                Application.Current.Properties["userEmailAddress"] = userEmailAddress.Text.ToLower();
             }
 
             if (userPhoneNumber.Text != null)

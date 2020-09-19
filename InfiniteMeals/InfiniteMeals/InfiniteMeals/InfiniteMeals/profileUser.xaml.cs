@@ -19,11 +19,6 @@ namespace InfiniteMeals
             map.MoveToRegion(mapSpan);
         }
 
-        void Entry_PropertyChanged(System.Object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-
-        }
-
         //void Button_Clicked(System.Object sender, System.EventArgs e)
         //{
         //    string password = "infiniteOptions";
@@ -55,23 +50,6 @@ namespace InfiniteMeals
         //        state = false;
         //    }
         //}
-
-        void Days(System.Object sender, System.EventArgs e)
-        {
-            Application.Current.MainPage = new businessPage();
-        }
-
-        async void Orders(System.Object sender, System.EventArgs e)
-        {
-        }
-
-        async void Info(System.Object sender, System.EventArgs e)
-        {
-        }
-
-        async void Profile(System.Object sender, System.EventArgs e)
-        {
-        }
 
         void ImageButton_Clicked(System.Object sender, System.EventArgs e)
         {
