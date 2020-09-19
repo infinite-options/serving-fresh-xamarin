@@ -97,6 +97,7 @@
                     </Entry>
                 </Grid>
                 <Entry
+                    x:Name="userDeliveryInstructions"
                     Placeholder="Delivery instructions"></Entry>
                 <Frame HasShadow="False" BackgroundColor="Gray" Padding="0" HeightRequest="200">
                     <maps:Map
@@ -111,7 +112,8 @@
                     BorderColor="LightGray"
                     BorderWidth="1"
                     HeightRequest="40"
-                    BackgroundColor="White">
+                    BackgroundColor="White"
+                    Clicked="SaveChangesClick">
                 </Button>
             </StackLayout>
         </ScrollView>

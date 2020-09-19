@@ -45,6 +45,23 @@ namespace InfiniteMeals
             public IList<AccountSalt> result { get; set; }
         }
 
+        public class User
+        {
+            public string customer_uid { get; set; }
+            public string customer_last_name { get; set; }
+            public string customer_first_name { get; set; }
+            public string customer_email { get; set; }
+            public string user_social_media { get; set; }
+            public string user_access_token { get; set; }
+            public string user_refresh_token { get; set; }
+        }
+
+        public class UserAcount
+        {
+            public string message { get; set; }
+            public IList<User> result { get; set; }
+        }
+
         //======================================================================
 
         // WELCOME PAGE MAIN FUNCTION
@@ -79,7 +96,7 @@ namespace InfiniteMeals
                 // https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/AccountSalt/?email=annrupp22%40gmail.com
 
                 UriBuilder builder = new UriBuilder("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/AccountSalt");
-                builder.Query = "email=quang@gmail.com";
+                builder.Query = "email="+userEmail.ToLower();
 
                 // Console.WriteLine("builder " + builder);
                 // Console.WriteLine("builderq " + builder.Query);
@@ -145,6 +162,9 @@ namespace InfiniteMeals
                         var message = await httpResponse.Content.ReadAsStringAsync();
                         isUserLoggedIn = httpResponse.IsSuccessStatusCode;
 
+                        Application.Current.Properties["customer_uid"] = JsonConvert.DeserializeObject<UserAcount>(message).result[0].customer_uid;
+                        Console.WriteLine("CUSTOMER ID = " + Application.Current.Properties["customer_uid"]);
+                        Console.WriteLine("This is your response content = " + message);
                         Console.WriteLine("This is the JSON object = " + httpResponse.IsSuccessStatusCode);
                         Console.WriteLine("This is the value of isUserLoggedIn = " + isUserLoggedIn);
 

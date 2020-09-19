@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Net.Http;
 using InfiniteMeals.Models;
 using InfiniteMeals.NewUI;
@@ -9,49 +10,21 @@ using Xamarin.Forms;
 
 namespace InfiniteMeals
 {
-    // THE FOLLOWING CLASSES WILL STORE THE DATA FROM THE JSON OBJECT
-    // REQUESTED BY THE BUSINESSITEMS ENDPOINT
-
-    // CLASS 1 STORE THE INFORMATION ABOUT EACH ITEM OFFERED BY THE
-    // BUSINESS
-    public class Items
-    {
-        public string item_uid { get; set; }
-        public string created_at { get; set; }
-        public string itm_business_uid { get; set; }
-        public string item_name { get; set; }
-        public string item_desc { get; set; }
-        public object item_unit { get; set; }
-        public double item_price { get; set; }
-        public string item_sizes { get; set; }
-        public string item_photo { get; set; }
-        public string favorite { get; set; }
-        public string item_type { get; set; }
-    }
-
-    // CLASS 2 STORE THE INFORMATION ABOUT LIST OF ITEM OFFERED BY THE
-    // BUSINESS
-    // I HAD TO CHANGE Result TO r SINCERE THERE IS ANOTHER TYPE NAME RESULT
-    public class r
-    {
-        public string message { get; set; }
-        public int code { get; set; }
-        public IList<Items> result { get; set; }
-        public string sql { get; set; }
-    }
-
-    // CLASS 3 STORE THE INFORMATION ABOUT A JSON OBJECT FROM THE
-    // BUSINESSITEMS ENDPOINT
-    public class ServingFreshBusinessItems
-    {
-        public string message { get; set; }
-        public r result { get; set; }
-    }
-
     public partial class businessItems : ContentPage
     {
-        // WENT FROM ILIST<> TO OBSERVABLE COLLECTION (CHANGE 1)
+        // THIS VARIABLE SHOULD BE THE COMPLETE SOLUTION THAT ZACK MAY USE
         public ObservableCollection<ItemsModel> datagrid = new ObservableCollection<ItemsModel>();
+
+        public class ItemPurchased
+        {
+            public string pur_business_uid { get; set; }
+            public string item_uid { get; set; }
+            public string item_name { get; set; }
+            public int item_quantity { get; set; }
+            public double item_price { get; set; }
+        }
+
+        public IDictionary<string, ItemPurchased> order = new Dictionary<string,ItemPurchased>();
         //ServingFreshBusinessItems data = new ServingFreshBusinessItems();
 
         public businessItems(ObservableCollection<ItemsModel> data, string day)
@@ -59,11 +32,6 @@ namespace InfiniteMeals
             InitializeComponent();
             titlePage.Text = day;
             itemList.ItemsSource = data;
-        }
-
-        async void Open_Checkout(System.Object sender, System.EventArgs e)
-        {
-            await Navigation.PushAsync(new CheckoutPage());
         }
 
         public bool isAmountItemsEven(int num)
@@ -140,12 +108,30 @@ namespace InfiniteMeals
         {
             var button = (Button)sender;
             var itemModelObject = (ItemsModel)button.CommandParameter;
-
+            ItemPurchased itemSelected = new ItemPurchased();
             if (itemModelObject != null)
             {
                 if (itemModelObject.quantityL != 0)
                 {
                     itemModelObject.quantityL -= 1;
+                    if(order != null)
+                    {
+                        if (order.ContainsKey(itemModelObject.itemNameLeft))
+                        {
+                            var itemToUpdate = order[itemModelObject.itemNameLeft];
+                            itemToUpdate.item_quantity = itemModelObject.quantityL;
+                            order[itemModelObject.itemNameLeft] = itemToUpdate;
+                        }
+                        else
+                        {
+                            itemSelected.pur_business_uid = itemModelObject.itm_business_uidLeft;
+                            itemSelected.item_uid = itemModelObject.item_uidLeft;
+                            itemSelected.item_name = itemModelObject.itemNameLeft;
+                            itemSelected.item_quantity = itemModelObject.quantityL;
+                            itemSelected.item_price = Convert.ToDouble(itemModelObject.itemPriceLeft.Substring(1).Trim());
+                            order.Add(itemModelObject.itemNameLeft, itemSelected);
+                        }
+                    }
                 }
             }
         }
@@ -154,10 +140,28 @@ namespace InfiniteMeals
         {
             var button = (Button)sender;
             var itemModelObject = (ItemsModel)button.CommandParameter;
-
+            ItemPurchased itemSelected = new ItemPurchased();
             if (itemModelObject != null)
             {
                 itemModelObject.quantityL += 1;
+                if (order != null)
+                {
+                    if (order.ContainsKey(itemModelObject.itemNameLeft))
+                    {
+                        var itemToUpdate = order[itemModelObject.itemNameLeft];
+                        itemToUpdate.item_quantity = itemModelObject.quantityL;
+                        order[itemModelObject.itemNameLeft] = itemToUpdate;
+                    }
+                    else
+                    {
+                        itemSelected.pur_business_uid = itemModelObject.itm_business_uidLeft;
+                        itemSelected.item_uid = itemModelObject.item_uidLeft;
+                        itemSelected.item_name = itemModelObject.itemNameLeft;
+                        itemSelected.item_quantity = itemModelObject.quantityL;
+                        itemSelected.item_price = Convert.ToDouble(itemModelObject.itemPriceLeft.Substring(1).Trim());
+                        order.Add(itemModelObject.itemNameLeft, itemSelected);
+                    }
+                }
             }
         }
 
@@ -165,12 +169,27 @@ namespace InfiniteMeals
         {
             var button = (Button)sender;
             var itemModelObject = (ItemsModel)button.CommandParameter;
-
+            ItemPurchased itemSelected = new ItemPurchased();
             if (itemModelObject != null)
             {
                 if (itemModelObject.quantityR != 0)
                 {
                     itemModelObject.quantityR -= 1;
+                    if (order.ContainsKey(itemModelObject.itemNameRight))
+                    {
+                        var itemToUpdate = order[itemModelObject.itemNameRight];
+                        itemToUpdate.item_quantity = itemModelObject.quantityR;
+                        order[itemModelObject.itemNameRight] = itemToUpdate;
+                    }
+                    else
+                    {
+                        itemSelected.pur_business_uid = itemModelObject.itm_business_uidRight;
+                        itemSelected.item_uid = itemModelObject.item_uidRight;
+                        itemSelected.item_name = itemModelObject.itemNameRight;
+                        itemSelected.item_quantity = itemModelObject.quantityR;
+                        itemSelected.item_price = Convert.ToDouble(itemModelObject.itemPriceRight.Substring(1).Trim());
+                        order.Add(itemModelObject.itemNameRight, itemSelected);
+                    }
                 }
             }
         }
@@ -179,10 +198,25 @@ namespace InfiniteMeals
         {
             var button = (Button)sender;
             var itemModelObject = (ItemsModel)button.CommandParameter;
-
+            ItemPurchased itemSelected = new ItemPurchased();
             if (itemModelObject != null)
             {
                 itemModelObject.quantityR += 1;
+                if (order.ContainsKey(itemModelObject.itemNameRight))
+                {
+                    var itemToUpdate = order[itemModelObject.itemNameRight];
+                    itemToUpdate.item_quantity = itemModelObject.quantityR;
+                    order[itemModelObject.itemNameRight] = itemToUpdate;
+                }
+                else
+                {
+                    itemSelected.pur_business_uid = itemModelObject.itm_business_uidRight;
+                    itemSelected.item_uid = itemModelObject.item_uidRight;
+                    itemSelected.item_name = itemModelObject.itemNameRight;
+                    itemSelected.item_quantity = itemModelObject.quantityR;
+                    itemSelected.item_price = Convert.ToDouble(itemModelObject.itemPriceRight.Substring(1).Trim());
+                    order.Add(itemModelObject.itemNameRight, itemSelected);
+                }
             }
         }
 
@@ -209,7 +243,20 @@ namespace InfiniteMeals
 
         void CheckOutClickBusinessPage(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new NewUI.CheckoutPage();
+            Console.WriteLine("THIS IS THE LIST OF ITEMS I ORDERED");
+            int itemNumber = 1;
+            foreach (string key in order.Keys)
+            {
+                Console.WriteLine("ITEM NUMBER IN THE LIST: " + itemNumber);
+                Console.WriteLine("ITEM NUMBER IN THE BUSINESS_ID: " + order[key].pur_business_uid);
+                Console.WriteLine("ITEM NUMBER IN THE ITEM_ID: " + order[key].item_uid);
+                Console.WriteLine("ITEM NAME = " + order[key].item_name);
+                Console.WriteLine("ITEMS QUANTITY = " + order[key].item_quantity);
+                Console.WriteLine("ITEMS PRICE = " + order[key].item_price);
+                itemNumber++;
+            }
+
+            Application.Current.MainPage = new NewUI.CheckoutPage(order);
         }
 
         void DeliveryDaysClick(System.Object sender, System.EventArgs e)
