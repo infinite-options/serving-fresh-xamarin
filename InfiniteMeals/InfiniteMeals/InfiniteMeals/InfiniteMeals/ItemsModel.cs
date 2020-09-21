@@ -9,6 +9,8 @@ namespace InfiniteMeals
         public double width { get; set; }
 
         public string imageSourceLeft { get; set; }
+        public string item_uidLeft { get; set; }
+        public string itm_business_uidLeft { get; set; }
         public int quantityLeft { get; set; }
         public string itemNameLeft { get; set; }
         public string itemPriceLeft { get; set; }
@@ -16,6 +18,8 @@ namespace InfiniteMeals
         public bool isItemLeftEnable { get; set; }
 
         public string imageSourceRight { get; set; }
+        public string item_uidRight { get; set; }
+        public string itm_business_uidRight { get; set; }
         public int quantityRight { get; set; }
         public string itemNameRight { get; set; }
         public string itemPriceRight { get; set; }

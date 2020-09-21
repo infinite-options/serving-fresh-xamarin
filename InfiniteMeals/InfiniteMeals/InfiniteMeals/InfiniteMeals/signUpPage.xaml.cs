@@ -47,11 +47,23 @@ namespace InfiniteMeals
 
         public class SignUpPost
         {
-            public string Email { get; set; }
-            public string FirstName { get; set; }
-            public string LastName { get; set; }
-            public string PhoneNumber { get; set; }
-            public string Password { get; set; }
+            public string email { get; set; }
+            public string first_name { get; set; }
+            public string last_name { get; set; }
+            public string phone_number { get; set; }
+            public string address { get; set; }
+            public string unit { get; set; }
+            public string city { get; set; }
+            public string state { get; set; }
+            public string zip_code { get; set; }
+            public string latitude { get; set; }
+            public string longitude { get; set; }
+            public string referral_source { get; set; }
+            public string role { get; set; }
+            public string access_token { get; set; }
+            public string refresh_token { get; set; }
+            public string social { get; set; }
+            public string password { get; set; }
         }
 
         public signUpPage()
@@ -71,12 +83,12 @@ namespace InfiniteMeals
             if (userEmailAddress.Text != null && !IsValidEmail(userEmailAddress.Text))
             {
                 await DisplayAlert("Error", "Please enter a valid email address.", "OK");
-                return;
+                
             }
-            if (userEmailAddress.Text == null || userConfirmEmailAddress.Text == null || userPassword.Text == null || usertAddress.Text == null || userConfirmPassword.Text == null || userFirstName.Text == null || userLastName.Text == null || userLastName.Text.Length == 0 || userPhoneNumber.Text.Length == 0 || usertAddress.Text.Length == 0 || userUnitNumber.Text.Length == 0 || userCity.Text.Length == 0 || userState.Text.Length == 0 || userZipcode.Text.Length == 0)
+            if (userEmailAddress.Text == null || userConfirmEmailAddress.Text == null || userPassword.Text == null || usertAddress.Text == null || userConfirmPassword.Text == null || userFirstName.Text == null || userLastName.Text == null || userLastName.Text.Length == 0 || userPhoneNumber.Text.Length == 0 || usertAddress.Text.Length == 0 || userCity.Text.Length == 0 || userState.Text.Length == 0 || userZipcode.Text.Length == 0)
             {
                 await DisplayAlert("Error", "Please enter all information within the boxes provided.", "OK");
-                return;
+                
             }
 
             if (userFirstName.Text != null)
@@ -91,44 +103,44 @@ namespace InfiniteMeals
 
             if (userEmailAddress.Text != null)
             {
-                Application.Current.Properties["email"] = userEmailAddress.Text;
+                Application.Current.Properties["userEmailAddress"] = userEmailAddress.Text.ToLower();
             }
 
             if (userPhoneNumber.Text != null)
             {
-                Application.Current.Properties["phone"] = userPhoneNumber.Text;
+                Application.Current.Properties["userPhoneNumber"] = userPhoneNumber.Text;
             }
             if (usertAddress.Text != null)
             {
                 usertAddress.Text = usertAddress.Text.Trim();
-                Application.Current.Properties["street"] = usertAddress.Text;
+                Application.Current.Properties["userAddress"] = usertAddress.Text;
             }
             if (userCity.Text != null)
             {
                 userCity.Text = userCity.Text.Trim();
-                Application.Current.Properties["city"] = userCity.Text;
+                Application.Current.Properties["userCity"] = userCity.Text;
             }
             if (userState.Text != null)
             {
                 userState.Text = userState.Text.Trim();
-                Application.Current.Properties["state"] = userState.Text;
+                Application.Current.Properties["userState"] = userState.Text;
             }
             if (userUnitNumber.Text != null)
             {
                 if (userUnitNumber.Text.Length != 0)
                 {
                     userUnitNumber.Text = userUnitNumber.Text.Trim();
-                    Application.Current.Properties["addressUnit"] = userUnitNumber.Text;
+                    Application.Current.Properties["userAddressUnit"] = userUnitNumber.Text;
                 }
                 else
                 {
-                    Application.Current.Properties["addressUnit"] = "";
+                    Application.Current.Properties["userAddressUnit"] = "";
                 }
             }
             if (userZipcode.Text != null)
             {
                 userZipcode.Text = userZipcode.Text.Trim();
-                Application.Current.Properties["zip"] = userZipcode.Text;
+                Application.Current.Properties["userZipCode"] = userZipcode.Text;
             }
 
             // Setting request for USPS API
@@ -155,7 +167,7 @@ namespace InfiniteMeals
             var xdoc = XDocument.Parse(response.ToString());
             Console.WriteLine(xdoc);
             string latitude = "0";
-            string longtitude = "0";
+            string longitude = "0";
             foreach (XElement element in xdoc.Descendants("Address"))
             {
                 if (GetXMLElement(element, "Error").Equals(""))
@@ -171,7 +183,7 @@ namespace InfiniteMeals
                         Position position = approximateLocations.FirstOrDefault();
 
                         latitude = $"{position.Latitude}";
-                        longtitude = $"{position.Longitude}";
+                        longitude = $"{position.Longitude}";
                         map.MapType = MapType.Satellite;
                         var mapSpan = new MapSpan(position, 0.000001, 0.000001);
                         map.MoveToRegion(mapSpan);
@@ -198,10 +210,42 @@ namespace InfiniteMeals
                     //return;
                 }
             }
-            if (latitude == "0" || longtitude == "0")
+            if (latitude == "0" || longitude == "0")
             {
                 await DisplayAlert("We couldn't find your address", "Please check for errors.", "Ok");
-                return;
+            }
+
+            SignUpPost newUser = new SignUpPost();
+
+            newUser.email = userEmailAddress.Text;
+            newUser.first_name = userFirstName.Text;
+            newUser.last_name = userLastName.Text;
+            newUser.phone_number = userPhoneNumber.Text;
+            newUser.address = usertAddress.Text;
+            newUser.unit = userUnitNumber.Text;
+            newUser.city = userCity.Text;
+            newUser.state = userState.Text;
+            newUser.zip_code = userZipcode.Text;
+            newUser.latitude = latitude;
+            newUser.longitude = longitude;
+            newUser.referral_source = "WEB";
+            newUser.role = "CUSTOMER";
+            newUser.access_token = "";
+            newUser.refresh_token = "";
+            newUser.social = "FALSE";
+            newUser.password = userPassword.Text;
+
+            Application.Current.Properties["latitude"] = latitude;
+            Application.Current.Properties["longitude"] = longitude;
+
+            var content = new StringContent(JsonConvert.SerializeObject(newUser), Encoding.UTF8, "application/json");
+            using (var httpClient = new HttpClient())
+            {
+                var request = new HttpRequestMessage();
+                request.Method = HttpMethod.Post;
+                request.Content = new StringContent(JsonConvert.SerializeObject(newUser), Encoding.UTF8, "application/json"); ;
+                var httpResponse = await httpClient.PostAsync("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/SignUp", content);
+                Console.WriteLine("This is the order's response " + httpResponse.Content.ReadAsStringAsync());
             }
 
             await Application.Current.SavePropertiesAsync();

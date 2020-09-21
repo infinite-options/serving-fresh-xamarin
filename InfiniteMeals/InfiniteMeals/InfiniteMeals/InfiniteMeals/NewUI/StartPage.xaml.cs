@@ -7,11 +7,39 @@ using InfiniteMeals.Models;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace InfiniteMeals.NewUI
 {
     public partial class StartPage : ContentPage
     {
+        
+        public class Items
+        {
+            public string item_uid { get; set; }
+            public string created_at { get; set; }
+            public string itm_business_uid { get; set; }
+            public string item_name { get; set; }
+            public object item_status { get; set; }
+            public string item_type { get; set; }
+            public string item_desc { get; set; }
+            public object item_unit { get; set; }
+            public double item_price { get; set; }
+            public string item_sizes { get; set; }
+            public string favorite { get; set; }
+            public string item_photo { get; set; }
+            public object exp_date { get; set; }
+            public string business_delivery_hours { get; set; }
+        }
+
+        public class ServingFreshBusinessItems
+        {
+            public string message { get; set; }
+            public int code { get; set; }
+            public IList<Items> result { get; set; }
+            public string sql { get; set; }
+        }
+
         ObservableCollection<DeliveriesModel> Deliveries = new ObservableCollection<DeliveriesModel>();
         ObservableCollection<ItemsModel> datagrid = new ObservableCollection<ItemsModel>();
         ServingFreshBusinessItems data = new ServingFreshBusinessItems();
@@ -76,29 +104,31 @@ namespace InfiniteMeals.NewUI
         async void Open_Checkout(Object sender, EventArgs e)
         {
 
-            await Navigation.PushAsync(new CheckoutPage());
+            await Navigation.PushAsync(new CheckoutPage(null));
         }
 
         void Open_Farm(Object sender, EventArgs e)
         {
-            GetData(GetWeekDay(sender));
+            _ = GetData(GetWeekDay(sender));
             Application.Current.MainPage = new businessItems(datagrid, GetWeekDay(sender));
         }
 
-        async void GetData(string weekDay)
+        private async Task GetData(string weekDay)
         {
             // THE "200-000004" WOULD GET REPLACE BY THE "weekDay" STRING
             var client = new HttpClient();
-            var response = await client.GetAsync("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/itemsByBusiness/" + "200-000004");
-            var d = await client.GetStringAsync("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/itemsByBusiness/" + "200-000004");
+            var response = await client.GetAsync("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/getItems/" + weekDay);
+            var d = await client.GetStringAsync("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/getItems/" + weekDay);
+            Console.WriteLine("This is the data received for items = " + d);
             if (response.IsSuccessStatusCode)
             {
-                data = JsonConvert.DeserializeObject<ServingFreshBusinessItems>(d);
+                string result = response.Content.ReadAsStringAsync().Result;
+                data = JsonConvert.DeserializeObject<ServingFreshBusinessItems>(result);
 
                 // COMMENT THE FOLLOWING LINE OF CODE AS (CHANGE 2)
                 // datagrid = new List<ItemModel>();
                 this.datagrid.Clear();
-                int n = data.result.result.Count;
+                int n = data.result.Count;
                 int j = 0;
                 if (n == 0)
                 {
@@ -131,18 +161,22 @@ namespace InfiniteMeals.NewUI
                         {
                             height = this.Width / 2 + 25,
                             width = this.Width / 2 - 25,
-                            imageSourceLeft = data.result.result[j].item_photo,
+                            imageSourceLeft = data.result[j].item_photo,
+                            item_uidLeft = data.result[j].item_uid,
+                            itm_business_uidLeft = data.result[j].itm_business_uid,
                             quantityLeft = 0,
-                            itemNameLeft = data.result.result[j].item_name,
-                            itemPriceLeft = "$ " + data.result.result[j].item_price.ToString(),
+                            itemNameLeft = data.result[j].item_name,
+                            itemPriceLeft = "$ " + data.result[j].item_price.ToString(),
                             isItemLeftVisiable = true,
                             isItemLeftEnable = true,
                             quantityL = 0,
 
-                            imageSourceRight = data.result.result[j + 1].item_photo,
+                            imageSourceRight = data.result[j + 1].item_photo,
+                            item_uidRight = data.result[j + 1].item_uid,
+                            itm_business_uidRight = data.result[j + 1].itm_business_uid,
                             quantityRight = 0,
-                            itemNameRight = data.result.result[j + 1].item_name,
-                            itemPriceRight = "$ " + data.result.result[j + 1].item_price.ToString(),
+                            itemNameRight = data.result[j + 1].item_name,
+                            itemPriceRight = "$ " + data.result[j + 1].item_price.ToString(),
                             isItemRightVisiable = true,
                             isItemRightEnable = true,
                             quantityR = 0
@@ -158,18 +192,22 @@ namespace InfiniteMeals.NewUI
                         {
                             height = this.Width / 2 + 25,
                             width = this.Width / 2 - 25,
-                            imageSourceLeft = data.result.result[j].item_photo,
+                            imageSourceLeft = data.result[j].item_photo,
+                            item_uidLeft = data.result[j].item_uid,
+                            itm_business_uidLeft = data.result[j].itm_business_uid,
                             quantityLeft = 0,
-                            itemNameLeft = data.result.result[j].item_name,
-                            itemPriceLeft = "$ " + data.result.result[j].item_price.ToString(),
+                            itemNameLeft = data.result[j].item_name,
+                            itemPriceLeft = "$ " + data.result[j].item_price.ToString(),
                             isItemLeftVisiable = true,
                             isItemLeftEnable = true,
                             quantityL = 0,
 
-                            imageSourceRight = data.result.result[j + 1].item_photo,
+                            imageSourceRight = data.result[j + 1].item_photo,
+                            item_uidRight = data.result[j + 1].item_uid,
+                            itm_business_uidRight = data.result[j + 1].itm_business_uid,
                             quantityRight = 0,
-                            itemNameRight = data.result.result[j + 1].item_name,
-                            itemPriceRight = "$ " + data.result.result[j + 1].item_price.ToString(),
+                            itemNameRight = data.result[j + 1].item_name,
+                            itemPriceRight = "$ " + data.result[j + 1].item_price.ToString(),
                             isItemRightVisiable = true,
                             isItemRightEnable = true,
                             quantityR = 0
@@ -180,10 +218,12 @@ namespace InfiniteMeals.NewUI
                     {
                         height = this.Width / 2 + 25,
                         width = this.Width / 2 - 25,
-                        imageSourceLeft = data.result.result[j].item_photo,
+                        imageSourceLeft = data.result[j].item_photo,
+                        item_uidLeft = data.result[j].item_uid,
+                        itm_business_uidLeft = data.result[j].itm_business_uid,
                         quantityLeft = 0,
-                        itemNameLeft = data.result.result[j].item_name,
-                        itemPriceLeft = "$ " + data.result.result[j].item_price.ToString(),
+                        itemNameLeft = data.result[j].item_name,
+                        itemPriceLeft = "$ " + data.result[j].item_price.ToString(),
                         isItemLeftVisiable = true,
                         isItemLeftEnable = true,
                         quantityL = 0,
@@ -239,7 +279,7 @@ namespace InfiniteMeals.NewUI
 
         void CheckOutClickDeliveryDaysPage(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new NewUI.CheckoutPage();
+            Application.Current.MainPage = new NewUI.CheckoutPage(null);
         }
 
         void DeliveryDaysClick(System.Object sender, System.EventArgs e)

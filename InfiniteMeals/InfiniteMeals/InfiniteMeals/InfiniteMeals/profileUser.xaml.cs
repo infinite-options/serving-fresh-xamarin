@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
-using InfiniteMeals.NewUI;
+using Xamarin.Forms.Maps;
 
 namespace InfiniteMeals
 {
@@ -11,10 +11,12 @@ namespace InfiniteMeals
         public profileUser()
         {
             InitializeComponent();
-        }
-
-        void Entry_PropertyChanged(System.Object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
+            userFirstName.Text = Application.Current.Properties["userFirstName"].ToString();
+            userLastName.Text = Application.Current.Properties["userFirstName"].ToString();
+            Position position = new Position((double)Application.Current.Properties["latitude"], (double)Application.Current.Properties["longitude"]);
+            map.MapType = MapType.Satellite;
+            var mapSpan = new MapSpan(position, 0.000001, 0.000001);
+            map.MoveToRegion(mapSpan);
         }
 
         //void Button_Clicked(System.Object sender, System.EventArgs e)
@@ -49,23 +51,6 @@ namespace InfiniteMeals
         //    }
         //}
 
-        void Days(System.Object sender, System.EventArgs e)
-        {
-            Application.Current.MainPage = new businessPage();
-        }
-
-        async void Orders(System.Object sender, System.EventArgs e)
-        {
-        }
-
-        async void Info(System.Object sender, System.EventArgs e)
-        {
-        }
-
-        async void Profile(System.Object sender, System.EventArgs e)
-        {
-        }
-
         void ImageButton_Clicked(System.Object sender, System.EventArgs e)
         {
             Application.Current.MainPage = new NewUI.StartPage();
@@ -90,6 +75,11 @@ namespace InfiniteMeals
         {
             // AGAIN SINCE YOU ARE IN THE PROFILE PAGE NOTHING SHOULD HAPPEN
             // WHEN CLICK
+        }
+
+        void SaveChangesClick(System.Object sender, System.EventArgs e)
+        {
+            Application.Current.Properties["userDeliveryInstructions"] = userDeliveryInstructions.Text;
         }
     }
 }
