@@ -11,6 +11,7 @@ using WindowsAzure.Messaging;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
+using InfiniteMeals.Models;
 
 namespace InfiniteMeals.iOS
 {
@@ -63,7 +64,7 @@ namespace InfiniteMeals.iOS
             //}
 
             // Color of the selected tab icon:
-            UITabBar.Appearance.SelectedImageTintColor = Color.FromHex("#a0050f").ToUIColor();
+            UITabBar.Appearance.SelectedImageTintColor = Constants.SecondaryColor.ToUIColor();
 
             // Color of the tabbar background:
             //UITabBar.Appearance.BarTintColor = UIColor.FromRGB(247, 247, 247);
@@ -72,7 +73,7 @@ namespace InfiniteMeals.iOS
             UITabBarItem.Appearance.SetTitleTextAttributes(
                 new UITextAttributes()
                 {
-                    TextColor = Color.FromHex("#a0050f").ToUIColor()
+                    TextColor = Constants.SecondaryColor.ToUIColor()
         },
                 UIControlState.Selected);
 
@@ -83,8 +84,8 @@ namespace InfiniteMeals.iOS
                     TextColor = Color.FromHex("#000000").ToUIColor()
                 },
                 UIControlState.Normal);
-            UIView.AppearanceWhenContainedIn(typeof(UIAlertView)).TintColor = Color.FromHex("#a0050f").ToUIColor();
-            UIView.AppearanceWhenContainedIn(typeof(UIAlertController)).TintColor = Color.FromHex("#a0050f").ToUIColor();
+            UIView.AppearanceWhenContainedIn(typeof(UIAlertView)).TintColor = Constants.SecondaryColor.ToUIColor();
+            UIView.AppearanceWhenContainedIn(typeof(UIAlertController)).TintColor = Constants.SecondaryColor.ToUIColor();
             return true;
         }
         public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)

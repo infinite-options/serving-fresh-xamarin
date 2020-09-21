@@ -18,20 +18,25 @@ namespace InfiniteMeals.NewUI
     {
         public MainPage()
         {
+            InitializeComponent();
+            CurrentPageChanged += CurrentPageHasChanged;
             
             SelectedTabColor = Constants.SecondaryColor;
             UnselectedTabColor = Color.Gray;
             On<Android>().SetToolbarPlacement(ToolbarPlacement.Bottom);
+
             Page days = new NavigationPage(new StartPage());
             days.Title = "Days";
             days.IconImageSource = "CalendarIcon";
 
-            Page orders = new NavigationPage(new StartPage());
+            Page orders = new NavigationPage(new CheckoutPage());
             orders.Title = "Orders";
             orders.IconImageSource = "RefundIcon";
+
             Page info = new NavigationPage(new StartPage());
             info.Title = "Info";
             info.IconImageSource = "InfoIcon";
+
             Page profile = new NavigationPage(new profileUser());
             profile.Title = "Profile";
             profile.IconImageSource = "UserIcon";
@@ -40,6 +45,10 @@ namespace InfiniteMeals.NewUI
             Children.Add(orders);
             Children.Add(info);
             Children.Add(profile);
+        }
+        private void CurrentPageHasChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

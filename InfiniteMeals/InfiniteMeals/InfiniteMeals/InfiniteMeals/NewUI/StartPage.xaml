@@ -36,7 +36,11 @@
                     Source="CartIcon"
                     VerticalOptions="Center"
                     Clicked="CheckOutClickDeliveryDaysPage"
-                    BackgroundColor="Transparent"></ImageButton>
+                    BackgroundColor="Transparent">
+                    <ImageButton.Effects>
+                        <infinitemeals:TintImageEffect TintColor="White"/>
+                    </ImageButton.Effects>
+                </ImageButton>
             </StackLayout>
         </RelativeLayout>
         <BoxView HeightRequest="1" BackgroundColor="Black"/>
@@ -50,7 +54,7 @@
                 <Label Text="Fruits" StyleClass="white, center"/>
             </StackLayout>
             <StackLayout Spacing="0">
-                <ImageButton Source="CarrotIcon" Clicked="Change_Color" StyleClass="imgbtn">
+                <ImageButton Source="VegIcon" Clicked="Change_Color" StyleClass="imgbtn">
                     <ImageButton.Effects>
                         <infinitemeals:TintImageEffect TintColor="White"/>
                     </ImageButton.Effects>
@@ -83,17 +87,17 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <StackLayout Padding="10">
-                                <StackLayout Spacing="0">
-                                    <StackLayout.GestureRecognizers>
-                                        <TapGestureRecognizer Tapped="Open_Farm"/>
-                                    </StackLayout.GestureRecognizers>
-                                    <Frame BackgroundColor="#136D74">
-                                        <Label Text="{Binding delivery_dayofweek}" StyleClass="h3, white, center"/>
-                                    </Frame>
-                                    <Frame BackgroundColor="LightGray">
-                                        <Label Text="{Binding delivery_date}" StyleClass="h2, secondary, center" Margin="0, 10"/>
-                                    </Frame>
-                                </StackLayout>
+                                <Frame Padding="0" CornerRadius="10" HasShadow="False" BackgroundColor="LightGray">
+                                    <StackLayout Spacing="0">
+                                        <StackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="Open_Farm"/>
+                                        </StackLayout.GestureRecognizers>
+                                        <Frame BackgroundColor="#136D74" CornerRadius="10" HasShadow="False">
+                                            <Label Text="{Binding delivery_dayofweek}" StyleClass="h2, white, center"/>
+                                        </Frame>
+                                        <Label Text="{Binding delivery_date}" StyleClass="h2, secondary, center" Margin="50"/>
+                                    </StackLayout>
+                                </Frame>
                             </StackLayout>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
@@ -103,7 +107,11 @@
         <StackLayout BackgroundColor="WhiteSmoke">
             <BoxView HeightRequest="1" BackgroundColor="Gray"/>
             <Grid VerticalOptions="End" HeightRequest="40">
-                <ImageButton Grid.Row="0" Grid.Column="0" Source="calendarIcon.png" Clicked="DeliveryDaysClick" BackgroundColor="Transparent"></ImageButton>
+                <ImageButton Grid.Row="0" Grid.Column="0" Source="calendarIcon.png" Clicked="DeliveryDaysClick" BackgroundColor="Transparent">
+                    <ImageButton.Effects>
+                        <infinitemeals:TintImageEffect TintColor="#FF8500"/>
+                    </ImageButton.Effects>
+                </ImageButton>
                 <ImageButton Grid.Row="0" Grid.Column="1" Source="ordersIcon.png" Clicked="OrdersClick" BackgroundColor="Transparent"></ImageButton>
                 <ImageButton Grid.Row="0" Grid.Column="2" Source="informationIcon.png" Clicked="InfoClick" BackgroundColor="Transparent" ></ImageButton>
                 <ImageButton Grid.Row="0" Grid.Column="3" Source="profileIcon.png" Clicked="ProfileClick" BackgroundColor="Transparent"></ImageButton>

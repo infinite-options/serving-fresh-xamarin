@@ -249,7 +249,7 @@ namespace InfiniteMeals.NewUI
 
         void OrdersClick(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new OrdersPage();
+            Application.Current.MainPage = new CheckoutPage();
         }
 
         void InfoClick(System.Object sender, System.EventArgs e)

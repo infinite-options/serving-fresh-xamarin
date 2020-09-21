@@ -28,8 +28,7 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
-    <CodesignProvision>VS: com.InfiniteOptions.Botswana-Online-Mall Development</CodesignProvision>
-    <CodesignKey>Apple Development: Oscar Torres (HS4TL94K2Y)</CodesignKey>
+    <CodesignKey>Apple Development: bobbydad2@gmail.com (54YSTDQH8S)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
@@ -201,26 +200,30 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\76x76%402x.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\BreadIcon.imageset\BreadIcon.png" />
     <ImageAsset Include="Assets.xcassets\BreadIcon.imageset\Contents.json" />
     <ImageAsset Include="Assets.xcassets\CarrotIcon.imageset\CarrotIcon.png" />
     <ImageAsset Include="Assets.xcassets\CarrotIcon.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\CartIcon.imageset\CartIcon.png" />
     <ImageAsset Include="Assets.xcassets\CartIcon.imageset\Contents.json" />
     <ImageAsset Include="Assets.xcassets\DonutIcon.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\DonutIcon.imageset\DonutIcon.png" />
     <ImageAsset Include="Assets.xcassets\HomeIcon.imageset\Contents.json" />
     <ImageAsset Include="Assets.xcassets\HomeIcon.imageset\HomeIcon.png" />
     <ImageAsset Include="Assets.xcassets\InfoIcon.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\InfoIcon.imageset\InfoIcon.png" />
     <ImageAsset Include="Assets.xcassets\OrangeIcon.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\OrangeIcon.imageset\OrangeIcon.png" />
     <ImageAsset Include="Assets.xcassets\RefundIcon.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\RefundIcon.imageset\RefundIcon.png" />
     <ImageAsset Include="Assets.xcassets\UserIcon.imageset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\UserIcon.imageset\UserIcon.png" />
-    <ImageAsset Include="Assets.xcassets\CalendarIcon.imageset\CalendarIcon.png" />
     <ImageAsset Include="Assets.xcassets\CalendarIcon.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\BreadIcon.imageset\BreadIcon-1.png" />
+    <ImageAsset Include="Assets.xcassets\CartIcon.imageset\CartIcon-1.png" />
+    <ImageAsset Include="Assets.xcassets\DonutIcon.imageset\DonutIcon-1.png" />
+    <ImageAsset Include="Assets.xcassets\OrangeIcon.imageset\OrangeIcon-1.png" />
+    <ImageAsset Include="Assets.xcassets\VegIcon.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\VegIcon.imageset\VegIcon.png" />
+    <ImageAsset Include="Assets.xcassets\UserIcon.imageset\UserIcon.png" />
+    <ImageAsset Include="Assets.xcassets\RefundIcon.imageset\RefundIcon.png" />
+    <ImageAsset Include="Assets.xcassets\InfoIcon.imageset\InfoIcon.png" />
+    <ImageAsset Include="Assets.xcassets\CalendarIcon.imageset\CalendarIcon.png" />
+    <ImageAsset Include="Assets.xcassets\CouponIcon.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\CouponIcon.imageset\CouponIcon-1.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -302,5 +305,7 @@
     <Folder Include="Assets.xcassets\RefundIcon.imageset\" />
     <Folder Include="Assets.xcassets\UserIcon.imageset\" />
     <Folder Include="Assets.xcassets\CalendarIcon.imageset\" />
+    <Folder Include="Assets.xcassets\VegIcon.imageset\" />
+    <Folder Include="Assets.xcassets\CouponIcon.imageset\" />
   </ItemGroup>
 </Project>
