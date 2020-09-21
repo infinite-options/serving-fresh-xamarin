@@ -13,7 +13,7 @@ namespace InfiniteMeals
             InitializeComponent();
             userFirstName.Text = Application.Current.Properties["userFirstName"].ToString();
             userLastName.Text = Application.Current.Properties["userFirstName"].ToString();
-            Position position = new Position((double)Application.Current.Properties["latitude"], (double)Application.Current.Properties["longitude"]);
+            Position position = new Position(Double.Parse(Application.Current.Properties["latitude"].ToString()), Double.Parse(Application.Current.Properties["longitude"].ToString()));
             map.MapType = MapType.Satellite;
             var mapSpan = new MapSpan(position, 0.000001, 0.000001);
             map.MoveToRegion(mapSpan);
@@ -63,7 +63,7 @@ namespace InfiniteMeals
 
         void OrdersClick(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new CheckoutPage();
+            Application.Current.MainPage = new NewUI.CheckoutPage();
         }
 
         void InfoClick(System.Object sender, System.EventArgs e)

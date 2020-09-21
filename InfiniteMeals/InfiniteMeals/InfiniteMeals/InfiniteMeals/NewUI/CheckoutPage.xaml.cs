@@ -14,6 +14,7 @@ namespace InfiniteMeals.NewUI
     {
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
         public string item_uid { get; set; }
+        public string business_uid { get; set; }
         public string name { get; set; }
         public int qty { get; set; }
         public double price { get; set; }
@@ -80,78 +81,43 @@ namespace InfiniteMeals.NewUI
         public double delivery_fee;
         public double taxes;
         public double total;
-        public CheckoutPage(IDictionary<string, ItemPurchased> order)
+        public CheckoutPage(IDictionary<string, ItemPurchased> order = null)
         {
             InitializeComponent();
 
-            // ZACH THE ORDER INPUT TO THIS FUNCTION CONTAINS THE ORDER COMING
-            // BUSINESSITEMS. YOU WOULD HAVE TO ASSIGN THE ORDER VARIABLE TO A
-            // GLOBAL ON FOR YOU TO USE IT OUT SIDE THIS SCOPE.
-            // TO GET THE REST OF THE INFORMATION ABOUT THE CUSTOMER SUCH AS
-            // CUSTOMER'S ID, CUSTOMER'S FIRST NAME, LAST NAME, EMAIL ADDRESS,
-            // AND SO FOR YOU CAN GET THIS DATA USING THE FOLLOWING LINE OF CODE
-            // AND ITS KEY
-
-              // Application.Current.Properities["userFirstName"] WHERE "userFirstName"
-              // IS A KEY.
-
-            // HERE IS THE SET OF KEYS YOU COULD USE FOR THIS PAGE
-
-              // 1. "customer_uid"
-              // 2. "userFirstName"
-              // 3. "userLastName"
-              // 4. "userEmailAddress"
-              // 5. "userAddress"
-              // 6. "userAddressUnit"
-              // 7. "userCity"
-              // 8. "userState"
-              // 9. "userZipCode"
-              // 10. "latitude"
-              // 11. "longitude"
-              // 12. "userDeliveryInstructions"
-
-            // LET ME KNOW IF YOU HAVE QUESTIONS
-
-            cartItems.Add(new ItemObject()
+            if (order != null)
             {
-                qty = 1,
-                name = "Boysenberry Pie (each)",
-                price = 13.99,
-                item_uid = "320-000001"
-            });
-            cartItems.Add(new ItemObject()
-            {
-                qty = 1,
-                name = "Early Girl Tomatoes (per lb)",
-                price = 3.99,
-                item_uid = "320-000002"
-            });
-            cartItems.Add(new ItemObject()
-            {
-                qty = 2,
-                name = "Almonds (per lb)",
-                price = 4.00,
-                item_uid = "320-000003"
-            });
+                foreach (string key in order.Keys)
+                {
+                    cartItems.Add(new ItemObject()
+                    {
+                        qty = order[key].item_quantity,
+                        name = order[key].item_name,
+                        price = order[key].item_price,
+                        item_uid = order[key].item_uid,
+                        business_uid = order[key].pur_business_uid
+                    });
+                }
+            }
             purchaseObject = new PurchaseDataObject()
             {
-                pur_customer_uid = "100-000009",
-                pur_business_uid = "200-000001",
+                pur_customer_uid = (string)Application.Current.Properties["customer_uid"],
+                pur_business_uid = "",
                 items = "",
                 order_instructions = "fast",
-                delivery_instructions = "Keep Fresh",
+                delivery_instructions = Application.Current.Properties.ContainsKey("userDeliveryInstructions") ? (string)Application.Current.Properties["userDeliveryInstructions"] : "",
                 order_type = "meal",
-                delivery_first_name = "xyz",
-                delivery_last_name = "abc",
-                delivery_phone_num = "6197872089",
-                delivery_email = "xyz@gmail.com",
-                delivery_address = "790 Carrywood Way",
-                delivery_unit = "9",
-                delivery_city = "San Jose",
-                delivery_state = "CA",
-                delivery_zip = "95120",
-                delivery_latitude = "37.2271302",
-                delivery_longitude = "-121.8891617",
+                delivery_first_name = (string)Application.Current.Properties["userFirstName"],
+                delivery_last_name = (string)Application.Current.Properties["userLastName"],
+                delivery_phone_num = (string)Application.Current.Properties["userPhoneNumber"],
+                delivery_email = (string)Application.Current.Properties["userEmailAddress"],
+                delivery_address = (string)Application.Current.Properties["userAddress"],
+                delivery_unit = (string)Application.Current.Properties["userAddressUnit"],
+                delivery_city = (string)Application.Current.Properties["userCity"],
+                delivery_state = (string)Application.Current.Properties["userState"],
+                delivery_zip = (string)Application.Current.Properties["userZipCode"],
+                delivery_latitude = (string)Application.Current.Properties["latitude"],
+                delivery_longitude = (string)Application.Current.Properties["longitude"],
                 purchase_notes = "purchase_notes"
             };
             DeliveryAddress1.Text = purchaseObject.delivery_address;
@@ -184,7 +150,8 @@ namespace InfiniteMeals.NewUI
         public string createItemJSON(ItemObject item)
         {
             return "{\"item_uid\": " + "\"" + item.item_uid + "\"," + "\"qty\": " + "\"" + item.qty +
-             "\"," + "\"name\": " + "\"" + item.name + "\"," + "\"price\": " + "\"" + item.price + "\"}";
+             "\"," + "\"name\": " + "\"" + item.name + "\"," + "\"price\": " + "\"" + item.price +
+             "\"," + "\"itm_business_uid\": " + "\"" + item.business_uid + "\"}";
         }
         public string createItemsJSON(IList<ItemObject> items)
         {
