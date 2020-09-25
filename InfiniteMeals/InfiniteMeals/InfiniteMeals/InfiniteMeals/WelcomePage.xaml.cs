@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Xamarin.Auth;
 using Xamarin.Forms;
 
 namespace InfiniteMeals
@@ -48,9 +49,30 @@ namespace InfiniteMeals
         public class User
         {
             public string customer_uid { get; set; }
-            public string customer_last_name { get; set; }
+            public string customer_created_at { get; set; }
             public string customer_first_name { get; set; }
+            public string customer_last_name { get; set; }
+            public string customer_phone_num { get; set; }
             public string customer_email { get; set; }
+            public string customer_address { get; set; }
+            public string customer_unit { get; set; }
+            public string customer_city { get; set; }
+            public string customer_state { get; set; }
+            public string customer_zip { get; set; }
+            public string customer_lat { get; set; }
+            public string customer_long { get; set; }
+            public object notification_approval { get; set; }
+            public object notification_device_id { get; set; }
+            public object customer_rep { get; set; }
+            public object SMS_freq_preference { get; set; }
+            public object SMS_last_notification { get; set; }
+            public string password_salt { get; set; }
+            public string password_hashed { get; set; }
+            public string password_algorithm { get; set; }
+            public string referral_source { get; set; }
+            public string role { get; set; }
+            public object customer_updated_at { get; set; }
+            public object email_verified { get; set; }
             public string user_social_media { get; set; }
             public string user_access_token { get; set; }
             public string user_refresh_token { get; set; }
@@ -96,7 +118,7 @@ namespace InfiniteMeals
                 // https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/AccountSalt/?email=annrupp22%40gmail.com
 
                 UriBuilder builder = new UriBuilder("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/AccountSalt");
-                builder.Query = "email="+userEmail.ToLower();
+                builder.Query = "email=" + userEmail.ToLower();
 
                 // Console.WriteLine("builder " + builder);
                 // Console.WriteLine("builderq " + builder.Query);
@@ -160,16 +182,30 @@ namespace InfiniteMeals
                         request.Content = content;
                         var httpResponse = await httpClient.PostAsync("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/Login", content);
                         var message = await httpResponse.Content.ReadAsStringAsync();
+                        var user = JsonConvert.DeserializeObject<UserAcount>(message);
                         isUserLoggedIn = httpResponse.IsSuccessStatusCode;
 
-                        Application.Current.Properties["customer_uid"] = JsonConvert.DeserializeObject<UserAcount>(message).result[0].customer_uid;
-                        Console.WriteLine("CUSTOMER ID = " + Application.Current.Properties["customer_uid"]);
+                        Application.Current.Properties["customer_uid"] = user.result[0].customer_uid;
+                        Application.Current.Properties["userFirstName"] = user.result[0].customer_first_name;
+                        Application.Current.Properties["userLastName"] = user.result[0].customer_last_name;
+                        Application.Current.Properties["userEmailAddress"] = user.result[0].customer_email;
+                        Application.Current.Properties["userAddress"] = user.result[0].customer_address;
+                        Application.Current.Properties["userAddressUnit"] = user.result[0].customer_unit;
+                        Application.Current.Properties["userCity"] = user.result[0].customer_city;
+                        Application.Current.Properties["userState"] = user.result[0].customer_state;
+                        Application.Current.Properties["userZipCode"] = user.result[0].customer_zip;
+                        Application.Current.Properties["latitude"] = user.result[0].customer_lat;
+                        Application.Current.Properties["longitude"] = user.result[0].customer_long;
+                        Application.Current.Properties["userDeliveryInstructions"] = "";
+                        Application.Current.Properties["userPhoneNumber"] = user.result[0].customer_phone_num;
+
                         Console.WriteLine("This is your response content = " + message);
                         Console.WriteLine("This is the JSON object = " + httpResponse.IsSuccessStatusCode);
                         Console.WriteLine("This is the value of isUserLoggedIn = " + isUserLoggedIn);
 
                         if (isUserLoggedIn)
                         {
+
                             Application.Current.MainPage = new NewUI.StartPage();
                         }
                         else
@@ -194,9 +230,94 @@ namespace InfiniteMeals
 
         // THIS FUNCTION WILL START THE FLOW TO LOG IN WITH USER'S GOOGLE
         // LOG IN CREDENTIALS
-        async void GoogleLogInClick(System.Object sender, System.EventArgs e)
+        private void GoogleLogInClick(System.Object sender, System.EventArgs e)
         {
-            await DisplayAlert("You clicked Google BUTTON", "", "OK");
+            string clientId = null;
+            string redirectUri = null;
+            string scope = "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email";
+            string AuthorizeUrl = "https://accounts.google.com/o/oauth2/v2/auth";
+            string AccessTokenUrl = "https://www.googleapis.com/oauth2/v4/token";
+
+            switch (Device.RuntimePlatform)
+            {
+                case Device.iOS:
+                    clientId = "97916302968-f22boafqno1dicq4a0eolpr6qj8hkvbm.apps.googleusercontent.com";
+                    redirectUri = "com.googleusercontent.apps.97916302968-f22boafqno1dicq4a0eolpr6qj8hkvbm:/oauth2redirect";
+                    break;
+
+                case Device.Android:
+                    clientId = "97916302968-7una3voi6tjhf92jmvf87rdaeblaaf3s.apps.googleusercontent.com";
+                    redirectUri = "com.infiniteoptions.tiffen.InfiniteMeals:/oauth2redirect";
+                    break;
+            }
+
+            var authenticator = new OAuth2Authenticator(
+                clientId,
+                "",
+                scope,
+                new Uri(AuthorizeUrl),
+                new Uri(redirectUri),
+                new Uri(AccessTokenUrl),
+                null,
+                true);
+
+            authenticator.Completed += Authenticator_Completed;
+            authenticator.Error += Authenticator_Error;
+
+            AuthenticationState.Authenticator = authenticator;
+
+            var presenter = new Xamarin.Auth.Presenters.OAuthLoginPresenter();
+            presenter.Login(authenticator);
+
+        }
+
+
+    private void Authenticator_Error(object sender, AuthenticatorErrorEventArgs e)
+        {
+            var authenticator = sender as OAuth2Authenticator;
+            if (authenticator != null)
+            {
+                authenticator.Completed -= Authenticator_Completed;
+                authenticator.Error -= Authenticator_Error;
+            }
+
+            DisplayAlert("Authentication error: ", e.Message, "OK");
+        }
+
+        private async void Authenticator_Completed(object sender, AuthenticatorCompletedEventArgs e)
+        {
+            var authenticator = sender as OAuth2Authenticator;
+            if (authenticator != null)
+            {
+                Console.WriteLine("the authetication is null");
+                authenticator.Completed -= Authenticator_Completed;
+                authenticator.Error -= Authenticator_Error;
+            }
+            Console.WriteLine("This information is comming from the event" + e.IsAuthenticated);
+            Console.WriteLine("This information is comming from the event" + e.Account);
+            if (e.IsAuthenticated)
+            {
+
+                Application.Current.MainPage = new NewUI.StartPage();
+
+                // If the user is authenticated, request their basic user data from Google
+                string UserInfoUrl = "https://www.googleapis.com/oauth2/v2/userinfo";
+                var request = new OAuth2Request("GET", new Uri(UserInfoUrl), null, e.Account);
+                var response = await request.GetResponseAsync();
+                string userJsonString = await response.GetResponseTextAsync();
+                var str = JObject.Parse(userJsonString);
+                Console.WriteLine("THIS IS THE RESPONSE FROM GET REQUEST" + str);
+                Console.WriteLine(e.Account.Properties["access_token"]);
+                Console.WriteLine(e.Account.Properties["refresh_token"]);
+                //if (response != null)
+                //{
+                //	// Deserialize the data and store it in the account store
+                //	// The users email address will be used to identify data in SimpleDB
+                //	string userJsonString = await response.GetResponseTextAsync();
+                //	userJson = JObject.Parse(userJsonString);
+                //}
+
+            }
         }
 
         // THIS FUNCTION WILL START THE FLOW TO LOG IN WITH USER'S APPLE

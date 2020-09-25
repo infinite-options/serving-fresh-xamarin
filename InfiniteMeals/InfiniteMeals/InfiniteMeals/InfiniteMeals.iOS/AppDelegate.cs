@@ -43,6 +43,7 @@ namespace InfiniteMeals.iOS
             Debug.WriteLine("FinishedLaunching function");
             global::Xamarin.Forms.Forms.Init();
             Xamarin.FormsMaps.Init();
+            global::Xamarin.Auth.Presenters.XamarinIOS.AuthenticationConfiguration.Init();
             Debug.WriteLine("Finished Init()");
             //GoogleClientManager.Initialize();
             LoadApplication(new App());
@@ -89,7 +90,13 @@ namespace InfiniteMeals.iOS
         }
         public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
         {
-            return GoogleClientManager.OnOpenUrl(app, url, options);
+            // Convert NSUrl to Uri
+            var uri = new Uri(url.AbsoluteString);
+
+            // Load redirectUrl page
+            AuthenticationState.Authenticator.OnPageLoading(uri);
+
+            return true;
         }
         void RegisterForRemoteNotifications()
         {

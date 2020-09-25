@@ -33,6 +33,7 @@ namespace InfiniteMeals.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
+            global::Xamarin.Auth.Presenters.XamarinAndroid.AuthenticationConfiguration.Init(this, savedInstanceState);
             GoogleClientManager.Initialize(this);
             if (Intent.Extras != null)
             {

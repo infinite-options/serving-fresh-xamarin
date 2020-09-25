@@ -46,12 +46,12 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.725171512295-rvpbpit9552knumjksv05kmjh3krsl2e</string>
+				<string>com.googleusercontent.apps.97916302968-f22boafqno1dicq4a0eolpr6qj8hkvbm</string>
 			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>Google Services</string>
+			<string>Google Auth</string>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
