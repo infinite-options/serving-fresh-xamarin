@@ -102,7 +102,7 @@
                 <BoxView StyleClass="spacer"/>
                 <FlexLayout JustifyContent="SpaceBetween" Padding="15">
                     <Label Text="Your Order" StyleClass="h2, black"/>
-                    <Button Text="+ Add Items" StyleClass="btn, secondary" HeightRequest="30"/>
+                    <Button Text="+ Add Items" StyleClass="btn, secondary" HeightRequest="30" Clicked="TestDateFormat"/>
                 </FlexLayout>
                 <BoxView StyleClass="spacer"/>
                 <Grid>

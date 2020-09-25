@@ -48,7 +48,12 @@ namespace InfiniteMeals.NewUI
         {
             InitializeComponent();
             Init();
-            GetDeliveries();
+            GetDays();
+            Console.WriteLine("Application.Current.Properties:");
+            foreach (string key in Application.Current.Properties.Keys)
+            {
+                Console.WriteLine(key);
+            }
         }
 
         void Init()
@@ -56,45 +61,16 @@ namespace InfiniteMeals.NewUI
             BackgroundColor = Constants.PrimaryColor;
         }
 
-        async void GetDeliveries()
+        async void GetDays()
         {
-            var request = new HttpRequestMessage();
-            request.RequestUri = new Uri("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/businesses");
-            request.Method = HttpMethod.Get;
-            var client = new HttpClient();
-            HttpResponseMessage response = await client.SendAsync(request);
-            string data = await response.Content.ReadAsStringAsync();
-            ServingFreshBusiness jsonResponse = new ServingFreshBusiness();
-            jsonResponse = JsonConvert.DeserializeObject<ServingFreshBusiness>(data);
-            Dictionary<string, List<FarmsModel>> farmsByDay = new Dictionary<string, List<FarmsModel>>();
             var days = new List<string> { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
-            foreach (string day in days)
-            {
-                farmsByDay.Add(day, new List<FarmsModel>());
-            }
-            foreach (Business business in jsonResponse.result.result)
-            {
-                Dictionary<string, List<string>> delivery_hours = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(business.business_delivery_hours);
-                foreach (KeyValuePair<string, List<string>> kvp in delivery_hours)
-                {
-                    if (kvp.Value[0] != kvp.Value[1])
-                    {
-                        farmsByDay[kvp.Key].Add(new FarmsModel()
-                        {
-                            name = business.business_name,
-                            uid = business.business_uid
-                        });
-                    }
-                }
-            }
             var date = 19;
             foreach (string day in days)
             {
                 Deliveries.Add(new DeliveriesModel()
                 {
                     delivery_dayofweek = day,
-                    delivery_date = "Sept "+date,
-                    farms = farmsByDay[day]
+                    delivery_date = "Sept "+date
                 });
                 date++;
             }

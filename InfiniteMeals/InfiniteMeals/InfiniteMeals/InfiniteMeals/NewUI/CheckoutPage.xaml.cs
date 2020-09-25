@@ -27,7 +27,8 @@ namespace InfiniteMeals.NewUI
         }
         public void decrease_qty()
         {
-            if (qty > 0) qty--;
+            if (qty == 0) return;
+            qty--;
             PropertyChanged(this, new PropertyChangedEventArgs("qty"));
             PropertyChanged(this, new PropertyChangedEventArgs("total_price"));
         }
@@ -75,18 +76,19 @@ namespace InfiniteMeals.NewUI
     public partial class CheckoutPage : ContentPage
     {
         public PurchaseDataObject purchaseObject;
-        public ObservableCollection<ItemObject> cartItems = new ObservableCollection<ItemObject>();
+        public static ObservableCollection<ItemObject> cartItems = new ObservableCollection<ItemObject>();
         public double subtotal;
         public double discount;
         public double delivery_fee;
         public double taxes;
         public double total;
-        public CheckoutPage(IDictionary<string, ItemPurchased> order = null)
+        public CheckoutPage(IDictionary<string, ItemPurchased> order = null, string day = "")
         {
             InitializeComponent();
 
             if (order != null)
             {
+                cartItems.Clear();
                 foreach (string key in order.Keys)
                 {
                     cartItems.Add(new ItemObject()
@@ -165,6 +167,11 @@ namespace InfiniteMeals.NewUI
             itemsJSON += "]";
             return itemsJSON;
         }
+        public void TestDateFormat(object sender, EventArgs e)
+        {
+            var now = DateTime.Now;
+            Console.WriteLine(now);
+        }
         public async void checkoutAsync(object sender, EventArgs e)
         {
             purchaseObject.items = createItemsJSON(cartItems);
@@ -212,7 +219,7 @@ namespace InfiniteMeals.NewUI
         }
         public void openHistory(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new HistoryPage());
+            Application.Current.MainPage = new HistoryPage();
         }
         public void openRefund(object sender, EventArgs e)
         {
