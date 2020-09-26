@@ -149,75 +149,68 @@ namespace InfiniteMeals
         // WITH DATABASE KEYS
         private async void login(string userEmail, string userPassword, AccountSalt accountSalt)
         {
-            const string deviceBrowserType = "Mobile";
-            var deviceIpAddress = Dns.GetHostAddresses(Dns.GetHostName()).FirstOrDefault();
-
-            //var deviceIpAddress = "0.0.0.0";
-            if (deviceIpAddress != null)
+            try
             {
-                try
+                SHA512 sHA512 = new SHA512Managed();
+                Console.WriteLine("sha " + sHA512);
+
+                byte[] data = sHA512.ComputeHash(Encoding.UTF8.GetBytes(userPassword + accountSalt.password_salt)); // take the password and account salt to generate hash
+                Console.WriteLine("data " + data[0]);
+
+                string hashedPassword = BitConverter.ToString(data).Replace("-", string.Empty).ToLower(); // convert hash to hex
+
+                UserInfo ui = new UserInfo()
                 {
-                    SHA512 sHA512 = new SHA512Managed();
-                    Console.WriteLine("sha " + sHA512);
+                    email = userEmail,
+                    password = hashedPassword,
 
-                    byte[] data = sHA512.ComputeHash(Encoding.UTF8.GetBytes(userPassword + accountSalt.password_salt)); // take the password and account salt to generate hash
-                    Console.WriteLine("data " + data[0]);
+                };
 
-                    string hashedPassword = BitConverter.ToString(data).Replace("-", string.Empty).ToLower(); // convert hash to hex
+                var data2 = JsonConvert.SerializeObject(ui);
+                var content = new StringContent(data2, Encoding.UTF8, "application/json");
 
-                    UserInfo ui = new UserInfo()
+                using (var httpClient = new HttpClient())
+                {
+                    var request = new HttpRequestMessage();
+                    request.Method = HttpMethod.Post;
+                    request.Content = content;
+                    var httpResponse = await httpClient.PostAsync("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/Login", content);
+                    var message = await httpResponse.Content.ReadAsStringAsync();
+                    var user = JsonConvert.DeserializeObject<UserAcount>(message);
+                    isUserLoggedIn = httpResponse.IsSuccessStatusCode;
+
+                    Application.Current.Properties["customer_uid"] = user.result[0].customer_uid;
+                    Application.Current.Properties["userFirstName"] = user.result[0].customer_first_name;
+                    Application.Current.Properties["userLastName"] = user.result[0].customer_last_name;
+                    Application.Current.Properties["userEmailAddress"] = user.result[0].customer_email;
+                    Application.Current.Properties["userAddress"] = user.result[0].customer_address;
+                    Application.Current.Properties["userAddressUnit"] = user.result[0].customer_unit;
+                    Application.Current.Properties["userCity"] = user.result[0].customer_city;
+                    Application.Current.Properties["userState"] = user.result[0].customer_state;
+                    Application.Current.Properties["userZipCode"] = user.result[0].customer_zip;
+                    Application.Current.Properties["latitude"] = user.result[0].customer_lat;
+                    Application.Current.Properties["longitude"] = user.result[0].customer_long;
+                    Application.Current.Properties["userDeliveryInstructions"] = "";
+                    Application.Current.Properties["userPhoneNumber"] = user.result[0].customer_phone_num;
+
+                    Console.WriteLine("This is your response content = " + message);
+                    Console.WriteLine("This is the JSON object = " + httpResponse.IsSuccessStatusCode);
+                    Console.WriteLine("This is the value of isUserLoggedIn = " + isUserLoggedIn);
+
+                    if (isUserLoggedIn)
                     {
-                        email = userEmail,
-                        password = hashedPassword,
 
-                    };
-
-                    var data2 = JsonConvert.SerializeObject(ui);
-                    var content = new StringContent(data2, Encoding.UTF8, "application/json");
-
-                    using (var httpClient = new HttpClient())
+                        Application.Current.MainPage = new NewUI.StartPage();
+                    }
+                    else
                     {
-                        var request = new HttpRequestMessage();
-                        request.Method = HttpMethod.Post;
-                        request.Content = content;
-                        var httpResponse = await httpClient.PostAsync("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/Login", content);
-                        var message = await httpResponse.Content.ReadAsStringAsync();
-                        var user = JsonConvert.DeserializeObject<UserAcount>(message);
-                        isUserLoggedIn = httpResponse.IsSuccessStatusCode;
-
-                        Application.Current.Properties["customer_uid"] = user.result[0].customer_uid;
-                        Application.Current.Properties["userFirstName"] = user.result[0].customer_first_name;
-                        Application.Current.Properties["userLastName"] = user.result[0].customer_last_name;
-                        Application.Current.Properties["userEmailAddress"] = user.result[0].customer_email;
-                        Application.Current.Properties["userAddress"] = user.result[0].customer_address;
-                        Application.Current.Properties["userAddressUnit"] = user.result[0].customer_unit;
-                        Application.Current.Properties["userCity"] = user.result[0].customer_city;
-                        Application.Current.Properties["userState"] = user.result[0].customer_state;
-                        Application.Current.Properties["userZipCode"] = user.result[0].customer_zip;
-                        Application.Current.Properties["latitude"] = user.result[0].customer_lat;
-                        Application.Current.Properties["longitude"] = user.result[0].customer_long;
-                        Application.Current.Properties["userDeliveryInstructions"] = "";
-                        Application.Current.Properties["userPhoneNumber"] = user.result[0].customer_phone_num;
-
-                        Console.WriteLine("This is your response content = " + message);
-                        Console.WriteLine("This is the JSON object = " + httpResponse.IsSuccessStatusCode);
-                        Console.WriteLine("This is the value of isUserLoggedIn = " + isUserLoggedIn);
-
-                        if (isUserLoggedIn)
-                        {
-
-                            Application.Current.MainPage = new NewUI.StartPage();
-                        }
-                        else
-                        {
-                            await DisplayAlert("Log In Message", "It looks like your weren't able to log in. Try one more time!", "OK");
-                        }
+                        await DisplayAlert("Log In Message", "It looks like your weren't able to log in. Try one more time!", "OK");
                     }
                 }
-                catch (Exception e)
-                {
-                    System.Diagnostics.Debug.WriteLine("Exception message: " + e.Message);
-                }
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception message: " + e.Message);
             }
         }
 
@@ -246,8 +239,8 @@ namespace InfiniteMeals
                     break;
 
                 case Device.Android:
-                    clientId = "97916302968-7una3voi6tjhf92jmvf87rdaeblaaf3s.apps.googleusercontent.com";
-                    redirectUri = "com.infiniteoptions.tiffen.InfiniteMeals:/oauth2redirect";
+                    clientId = "97916302968-6nlu2otc3icdefg28qpbqbk1fam2hj8d.apps.googleusercontent.com";
+                    redirectUri = "com.infiniteoptions.socialloginsxamarin:/oauth2redirect";
                     break;
             }
 
@@ -289,7 +282,7 @@ namespace InfiniteMeals
             var authenticator = sender as OAuth2Authenticator;
             if (authenticator != null)
             {
-                Console.WriteLine("the authetication is null");
+                Console.WriteLine("The authenticator is null");
                 authenticator.Completed -= Authenticator_Completed;
                 authenticator.Error -= Authenticator_Error;
             }
@@ -297,6 +290,20 @@ namespace InfiniteMeals
             Console.WriteLine("This information is comming from the event" + e.Account);
             if (e.IsAuthenticated)
             {
+
+                Application.Current.Properties["customer_uid"] = "100-000097";
+                Application.Current.Properties["userFirstName"] = "Google User First Name";
+                Application.Current.Properties["userLastName"] = "Google User Last Name";
+                Application.Current.Properties["userEmailAddress"] = "Empty";
+                Application.Current.Properties["userAddress"] = "Empty";
+                Application.Current.Properties["userAddressUnit"] = "Empty";
+                Application.Current.Properties["userCity"] = "Empty";
+                Application.Current.Properties["userState"] = "Empty";
+                Application.Current.Properties["userZipCode"] = "Empty";
+                Application.Current.Properties["latitude"] = "0.0";
+                Application.Current.Properties["longitude"] = "0.0";
+                Application.Current.Properties["userDeliveryInstructions"] = "Empty";
+                Application.Current.Properties["userPhoneNumber"] = "Empty";
 
                 Application.Current.MainPage = new NewUI.StartPage();
 

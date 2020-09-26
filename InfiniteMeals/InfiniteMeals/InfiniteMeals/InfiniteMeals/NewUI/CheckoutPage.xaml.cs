@@ -103,7 +103,7 @@ namespace InfiniteMeals.NewUI
             }
             purchaseObject = new PurchaseDataObject()
             {
-                pur_customer_uid = (string)Application.Current.Properties["customer_uid"],
+                pur_customer_uid = Application.Current.Properties.ContainsKey("customer_uid") ? (string)Application.Current.Properties["customer_uid"] : "",
                 pur_business_uid = "",
                 items = "",
                 order_instructions = "fast",
@@ -223,7 +223,7 @@ namespace InfiniteMeals.NewUI
         }
         public void openRefund(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new RefundPage());
+            Application.Current.MainPage = new RefundPage();
         }
         void DeliveryDaysClick(System.Object sender, System.EventArgs e)
         {

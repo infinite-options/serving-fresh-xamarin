@@ -72,7 +72,7 @@
                     Placeholder="Phone number">
                 </Entry>
                 <Entry
-                    x:Name="usertAddress"
+                    x:Name="userAddress"
                     Placeholder="Street Address">
                 </Entry>
                 <Entry
@@ -96,9 +96,6 @@
                         Placeholder="Zipcode">
                     </Entry>
                 </Grid>
-                <Entry
-                    x:Name="userDeliveryInstructions"
-                    Placeholder="Delivery instructions"></Entry>
                 <Frame HasShadow="False" BackgroundColor="Gray" Padding="0" HeightRequest="200">
                     <maps:Map
                         x:Name="map"

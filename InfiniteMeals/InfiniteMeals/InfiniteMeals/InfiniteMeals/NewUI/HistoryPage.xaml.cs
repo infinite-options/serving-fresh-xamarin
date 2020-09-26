@@ -109,7 +109,7 @@ namespace InfiniteMeals.NewUI
         }
         public void openRefund(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new RefundPage());
+            Application.Current.MainPage = new RefundPage();
         }
         void DeliveryDaysClick(System.Object sender, System.EventArgs e)
         {

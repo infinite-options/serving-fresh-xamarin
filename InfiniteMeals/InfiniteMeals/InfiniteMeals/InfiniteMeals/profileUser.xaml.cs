@@ -11,8 +11,18 @@ namespace InfiniteMeals
         public profileUser()
         {
             InitializeComponent();
-            userFirstName.Text = Application.Current.Properties["userFirstName"].ToString();
-            userLastName.Text = Application.Current.Properties["userFirstName"].ToString();
+
+            userEmailAddress.Text = (string) Application.Current.Properties["userEmailAddress"];
+            userFirstName.Text = (string)Application.Current.Properties["userFirstName"];
+            userLastName.Text = (string)Application.Current.Properties["userLastName"];
+
+            userAddress.Text = (string)Application.Current.Properties["userAddress"];
+            userUnitNumber.Text = (string)Application.Current.Properties["userAddressUnit"];
+            userCity.Text = (string)Application.Current.Properties["userCity"]; 
+            userState.Text = (string)Application.Current.Properties["userState"];
+            userZipcode.Text = (string)Application.Current.Properties["userZipCode"];
+            userPhoneNumber.Text = (string)Application.Current.Properties["userPhoneNumber"];
+
             Position position = new Position(Double.Parse(Application.Current.Properties["latitude"].ToString()), Double.Parse(Application.Current.Properties["longitude"].ToString()));
             map.MapType = MapType.Satellite;
             var mapSpan = new MapSpan(position, 0.000001, 0.000001);
@@ -79,7 +89,7 @@ namespace InfiniteMeals
 
         void SaveChangesClick(System.Object sender, System.EventArgs e)
         {
-            Application.Current.Properties["userDeliveryInstructions"] = userDeliveryInstructions.Text;
+            
         }
     }
 }

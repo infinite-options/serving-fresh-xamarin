@@ -18,7 +18,7 @@ namespace InfiniteMeals.Droid
 	[IntentFilter(
 		new[] { Intent.ActionView },
 		Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable },
-		DataSchemes = new[] { "com.infiniteoptions.tiffen.InfiniteMeals" },
+		DataSchemes = new[] { "com.infiniteoptions.socialloginsxamarin" },
 		DataPath = "/oauth2redirect")]
 	public class CustomUrlSchemeInterceptorActivity : Activity
 	{
@@ -30,19 +30,19 @@ namespace InfiniteMeals.Droid
 
 			Uri uri_netfx = new Uri(uri_android.ToString());
 
-			new Task(() =>
-			{
-				StartActivity(new Intent(Application.Context, typeof(MainActivity)));
-			}).Start();
+			//new Task(() =>
+			//{
+			//	StartActivity(new Intent(Application.Context, typeof(MainActivity)));
+			//}).Start();
 
 			// load redirect_url Page
 			AuthenticationState.Authenticator.OnPageLoading(uri_netfx);
 
-			//var intent = new Intent(this, typeof(MainActivity));
-			//intent.SetFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
-			//StartActivity(intent);
+            var intent = new Intent(this, typeof(MainActivity));
+            intent.SetFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
+            StartActivity(intent);
 
-			this.Finish();
+            this.Finish();
 
 			return;
 		}
