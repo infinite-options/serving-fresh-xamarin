@@ -16,6 +16,9 @@ namespace InfiniteMeals.NewUI
             public string price { get; set; }
             public string item_uid { get; set; }
             public string itm_business_uid { get; set; }
+            public string total_price { get {
+                    return "$" + (Double.Parse(qty) * Double.Parse(price)).ToString("N2");
+            } }
         }
         public class HistoryObject
         {
@@ -65,6 +68,7 @@ namespace InfiniteMeals.NewUI
         public class HistoryDisplayObject
         {
             public ObservableCollection<HistoryItemObject> items { get; set; }
+            public int itemsHeight { get; set; }
             public string purchase_id { get; set; }
             public string purchase_date { get; set; }
             public string amount_due { get; set; }
@@ -93,12 +97,14 @@ namespace InfiniteMeals.NewUI
             var data = JsonConvert.DeserializeObject<HistoryResponse>(result);
             foreach (HistoryObject ho in data.result)
             {
+                var items = JsonConvert.DeserializeObject<ObservableCollection<HistoryItemObject>>(ho.items);
                 historyList.Add(new HistoryDisplayObject()
                 {
-                    items = JsonConvert.DeserializeObject<ObservableCollection<HistoryItemObject>>(ho.items),
+                    items = items,
+                    itemsHeight = 55 * items.Count,
                     purchase_date = ho.purchase_date,
-                    purchase_id = "Order #"+ho.purchase_uid,
-                    amount_due = "$"+ho.amount_due.ToString("N2")
+                    purchase_id = "Order #" + ho.purchase_uid,
+                    amount_due = "$" + ho.amount_due.ToString("N2")
                 });
             }
             HistoryList.ItemsSource = historyList;

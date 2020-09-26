@@ -81,102 +81,35 @@
                                     <Label Text="{Binding purchase_date}" StyleClass="black"/>
                                     <Label Text="{Binding purchase_id}" StyleClass="black"/>
                                 </StackLayout>
-                                <ListView ItemsSource="{Binding items}">
-                                    <ListView.ItemTemplate>
+                                <BoxView StyleClass="spacer"/>
+                                <CollectionView ItemsSource="{Binding items}" Footer="" HeightRequest="{Binding itemsHeight}">
+                                    <CollectionView.ItemTemplate>
                                         <DataTemplate>
-                                            <ViewCell>
-                                                <FlexLayout>
-                                                    <Label Text="{Binding name}"/>
-                                                    <Label Text="{Binding qty}"/>
-                                                    <Label Text="{Binding total_price}"/>
-                                                </FlexLayout>
-                                            </ViewCell>
+                                            <StackLayout>
+                                                <Grid Padding="15">
+                                                    <Label Grid.Column="0" Grid.ColumnSpan="3" Text="{Binding name}" StyleClass="p, black"/>
+                                                    <Label Grid.Column="3" Text="{Binding qty}" StyleClass="p"/>
+                                                    <Label Grid.Column="4" Text="{Binding total_price}" HorizontalTextAlignment="End" StyleClass="p, black"/>
+                                                </Grid>
+                                                <BoxView StyleClass="spacer"/>
+                                            </StackLayout>
                                         </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                                <BoxView StyleClass="spacer"/>
                                 <FlexLayout Padding="15" JustifyContent="SpaceBetween">
                                     <Label Text="Total" StyleClass="h3, black"/>
                                     <Label Text="{Binding amount_due}" StyleClass="p, black"/>
                                 </FlexLayout>
+                                <Grid Padding="15">
+                                    <Button Grid.Column="0" Text="View Receipt" StyleClass="btn, primary" Margin="20,0"/>
+                                    <Button Grid.Column="1" Text="Get Help" StyleClass="btn, primary" Margin="20,0"/>
+                                </Grid>
+                                <BoxView HeightRequest="5" BackgroundColor="LightGray"/>
                             </StackLayout>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-                <StackLayout>
-                    <StackLayout Padding="15">
-                        <FlexLayout JustifyContent="SpaceBetween">
-                            <Label Text="Order Completed" StyleClass="h2, primary" VerticalTextAlignment="Center"/>
-                            <Button Text="Rate Order" StyleClass="btn, primary"/>
-                        </FlexLayout>
-                        <Label Text="Aug 30, 2020 at 5:30 PM" StyleClass="black"/>
-                        <Label Text="Order #31390" StyleClass="black"/>
-                    </StackLayout>
-                    <BoxView StyleClass="spacer"/>
-                    <Grid Padding="15">
-                        <Label Grid.Column="0" Grid.ColumnSpan="3" Text="Boysenberry Pie (each)" StyleClass="p, black"/>
-                        <Label Grid.Column="3" Text="1" StyleClass="p"/>
-                        <Label Grid.Column="4" Text="$13.99" HorizontalTextAlignment="End" StyleClass="p, black"/>
-                    </Grid>
-                    <BoxView StyleClass="spacer"/>
-                    <Grid Padding="15">
-                        <Label Grid.Column="0" Grid.ColumnSpan="3" Text="Early Girl Tomatoes (per lb)" StyleClass="p, black"/>
-                        <Label Grid.Column="3" Text="1" StyleClass="p"/>
-                        <Label Grid.Column="4" Text="$3.99" HorizontalTextAlignment="End" StyleClass="p, black"/>
-                    </Grid>
-                    <BoxView StyleClass="spacer"/>
-                    <Grid Padding="15">
-                        <Label Grid.Column="0" Grid.ColumnSpan="3" Text="Almonds (per lb)" StyleClass="p, black"/>
-                        <Label Grid.Column="3" Text="2" StyleClass="p"/>
-                        <Label Grid.Column="4" Text="$8.00" HorizontalTextAlignment="End" StyleClass="p, black"/>
-                    </Grid>
-                    <BoxView StyleClass="spacer"/>
-                    <FlexLayout Padding="15" JustifyContent="SpaceBetween">
-                        <Label Text="Total" StyleClass="h3, black"/>
-                        <Label Text="$23.26" StyleClass="p, black"/>
-                    </FlexLayout>
-                    <Grid Padding="15">
-                        <Button Grid.Column="0" Text="View Receipt" StyleClass="btn, primary" Margin="20,0"/>
-                        <Button Grid.Column="1" Text="Get Help" StyleClass="btn, primary" Margin="20,0"/>
-                    </Grid>
-                </StackLayout>
-                <BoxView HeightRequest="5" BackgroundColor="LightGray"/>
-                <StackLayout>
-                    <StackLayout Padding="15">
-                        <FlexLayout JustifyContent="SpaceBetween">
-                            <Label Text="Order Completed" StyleClass="h2, primary" VerticalTextAlignment="Center"/>
-                            <Button Text="Rate Order" StyleClass="btn, primary"/>
-                        </FlexLayout>
-                        <Label Text="Aug 30, 2020 at 5:30 PM" StyleClass="black"/>
-                        <Label Text="Order #31390" StyleClass="black"/>
-                    </StackLayout>
-                    <BoxView StyleClass="spacer"/>
-                    <Grid Padding="15">
-                        <Label Grid.Column="0" Grid.ColumnSpan="3" Text="Boysenberry Pie (each)" StyleClass="p, black"/>
-                        <Label Grid.Column="3" Text="1" StyleClass="p"/>
-                        <Label Grid.Column="4" Text="$13.99" HorizontalTextAlignment="End" StyleClass="p, black"/>
-                    </Grid>
-                    <BoxView StyleClass="spacer"/>
-                    <Grid Padding="15">
-                        <Label Grid.Column="0" Grid.ColumnSpan="3" Text="Early Girl Tomatoes (per lb)" StyleClass="p, black"/>
-                        <Label Grid.Column="3" Text="1" StyleClass="p"/>
-                        <Label Grid.Column="4" Text="$3.99" HorizontalTextAlignment="End" StyleClass="p, black"/>
-                    </Grid>
-                    <BoxView StyleClass="spacer"/>
-                    <Grid Padding="15">
-                        <Label Grid.Column="0" Grid.ColumnSpan="3" Text="Almonds (per lb)" StyleClass="p, black"/>
-                        <Label Grid.Column="3" Text="2" StyleClass="p"/>
-                        <Label Grid.Column="4" Text="$8.00" HorizontalTextAlignment="End" StyleClass="p, black"/>
-                    </Grid>
-                    <BoxView StyleClass="spacer"/>
-                    <FlexLayout Padding="15" JustifyContent="SpaceBetween">
-                        <Label Text="Total" StyleClass="h3, black"/>
-                        <Label Text="$23.26" StyleClass="p, black"/>
-                    </FlexLayout>
-                    <Grid Padding="15">
-                        <Button Grid.Column="0" Text="View Receipt" StyleClass="btn, primary" Margin="20,0"/>
-                        <Button Grid.Column="1" Text="Get Help" StyleClass="btn, primary" Margin="20,0"/>
-                    </Grid>
-                </StackLayout>
             </StackLayout>
         </ScrollView>
         <StackLayout BackgroundColor="WhiteSmoke">
