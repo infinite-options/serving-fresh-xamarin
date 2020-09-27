@@ -2,45 +2,20 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-             ios:Page.UseSafeArea="False"
+             ios:Page.UseSafeArea="true"
              xmlns:infinitemeals="clr-namespace:InfiniteMeals"
              x:Class="InfiniteMeals.NewUI.HistoryPage">
+    <NavigationPage.TitleView>
+        <FlexLayout Padding="10, 0">
+            <Label FlexLayout.Grow="1" Text="Orders" StyleClass="h1, white, center"/>
+            <ImageButton Source="CartIcon" StyleClass="imgbtn" HeightRequest="40" WidthRequest="40">
+                <ImageButton.Effects>
+                    <infinitemeals:TintImageEffect TintColor="#FF8500"/>
+                </ImageButton.Effects>
+            </ImageButton>
+        </FlexLayout>
+    </NavigationPage.TitleView>
     <StackLayout Spacing="0">
-        <RelativeLayout
-            HeightRequest="136"
-            BackgroundColor="PowderBlue" Padding="0">
-            <StackLayout
-                RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
-                RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}">
-                <Label
-                    HeightRequest="136"
-                    HorizontalTextAlignment="Center"
-                    VerticalTextAlignment="Center"
-                    Text="Orders"
-                    TextColor="White"
-                    FontSize="34"
-                    FontAttributes="Bold"
-                    BackgroundColor="#136D74">
-
-                </Label>
-            </StackLayout>
-            <StackLayout
-                RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
-                RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}">
-                <ImageButton
-                    HeightRequest="136"
-                    WidthRequest="40"
-                    HorizontalOptions="EndAndExpand"
-                    Margin="0,0,25,0"
-                    Source="CartIcon"
-                    VerticalOptions="Center"
-                    BackgroundColor="Transparent">
-                    <ImageButton.Effects>
-                        <infinitemeals:TintImageEffect TintColor="#FF8500"/>
-                    </ImageButton.Effects>
-                </ImageButton>
-            </StackLayout>
-        </RelativeLayout>
         <BoxView HeightRequest="1" BackgroundColor="Black"/>
         <Grid BackgroundColor="#136D74">
             <Grid.RowDefinitions>
@@ -69,67 +44,83 @@
         </Grid>
         <ScrollView>
             <StackLayout Spacing="15">
-                <CollectionView x:Name="HistoryList" Footer="">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <StackLayout>
-                                <StackLayout Padding="15">
-                                    <FlexLayout JustifyContent="SpaceBetween">
-                                        <Label Text="Order Completed" StyleClass="h2, primary" VerticalTextAlignment="Center"/>
-                                        <Button Text="Rate Order" StyleClass="btn, primary"/>
-                                    </FlexLayout>
-                                    <Label Text="{Binding purchase_date}" StyleClass="black"/>
-                                    <Label Text="{Binding purchase_id}" StyleClass="black"/>
-                                </StackLayout>
-                                <BoxView StyleClass="spacer"/>
-                                <CollectionView ItemsSource="{Binding items}" Footer="" HeightRequest="{Binding itemsHeight}">
-                                    <CollectionView.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackLayout>
-                                                <Grid Padding="15">
-                                                    <Label Grid.Column="0" Grid.ColumnSpan="3" Text="{Binding name}" StyleClass="p, black"/>
-                                                    <Label Grid.Column="3" Text="{Binding qty}" StyleClass="p"/>
-                                                    <Label Grid.Column="4" Text="{Binding total_price}" HorizontalTextAlignment="End" StyleClass="p, black"/>
-                                                </Grid>
-                                                <BoxView StyleClass="spacer"/>
-                                            </StackLayout>
-                                        </DataTemplate>
-                                    </CollectionView.ItemTemplate>
-                                </CollectionView>
-                                <BoxView StyleClass="spacer"/>
-                                <FlexLayout Padding="15" JustifyContent="SpaceBetween">
-                                    <Label Text="Total" StyleClass="h3, black"/>
-                                    <Label Text="{Binding amount_due}" StyleClass="p, black"/>
-                                </FlexLayout>
-                                <Grid Padding="15">
-                                    <Button Grid.Column="0" Text="View Receipt" StyleClass="btn, primary" Margin="20,0"/>
-                                    <Button Grid.Column="1" Text="Get Help" StyleClass="btn, primary" Margin="20,0"/>
-                                </Grid>
-                                <BoxView HeightRequest="5" BackgroundColor="LightGray"/>
-                            </StackLayout>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                <StackLayout>
+                    <StackLayout Padding="15">
+                        <FlexLayout JustifyContent="SpaceBetween">
+                            <Label Text="Order Completed" StyleClass="h2, primary" VerticalTextAlignment="Center"/>
+                            <Button Text="Rate Order" StyleClass="btn, primary"/>
+                        </FlexLayout>
+                        <Label Text="Aug 30, 2020 at 5:30 PM" StyleClass="black"/>
+                        <Label Text="Order #31390" StyleClass="black"/>
+                    </StackLayout>
+                    <BoxView StyleClass="spacer"/>
+                    <Grid Padding="15">
+                        <Label Grid.Column="0" Grid.ColumnSpan="3" Text="Boysenberry Pie (each)" StyleClass="p, black"/>
+                        <Label Grid.Column="3" Text="1" StyleClass="p"/>
+                        <Label Grid.Column="4" Text="$13.99" HorizontalTextAlignment="End" StyleClass="p, black"/>
+                    </Grid>
+                    <BoxView StyleClass="spacer"/>
+                    <Grid Padding="15">
+                        <Label Grid.Column="0" Grid.ColumnSpan="3" Text="Early Girl Tomatoes (per lb)" StyleClass="p, black"/>
+                        <Label Grid.Column="3" Text="1" StyleClass="p"/>
+                        <Label Grid.Column="4" Text="$3.99" HorizontalTextAlignment="End" StyleClass="p, black"/>
+                    </Grid>
+                    <BoxView StyleClass="spacer"/>
+                    <Grid Padding="15">
+                        <Label Grid.Column="0" Grid.ColumnSpan="3" Text="Almonds (per lb)" StyleClass="p, black"/>
+                        <Label Grid.Column="3" Text="2" StyleClass="p"/>
+                        <Label Grid.Column="4" Text="$8.00" HorizontalTextAlignment="End" StyleClass="p, black"/>
+                    </Grid>
+                    <BoxView StyleClass="spacer"/>
+                    <FlexLayout Padding="15" JustifyContent="SpaceBetween">
+                        <Label Text="Total" StyleClass="h3, black"/>
+                        <Label Text="$23.26" StyleClass="p, black"/>
+                    </FlexLayout>
+                    <Grid Padding="15">
+                        <Button Grid.Column="0" Text="View Receipt" StyleClass="btn, primary" Margin="20,0"/>
+                        <Button Grid.Column="1" Text="Get Help" StyleClass="btn, primary" Margin="20,0"/>
+                    </Grid>
+                </StackLayout>
+                <BoxView HeightRequest="5" BackgroundColor="LightGray"/>
+                <StackLayout>
+                    <StackLayout Padding="15">
+                        <FlexLayout JustifyContent="SpaceBetween">
+                            <Label Text="Order Completed" StyleClass="h2, primary" VerticalTextAlignment="Center"/>
+                            <Button Text="Rate Order" StyleClass="btn, primary"/>
+                        </FlexLayout>
+                        <Label Text="Aug 30, 2020 at 5:30 PM" StyleClass="black"/>
+                        <Label Text="Order #31390" StyleClass="black"/>
+                    </StackLayout>
+                    <BoxView StyleClass="spacer"/>
+                    <Grid Padding="15">
+                        <Label Grid.Column="0" Grid.ColumnSpan="3" Text="Boysenberry Pie (each)" StyleClass="p, black"/>
+                        <Label Grid.Column="3" Text="1" StyleClass="p"/>
+                        <Label Grid.Column="4" Text="$13.99" HorizontalTextAlignment="End" StyleClass="p, black"/>
+                    </Grid>
+                    <BoxView StyleClass="spacer"/>
+                    <Grid Padding="15">
+                        <Label Grid.Column="0" Grid.ColumnSpan="3" Text="Early Girl Tomatoes (per lb)" StyleClass="p, black"/>
+                        <Label Grid.Column="3" Text="1" StyleClass="p"/>
+                        <Label Grid.Column="4" Text="$3.99" HorizontalTextAlignment="End" StyleClass="p, black"/>
+                    </Grid>
+                    <BoxView StyleClass="spacer"/>
+                    <Grid Padding="15">
+                        <Label Grid.Column="0" Grid.ColumnSpan="3" Text="Almonds (per lb)" StyleClass="p, black"/>
+                        <Label Grid.Column="3" Text="2" StyleClass="p"/>
+                        <Label Grid.Column="4" Text="$8.00" HorizontalTextAlignment="End" StyleClass="p, black"/>
+                    </Grid>
+                    <BoxView StyleClass="spacer"/>
+                    <FlexLayout Padding="15" JustifyContent="SpaceBetween">
+                        <Label Text="Total" StyleClass="h3, black"/>
+                        <Label Text="$23.26" StyleClass="p, black"/>
+                    </FlexLayout>
+                    <Grid Padding="15">
+                        <Button Grid.Column="0" Text="View Receipt" StyleClass="btn, primary" Margin="20,0"/>
+                        <Button Grid.Column="1" Text="Get Help" StyleClass="btn, primary" Margin="20,0"/>
+                    </Grid>
+                </StackLayout>
             </StackLayout>
+            
         </ScrollView>
-        <StackLayout BackgroundColor="WhiteSmoke">
-            <BoxView HeightRequest="1" BackgroundColor="Gray"/>
-            <Grid VerticalOptions="End" HeightRequest="40">
-                <ImageButton Grid.Row="0" Grid.Column="0" Source="calendarIcon.png" Clicked="DeliveryDaysClick" BackgroundColor="Transparent"></ImageButton>
-                <ImageButton Grid.Row="0" Grid.Column="1" Source="ordersIcon.png" Clicked="OrdersClick" BackgroundColor="Transparent">
-                    <ImageButton.Effects>
-                        <infinitemeals:TintImageEffect TintColor="#FF8500"/>
-                    </ImageButton.Effects>
-                </ImageButton>
-                <ImageButton Grid.Row="0" Grid.Column="2" Source="informationIcon.png" Clicked="InfoClick" BackgroundColor="Transparent" ></ImageButton>
-                <ImageButton Grid.Row="0" Grid.Column="3" Source="profileIcon.png" Clicked="ProfileClick" BackgroundColor="Transparent"></ImageButton>
-            </Grid>
-            <Grid HeightRequest="50">
-                <Label Grid.Row="0" Grid.Column="0" Text="Days" HorizontalOptions="Center" VerticalOptions="Start"></Label>
-                <Label Grid.Row="0" Grid.Column="1" Text="Orders" HorizontalOptions="Center" VerticalOptions="Start"></Label>
-                <Label Grid.Row="0" Grid.Column="2" Text="Info" HorizontalOptions="Center" VerticalOptions="Start"></Label>
-                <Label Grid.Row="0" Grid.Column="3" Text="Profile" HorizontalOptions="Center" VerticalOptions="Start"></Label>
-            </Grid>
-        </StackLayout>
     </StackLayout>
 </ContentPage>

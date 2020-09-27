@@ -17,11 +17,11 @@ namespace InfiniteMeals.NewUI
         }
         public void openCheckout(object sender, EventArgs e)
         {
-            Application.Current.MainPage = new CheckoutPage();
+            Navigation.PushAsync(new CheckoutPage());
         }
         public void openHistory(object sender, EventArgs e)
         {
-            Application.Current.MainPage = new HistoryPage();
+            Navigation.PushAsync(new HistoryPage());
         }
     }
 }
