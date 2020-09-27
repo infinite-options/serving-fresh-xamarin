@@ -41,6 +41,8 @@ namespace InfiniteMeals.NewUI
         }
 
         ObservableCollection<DeliveriesModel> Deliveries = new ObservableCollection<DeliveriesModel>();
+        ObservableCollection<Business> Farms = new ObservableCollection<Business>();
+        ObservableCollection<Business> FarmersMarkets = new ObservableCollection<Business>();
         ObservableCollection<ItemsModel> datagrid = new ObservableCollection<ItemsModel>();
         ServingFreshBusinessItems data = new ServingFreshBusinessItems();
 
@@ -49,6 +51,7 @@ namespace InfiniteMeals.NewUI
             InitializeComponent();
             Init();
             GetDays();
+            GetBusinesses();
             Console.WriteLine("Application.Current.Properties:");
             foreach (string key in Application.Current.Properties.Keys)
             {
@@ -61,20 +64,51 @@ namespace InfiniteMeals.NewUI
             BackgroundColor = Constants.PrimaryColor;
         }
 
-        async void GetDays()
+        void GetDays()
         {
-            var days = new List<string> { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
-            var date = 19;
-            foreach (string day in days)
+            Deliveries.Clear();
+            var date = DateTime.Today;
+            var monthNames = new List<string>();
+            monthNames.Add("");
+            monthNames.Add("Jan");
+            monthNames.Add("Feb");
+            monthNames.Add("Mar");
+            monthNames.Add("Apr");
+            monthNames.Add("May");
+            monthNames.Add("Jun");
+            monthNames.Add("Jul");
+            monthNames.Add("Aug");
+            monthNames.Add("Sep");
+            monthNames.Add("Oct");
+            monthNames.Add("Nov");
+            monthNames.Add("Dec");
+            for (int i = 0; i < 7; i++)
             {
                 Deliveries.Add(new DeliveriesModel()
                 {
-                    delivery_dayofweek = day,
-                    delivery_date = "Sept "+date
+                    delivery_dayofweek = date.DayOfWeek.ToString(),
+                    delivery_date = monthNames[date.Month]+" "+date.Day
                 });
-                date++;
+                date = date.AddDays(1);
             }
             delivery_list.ItemsSource = Deliveries;
+        }
+
+        async void GetBusinesses()
+        {
+            var client = new HttpClient();
+            var response = await client.GetAsync("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/businesses");
+            string result = response.Content.ReadAsStringAsync().Result;
+            var data = JsonConvert.DeserializeObject<ServingFreshBusiness>(result);
+            FarmersMarkets.Clear();
+            Farms.Clear();
+            foreach (Business b in data.result.result)
+            {
+                if (b.business_type == "Farm") Farms.Add(b);
+                else if (b.business_type == "Farmers Market") FarmersMarkets.Add(b);
+            }
+            market_list.ItemsSource = FarmersMarkets;
+            farm_list.ItemsSource = Farms;
         }
 
         async void Open_Checkout(Object sender, EventArgs e)

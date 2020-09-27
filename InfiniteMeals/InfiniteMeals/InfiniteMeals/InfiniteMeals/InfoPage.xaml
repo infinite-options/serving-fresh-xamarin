@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:infinitemeals="clr-namespace:InfiniteMeals"
     x:Class="InfiniteMeals.InfoPage">
     <StackLayout x:Name="Main_Layout" Spacing="0">
         <Label
@@ -48,7 +48,11 @@
             <Grid VerticalOptions="End" HeightRequest="40">
                 <ImageButton Grid.Row="0" Grid.Column="0" Source="calendarIcon.png" Clicked="DeliveryDaysClick" BackgroundColor="Transparent"></ImageButton>
                 <ImageButton Grid.Row="0" Grid.Column="1" Source="ordersIcon.png" Clicked="OrderscClick" BackgroundColor="Transparent"></ImageButton>
-                <ImageButton Grid.Row="0" Grid.Column="2" Source="informationIcon.png" Clicked="InfoClick" BackgroundColor="Transparent"></ImageButton>
+                <ImageButton Grid.Row="0" Grid.Column="2" Source="informationIcon.png" Clicked="InfoClick" BackgroundColor="Transparent">
+                    <ImageButton.Effects>
+                        <infinitemeals:TintImageEffect TintColor="#FF8500"/>
+                    </ImageButton.Effects>
+                </ImageButton>
                 <ImageButton Grid.Row="0" Grid.Column="3" Source="profileIcon.png" Clicked="ProfileClick" BackgroundColor="Transparent"></ImageButton>
             </Grid>
             <Grid HeightRequest="50">
