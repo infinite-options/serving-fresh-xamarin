@@ -1,0 +1,397 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:infinitemeals="clr-namespace:InfiniteMeals"
+    x:Class="InfiniteMeals.CarlosCategoriesPage">
+    <StackLayout>
+        <RelativeLayout
+            HeightRequest="136" Padding="0">
+            <StackLayout
+                RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+                RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}">
+                <Label
+                    HeightRequest="136"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"
+                    Text="Delivery Days"
+                    TextColor="White"
+                    FontSize="34"
+                    FontAttributes="Bold"
+                    BackgroundColor="#136D74">
+
+                </Label>
+            </StackLayout>
+            <StackLayout
+                RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+                RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}">
+                <ImageButton
+                    HeightRequest="136"
+                    WidthRequest="40"
+                    HorizontalOptions="EndAndExpand"
+                    Margin="0,0,25,0"
+                    Source="CartIcon"
+                    VerticalOptions="Center"
+                    Clicked="CheckOutClickDeliveryDaysPage"
+                    BackgroundColor="Transparent">
+                    <ImageButton.Effects>
+                        <infinitemeals:TintImageEffect TintColor="White"/>
+                    </ImageButton.Effects>
+                </ImageButton>
+            </StackLayout>
+        </RelativeLayout>
+        <BoxView HeightRequest="1" BackgroundColor="Black"/>
+    <ScrollView>
+    <StackLayout>
+        <StackLayout>
+            <CarouselView x:Name="myCarouseView0"  HeightRequest="150" RemainingItemsThreshold="7" BackgroundColor="White">
+                <CarouselView.ItemTemplate >
+                    <DataTemplate >
+                        <Grid>
+                            <Frame
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Padding="0"
+                                CornerRadius="20"
+                                HeightRequest="150"
+                                BackgroundColor="Red"
+                                HasShadow="False"
+                                Margin="5,0,0,0">
+                                <StackLayout
+                                    BackgroundColor="White"
+                                    Spacing="0">
+                                    <Label
+                                        Text="{Binding day1}"
+                                        TextColor="White"
+                                        FontSize="Large"
+                                        FontAttributes="Bold"
+                                        BackgroundColor="#136D74"
+                                        HorizontalTextAlignment="Center"
+                                        >
+                                    </Label>
+                                    <Label
+                                        Text="{Binding month1}"
+                                        TextColor="White"
+                                        FontSize="Large"
+                                        FontAttributes="Bold"
+                                        BackgroundColor="#136D74"
+                                        HorizontalTextAlignment="Center"
+                                        >
+                                    </Label>
+                                    <Button
+                                        Text="{Binding date1}"
+                                        TextColor="#FF8500"
+                                        FontSize="Large"
+                                        FontAttributes="Bold"
+                                        BackgroundColor="WhiteSmoke"
+                                        HeightRequest="100"
+                                        Clicked="MondayClick">
+                                    </Button>
+                                </StackLayout>
+                            </Frame>
+                            <Frame
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Padding="0"
+                                CornerRadius="20"
+                                HeightRequest="150"
+                                BackgroundColor="Red"
+                                HasShadow="False">
+                                <StackLayout
+                                    BackgroundColor="White"
+                                    Spacing="0">
+                                    <Label
+                                        Text="{Binding day2}"
+                                        TextColor="White"
+                                        FontSize="Large"
+                                        FontAttributes="Bold"
+                                        BackgroundColor="#136D74"
+                                        HorizontalTextAlignment="Center"
+                                        >
+                                    </Label>
+                                    <Label
+                                        Text="{Binding month2}"
+                                        TextColor="White"
+                                        FontSize="Large"
+                                        FontAttributes="Bold"
+                                        BackgroundColor="#136D74"
+                                        HorizontalTextAlignment="Center"
+                                        >
+                                    </Label>
+                                    <Button
+                                        Text="{Binding date2}"
+                                        TextColor="#FF8500"
+                                        FontSize="Large"
+                                        FontAttributes="Bold"
+                                        BackgroundColor="WhiteSmoke"
+                                        HeightRequest="100"
+                                        Clicked="MondayClick">
+                                    </Button>
+                                </StackLayout>
+                            </Frame>
+                            <Frame
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                Padding="0"
+                                CornerRadius="20"
+                                HeightRequest="150"
+                                BackgroundColor="Red"
+                                HasShadow="False"
+                                Margin="0,0,5,0">
+                                <StackLayout
+                                    BackgroundColor="White"
+                                    Spacing="0">
+                                    <Label
+                                        Text="{Binding day3}"
+                                        TextColor="White"
+                                        FontSize="Large"
+                                        FontAttributes="Bold"
+                                        BackgroundColor="#136D74"
+                                        HorizontalTextAlignment="Center"
+                                        >
+                                    </Label>
+                                    <Label
+                                        Text="{Binding month3}"
+                                        TextColor="White"
+                                        FontSize="Large"
+                                        FontAttributes="Bold"
+                                        BackgroundColor="#136D74"
+                                        HorizontalTextAlignment="Center"
+                                        >
+                                    </Label>
+                                    <Button
+                                        Text="{Binding date3}"
+                                        TextColor="#FF8500"
+                                        FontSize="Large"
+                                        FontAttributes="Bold"
+                                        BackgroundColor="WhiteSmoke"
+                                        HeightRequest="100"
+                                        Clicked="MondayClick">
+                                    </Button>
+                                </StackLayout>
+                            </Frame>
+                        </Grid>
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
+        </StackLayout>
+        <Label
+            Text="Filter by Farmers Markets"
+            TextColor="Gray"
+            FontSize="Subtitle"
+            FontAttributes="Bold">
+        </Label>
+        <StackLayout>
+            <CarouselView x:Name="myCarouseView1"  HeightRequest="150" RemainingItemsThreshold="7" BackgroundColor="White">
+                <CarouselView.ItemTemplate >
+                    <DataTemplate >
+                        <Grid>
+                            <Frame
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Padding="0"
+                                CornerRadius="20"
+                                HeightRequest="150"
+                                BackgroundColor="Red"
+                                HasShadow="False"
+                                Margin="5,0,0,0">
+                                <ImageButton
+                                    Source="{Binding source1}"
+                                    BackgroundColor="WhiteSmoke"
+                                    HeightRequest="100"
+                                    Clicked="MondayClick">
+                                </ImageButton>
+                            </Frame>
+                            <Frame
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Padding="0"
+                                CornerRadius="20"
+                                HeightRequest="150"
+                                BackgroundColor="Red"
+                                HasShadow="False">
+                                <ImageButton
+                                    Source="{Binding source2}"
+                                    BackgroundColor="WhiteSmoke"
+                                    HeightRequest="100"
+                                    Clicked="MondayClick">
+                                </ImageButton>
+                            </Frame>
+                            <Frame
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                Padding="0"
+                                CornerRadius="20"
+                                HeightRequest="150"
+                                BackgroundColor="Red"
+                                HasShadow="False"
+                                Margin="0,0,5,0">
+                                <ImageButton
+                                    Source="{Binding source3}"
+                                    BackgroundColor="WhiteSmoke"
+                                    HeightRequest="100"
+                                    Clicked="MondayClick">
+                                </ImageButton>
+                            </Frame>
+                        </Grid>
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
+        </StackLayout>
+        <Label
+            Text="Filter by Farms"
+            TextColor="Gray"
+            FontSize="Subtitle"
+            FontAttributes="Bold">
+        </Label>
+        <StackLayout>
+            <CarouselView x:Name="myCarouseView2"  HeightRequest="150" RemainingItemsThreshold="7" BackgroundColor="White">
+                <CarouselView.ItemTemplate >
+                    <DataTemplate >
+                        <Grid>
+                            <Frame
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Padding="0"
+                                CornerRadius="20"
+                                HeightRequest="150"
+                                BackgroundColor="Red"
+                                HasShadow="False"
+                                Margin="5,0,0,0">
+                                <Button
+                                    Text="{Binding farm1}"
+                                    TextColor="#FF8500"
+                                    FontSize="Micro"
+                                    FontAttributes="Bold"
+                                    BackgroundColor="WhiteSmoke"
+                                    HeightRequest="100"
+                                    Clicked="MondayClick">
+                                </Button>
+                            </Frame>
+                            <Frame
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Padding="0"
+                                CornerRadius="20"
+                                HeightRequest="150"
+                                BackgroundColor="Red"
+                                HasShadow="False">
+                                <Button
+                                    Text="{Binding farm2}"
+                                    TextColor="#FF8500"
+                                    FontSize="Micro"
+                                    FontAttributes="Bold"
+                                    BackgroundColor="WhiteSmoke"
+                                    HeightRequest="100"
+                                    Clicked="MondayClick">
+                                </Button>
+                            </Frame>
+                            <Frame
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                Padding="0"
+                                CornerRadius="20"
+                                HeightRequest="150"
+                                BackgroundColor="Red"
+                                HasShadow="False"
+                                Margin="0,0,5,0">
+                                <Button
+                                    Text="{Binding farm3}"
+                                    TextColor="#FF8500"
+                                    FontSize="Micro"
+                                    FontAttributes="Bold"
+                                    BackgroundColor="WhiteSmoke"
+                                    HeightRequest="100"
+                                    Clicked="MondayClick">
+                                </Button>
+                            </Frame>
+                        </Grid>
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
+        </StackLayout>
+        <Label
+            Text="Filter by Produce"
+            TextColor="Gray"
+            FontSize="Subtitle"
+            FontAttributes="Bold">
+        </Label>
+        <StackLayout>
+            <CarouselView x:Name="myCarouseView3"  HeightRequest="150" RemainingItemsThreshold="7" BackgroundColor="White">
+                <CarouselView.ItemTemplate >
+                    <DataTemplate >
+                        <Grid>
+                            <Frame
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Padding="0"
+                                CornerRadius="20"
+                                HeightRequest="150"
+                                BackgroundColor="Red"
+                                HasShadow="False"
+                                Margin="5,0,0,0">
+                                <ImageButton
+                                    Source="{Binding source1}"
+                                    BackgroundColor="WhiteSmoke"
+                                    HeightRequest="100"
+                                    Clicked="MondayClick">
+                                </ImageButton>
+                            </Frame>
+                            <Frame
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Padding="0"
+                                CornerRadius="20"
+                                HeightRequest="150"
+                                BackgroundColor="Red"
+                                HasShadow="False">
+                                <ImageButton
+                                    Source="{Binding source2}"
+                                    BackgroundColor="WhiteSmoke"
+                                    HeightRequest="100"
+                                    Clicked="MondayClick">
+                                </ImageButton>
+                            </Frame>
+                            <Frame
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                Padding="0"
+                                CornerRadius="20"
+                                HeightRequest="150"
+                                BackgroundColor="Red"
+                                HasShadow="False"
+                                Margin="0,0,5,0">
+                                <ImageButton
+                                    Source="{Binding source3}"
+                                    BackgroundColor="WhiteSmoke"
+                                    HeightRequest="100"
+                                    Clicked="MondayClick">
+                                </ImageButton>
+                            </Frame>
+                        </Grid>
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
+        </StackLayout>
+    </StackLayout>
+</ScrollView>
+        <StackLayout BackgroundColor="WhiteSmoke">
+            <BoxView HeightRequest="1" BackgroundColor="Gray"/>
+            <Grid VerticalOptions="End" HeightRequest="40">
+                <ImageButton Grid.Row="0" Grid.Column="0" Source="calendarIcon.png" Clicked="DeliveryDaysClick" BackgroundColor="Transparent">
+                    <ImageButton.Effects>
+                        <infinitemeals:TintImageEffect TintColor="#FF8500"/>
+                    </ImageButton.Effects>
+                </ImageButton>
+                <ImageButton Grid.Row="0" Grid.Column="1" Source="ordersIcon.png" Clicked="OrdersClick" BackgroundColor="Transparent"></ImageButton>
+                <ImageButton Grid.Row="0" Grid.Column="2" Source="informationIcon.png" Clicked="InfoClick" BackgroundColor="Transparent" ></ImageButton>
+                <ImageButton Grid.Row="0" Grid.Column="3" Source="profileIcon.png" Clicked="ProfileClick" BackgroundColor="Transparent"></ImageButton>
+            </Grid>
+            <Grid HeightRequest="50">
+                <Label Grid.Row="0" Grid.Column="0" Text="Days" HorizontalOptions="Center" VerticalOptions="Start"></Label>
+                <Label Grid.Row="0" Grid.Column="1" Text="Orders" HorizontalOptions="Center" VerticalOptions="Start"></Label>
+                <Label Grid.Row="0" Grid.Column="2" Text="Info" HorizontalOptions="Center" VerticalOptions="Start"></Label>
+                <Label Grid.Row="0" Grid.Column="3" Text="Profile" HorizontalOptions="Center" VerticalOptions="Start"></Label>
+            </Grid>
+        </StackLayout>
+        </StackLayout>
+</ContentPage>

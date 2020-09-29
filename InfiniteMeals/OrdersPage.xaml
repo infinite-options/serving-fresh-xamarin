@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="InfiniteMeals.OrdersPage">
+    <StackLayout x:Name="Main_Layout" Spacing="0">
+        <Label
+            HeightRequest="136"
+            HorizontalTextAlignment="Center"
+            VerticalTextAlignment="Center"
+            Text="Orders"
+            TextColor="White"
+            FontSize="34"
+            FontAttributes="Bold"
+            BackgroundColor="#136D74">
+
+        </Label>
+        <BoxView HeightRequest="1" BackgroundColor="Black"/>
+        <Grid
+            HeightRequest="80"
+            ColumnSpacing="1"
+            BackgroundColor="Black">
+            <Button
+                Grid.Row="0"
+                Grid.Column="0"
+                Text="Delivery Info"
+                TextColor="#FF8500"
+                BackgroundColor="#136D74"
+                CornerRadius="0">
+
+            </Button>
+            <Button
+                Grid.Row="0"
+                Grid.Column="1"
+                Text="Rewards"
+                TextColor="White"
+                BackgroundColor="#136D74"
+                CornerRadius="0">
+
+            </Button>
+        </Grid>
+        <ScrollView VerticalOptions="FillAndExpand" BackgroundColor="White">
+            <StackLayout>
+            </StackLayout>
+        </ScrollView>
+        <StackLayout BackgroundColor="WhiteSmoke" HeightRequest="60">
+            <BoxView HeightRequest="1" BackgroundColor="Gray"/>
+            <Grid VerticalOptions="End" HeightRequest="40">
+                <ImageButton Grid.Row="0" Grid.Column="0" Source="calendarIcon.png" Clicked="DeliveryDaysClick" BackgroundColor="Transparent" ></ImageButton>
+                <ImageButton Grid.Row="0" Grid.Column="1" Source="ordersIcon.png" Clicked="OrdersClick" BackgroundColor="Transparent"></ImageButton>
+                <ImageButton Grid.Row="0" Grid.Column="2" Source="informationIcon.png" Clicked="InfoClick" BackgroundColor="Transparent"></ImageButton>
+                <ImageButton Grid.Row="0" Grid.Column="3" Source="profileIcon.png" Clicked="ProfileClick" BackgroundColor="Transparent"></ImageButton>
+            </Grid>
+            <Grid HeightRequest="50">
+                <Label Grid.Row="0" Grid.Column="0" Text="Days" HorizontalOptions="Center" VerticalOptions="Start"></Label>
+                <Label Grid.Row="0" Grid.Column="1" Text="Orders" HorizontalOptions="Center" VerticalOptions="Start"></Label>
+                <Label Grid.Row="0" Grid.Column="2" Text="Info" HorizontalOptions="Center" VerticalOptions="Start"></Label>
+                <Label Grid.Row="0" Grid.Column="3" Text="Profile" HorizontalOptions="Center" VerticalOptions="Start"></Label>
+            </Grid>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>
