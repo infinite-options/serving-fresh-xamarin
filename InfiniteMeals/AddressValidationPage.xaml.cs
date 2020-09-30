@@ -13,6 +13,10 @@ namespace InfiniteMeals
         public AddressValidationPage()
         {
             InitializeComponent();
+            map.MapType = MapType.Street;
+            Position point = new Position(37.334789, -121.888138);
+            var mapSpan = new MapSpan(point, 5, 5);
+            map.MoveToRegion(mapSpan);
         }
 
 
@@ -95,9 +99,16 @@ namespace InfiniteMeals
                         longtitude = $"{position.Longitude}";
                         Application.Current.Properties["latitude"] = latitude;
                         Application.Current.Properties["longitude"] = longtitude;
-                        map.MapType = MapType.Satellite;
-                        var mapSpan = new MapSpan(position, 0.000001, 0.000001);
+                        map.MapType = MapType.Street;
+                        var mapSpan = new MapSpan(position, 0.001, 0.001);
+
+                        Pin address = new Pin();
+                        address.Label = "Delivery Address";
+                        address.Type = PinType.SearchResult;
+                        address.Position = position;
+
                         map.MoveToRegion(mapSpan);
+                        map.Pins.Add(address);
                         break;
                     }
                     else if (GetXMLElement(element, "DPVConfirmation").Equals("D"))
@@ -170,7 +181,7 @@ namespace InfiniteMeals
         {
             // NEEDS AN ENTRY TO STORE PHONE NUMBER
             Application.Current.Properties["customer_uid"] = "100-000097";
-            Application.Current.Properties["userPhoneNumber"] = "Not Assigned";
+            Application.Current.Properties["userPhoneNumber"] = "";
             Application.Current.MainPage = new NewUI.StartPage();
         }
     }

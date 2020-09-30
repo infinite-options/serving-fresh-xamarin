@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Text;
 using Xamarin.Forms;
 
 using InfiniteMeals.Models;
@@ -38,6 +38,12 @@ namespace InfiniteMeals.NewUI
             public int code { get; set; }
             public IList<Items> result { get; set; }
             public string sql { get; set; }
+        }
+
+        public class GetItemPost
+        {
+            public IList<string> type { get; set; }
+            public IList<string> ids { get; set; }
         }
 
         List<DeliveriesModel> AllDeliveries = new List<DeliveriesModel>();
@@ -100,6 +106,7 @@ namespace InfiniteMeals.NewUI
 
         async void GetBusinesses()
         {
+            // post and champ market.
             var client = new HttpClient();
             var response = await client.GetAsync("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/businesses");
             string result = response.Content.ReadAsStringAsync().Result;
@@ -127,6 +134,7 @@ namespace InfiniteMeals.NewUI
 
         async void Open_Farm(Object sender, EventArgs e)
         {
+            Console.WriteLine("I am here");
             var sl = (StackLayout)sender;
             var tgr = (TapGestureRecognizer)sl.GestureRecognizers[0];
             var delivery = (DeliveriesModel)tgr.CommandParameter;
@@ -138,14 +146,37 @@ namespace InfiniteMeals.NewUI
         private async Task GetData(string weekDay)
         {
             // THE "200-000004" WOULD GET REPLACE BY THE "weekDay" STRING
+
+            List<string> types = new List<string>();
+            types.Add("fruit");
+            List<string> b_uids = new List<string>();
+            b_uids.Add("200-000003");
+            b_uids.Add("200-000004");
+            b_uids.Add("200-000005");
+
+            GetItemPost post = new GetItemPost();
+            post.type = types;
+            post.ids = b_uids;
+
             var client = new HttpClient();
-            var response = await client.GetAsync("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/getItems/" + weekDay);
-            var d = await client.GetStringAsync("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/getItems/" + weekDay);
-            Console.WriteLine("This is the data received for items = " + d);
-            if (response.IsSuccessStatusCode)
+            var getItemsString = JsonConvert.SerializeObject(post);
+            var getItemsStringMessage = new StringContent(getItemsString, Encoding.UTF8, "application/json");
+            var request = new HttpRequestMessage();
+            request.Method = HttpMethod.Post;
+            request.Content = getItemsStringMessage;
+
+            var httpResponse = await client.PostAsync("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/getItems", getItemsStringMessage);
+            string responseStr = await httpResponse.Content.ReadAsStringAsync();
+            //ServingFreshBusinessItems data = JsonConvert.DeserializeObject<ServingFreshBusinessItems>(responseStr);
+            //var response = await client.GetAsync("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/getItems/" + weekDay);
+            //var d = await client.GetStringAsync("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/getItems/" + weekDay);
+            //Console.WriteLine("This is the data received for items = " + d);
+            //Console.WriteLine(response.IsSuccessStatusCode);
+            Console.WriteLine(responseStr);
+            if (responseStr != null)
             {
-                string result = response.Content.ReadAsStringAsync().Result;
-                data = JsonConvert.DeserializeObject<ServingFreshBusinessItems>(result);
+                //string result = response.Content.ReadAsStringAsync().Result;
+                data = JsonConvert.DeserializeObject<ServingFreshBusinessItems>(responseStr);
 
                 // COMMENT THE FOLLOWING LINE OF CODE AS (CHANGE 2)
                 // datagrid = new List<ItemModel>();

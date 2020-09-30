@@ -311,8 +311,8 @@ namespace InfiniteMeals
                 var googleUser = JsonConvert.DeserializeObject<GoogleUser>(userJsonString);
 
                 Application.Current.Properties["customer_uid"] = "100-000097";
-                Application.Current.Properties["userFirstName"] = googleUser.family_name;
-                Application.Current.Properties["userLastName"] = googleUser.given_name;
+                Application.Current.Properties["userFirstName"] = googleUser.given_name; 
+                Application.Current.Properties["userLastName"] = googleUser.family_name;
                 Application.Current.Properties["userEmailAddress"] = googleUser.email;
 
                 Console.WriteLine("THIS IS THE RESPONSE FROM GET REQUEST" + str);

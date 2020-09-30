@@ -69,12 +69,10 @@ namespace InfiniteMeals
         public signUpPage()
         {
             InitializeComponent();
-            map.MapType = MapType.Hybrid;
-            //Position position = new Position();
-            //position.Latitude = 1;
-            //position.Latitude = 2;
-            //var mapSpan = new MapSpan(position, 100.0, 100.0);
-            //map.MoveToRegion = new MapSpan();
+            map.MapType = MapType.Street;
+            Position point = new Position(37.334789, -121.888138);
+            var mapSpan = new MapSpan(point, 5, 5);
+            map.MoveToRegion(mapSpan);
         }
 
         async void ValidateAddressClick(object sender, System.EventArgs e)
@@ -183,9 +181,16 @@ namespace InfiniteMeals
 
                         latitude = $"{position.Latitude}";
                         longitude = $"{position.Longitude}";
-                        map.MapType = MapType.Satellite;
-                        var mapSpan = new MapSpan(position, 0.000001, 0.000001);
+                        map.MapType = MapType.Street;
+                        var mapSpan = new MapSpan(position, 0.001, 0.001);
+
+                        Pin address = new Pin();
+                        address.Label = "Delivery Address";
+                        address.Type = PinType.SearchResult;
+                        address.Position = position;
+
                         map.MoveToRegion(mapSpan);
+                        map.Pins.Add(address);
 
                         break;
                     }

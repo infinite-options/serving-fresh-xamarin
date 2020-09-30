@@ -18,6 +18,10 @@ namespace InfiniteMeals
         public ProceedAsGuest()
         {
             InitializeComponent();
+            map.MapType = MapType.Street;
+            Position point = new Position(37.334789, -121.888138);
+            var mapSpan = new MapSpan(point, 5, 5);
+            map.MoveToRegion(mapSpan);
         }
 
         // IF ANDROID DOESN'T LET YOU IN, THEN COMMENT EVERYTHING INSIDE THIS FUNCTION
@@ -179,10 +183,10 @@ namespace InfiniteMeals
 
         void ProceedAsGuestClick(System.Object sender, System.EventArgs e)
         {
-            Application.Current.Properties["userEmailAddress"] = "Not Assigned";
-            Application.Current.Properties["userFirstName"] = "Not Assigned";
-            Application.Current.Properties["userLastName"] = "Not Assigned";
-            Application.Current.Properties["userPhoneNumber"] = "Not Assigned";
+            Application.Current.Properties["userEmailAddress"] = "";
+            Application.Current.Properties["userFirstName"] = "";
+            Application.Current.Properties["userLastName"] = "";
+            Application.Current.Properties["userPhoneNumber"] = "";
             Application.Current.MainPage = new NewUI.StartPage();
         }
     }

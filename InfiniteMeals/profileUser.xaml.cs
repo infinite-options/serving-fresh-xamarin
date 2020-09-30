@@ -15,6 +15,8 @@ namespace InfiniteMeals
             userEmailAddress.Text = (string)Application.Current.Properties["userEmailAddress"];
             userFirstName.Text = (string)Application.Current.Properties["userFirstName"];
             userLastName.Text = (string)Application.Current.Properties["userLastName"];
+            userPassword.Text = "*******";
+            userConfirmPassword.Text = "*******";
 
             userAddress.Text = (string)Application.Current.Properties["userAddress"];
             userUnitNumber.Text = (string)Application.Current.Properties["userAddressUnit"];
@@ -24,9 +26,16 @@ namespace InfiniteMeals
             userPhoneNumber.Text = (string)Application.Current.Properties["userPhoneNumber"];
 
             Position position = new Position(Double.Parse(Application.Current.Properties["latitude"].ToString()), Double.Parse(Application.Current.Properties["longitude"].ToString()));
-            map.MapType = MapType.Satellite;
-            var mapSpan = new MapSpan(position, 0.000001, 0.000001);
+            map.MapType = MapType.Street;
+            var mapSpan = new MapSpan(position, 0.001, 0.001);
+
+            Pin address = new Pin();
+            address.Label = "Delivery Address";
+            address.Type = PinType.SearchResult;
+            address.Position = position;
+
             map.MoveToRegion(mapSpan);
+            map.Pins.Add(address);
         }
 
         //void Button_Clicked(System.Object sender, System.EventArgs e)
