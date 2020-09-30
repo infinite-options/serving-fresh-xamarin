@@ -5,42 +5,59 @@
     xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
     xmlns:infinitemeals="clr-namespace:InfiniteMeals"
     x:Class="InfiniteMeals.profileUser">
-    <StackLayout Spacing="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-        <Label
-            HeightRequest="136"
-            HorizontalTextAlignment="Center"
-            VerticalTextAlignment="Center"
-            Text="Profile"
-            TextColor="White"
-            FontSize="34"
-            FontAttributes="Bold"
-            BackgroundColor="#136D74">
-
-        </Label>
-        <BoxView HeightRequest="1" BackgroundColor="Black"/>
-        <Grid
-            HeightRequest="80"
-            ColumnSpacing="1"
-            BackgroundColor="Black">
-            <Button
-                Grid.Row="0"
-                Grid.Column="0"
-                Text="Delivery Info"
-                TextColor="#FF8500"
-                BackgroundColor="#136D74"
-                CornerRadius="0">
-
-            </Button>
-            <Button
-                Grid.Row="0"
-                Grid.Column="1"
-                Text="Rewards"
-                TextColor="White"
-                BackgroundColor="#136D74"
-                CornerRadius="0">
-
-            </Button>
-        </Grid>
+    <ContentPage.Content>
+        <Grid RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"></RowDefinition>
+                <RowDefinition Height="95"></RowDefinition>
+                <RowDefinition Height="0.5"></RowDefinition>
+                <RowDefinition Height="65"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="80"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" BackgroundColor="#136D74"></Label>
+            <Grid Grid.Row="1" BackgroundColor="#136D74">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="70"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="70"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label
+                    Grid.Column="1"
+                    HeightRequest="136"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"
+                    Text="Profile"
+                    TextColor="White"
+                    FontSize="34"
+                    FontAttributes="Bold">
+                </Label>
+            </Grid>
+            <BoxView Grid.Row="2" HeightRequest="0.5" BackgroundColor="Black"></BoxView>
+            <Grid
+                Grid.Row="3"
+                ColumnSpacing="0.5"
+                BackgroundColor="Black">
+                <Button
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Text="Delivery Info"
+                    TextColor="#FF8500"
+                    FontAttributes="Bold"
+                    BackgroundColor="#136D74"
+                    CornerRadius="0">
+                </Button>
+                <Button
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Text="Rewards"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    BackgroundColor="#136D74"
+                    CornerRadius="0">
+                </Button>
+            </Grid>
+            <StackLayout Grid.Row="4">
         <ScrollView >
             <StackLayout
                 Margin="10,10,10,0">
@@ -115,24 +132,27 @@
                 </Button>
             </StackLayout>
         </ScrollView>
-        <StackLayout BackgroundColor="WhiteSmoke" HeightRequest="80">
-            <BoxView HeightRequest="1" BackgroundColor="Gray"/>
-            <Grid VerticalOptions="End" HeightRequest="40">
-                <ImageButton Grid.Row="0" Grid.Column="0" Source="calendarIcon.png" Clicked="DeliveryDaysClick" BackgroundColor="Transparent"></ImageButton>
-                <ImageButton Grid.Row="0" Grid.Column="1" Source="ordersIcon.png" Clicked="OrdersClick" BackgroundColor="Transparent"></ImageButton>
-                <ImageButton Grid.Row="0" Grid.Column="2" Source="informationIcon.png" Clicked="InfoClick" BackgroundColor="Transparent">
-                    <ImageButton.Effects>
-                        <infinitemeals:TintImageEffect TintColor="#FF8500"/>
-                    </ImageButton.Effects>
-                </ImageButton>
-                <ImageButton Grid.Row="0" Grid.Column="3" Source="profileIcon.png" Clicked="ProfileClick" BackgroundColor="Transparent"></ImageButton>
+            </StackLayout>
+            <Grid Grid.Row="5" BackgroundColor="WhiteSmoke">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="45"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <ImageButton Grid.Row="0" Grid.Column="0" BackgroundColor="Transparent" Source="calendarIcon.png" Clicked="DeliveryDaysClick" Padding="6"></ImageButton>
+                <Label Grid.Row="1" Grid.Column="0" Text="Days" HorizontalTextAlignment="Center"></Label>
+                <ImageButton Grid.Row="0" Grid.Column="1" BackgroundColor="Transparent" Source="ordersIcon.png" Clicked="OrdersClick" Padding="6"></ImageButton>
+                <Label Grid.Row="1" Grid.Column="1" Text="Orders" HorizontalTextAlignment="Center"></Label>
+                <ImageButton Grid.Row="0" Grid.Column="2" BackgroundColor="Transparent" Source="informationIcon.png" Clicked="InfoClick" Padding="6"></ImageButton>
+                <Label Grid.Row="1" Grid.Column="2" Text="Info" HorizontalTextAlignment="Center"></Label>
+                <ImageButton Grid.Row="0" Grid.Column="3" BackgroundColor="Transparent" Source="profileIcon.png" Clicked="ProfileClick" Padding="6"></ImageButton>
+                <Label Grid.Row="1" Grid.Column="3" Text="Profile" HorizontalTextAlignment="Center"></Label>
             </Grid>
-            <Grid HeightRequest="50">
-                <Label Grid.Row="0" Grid.Column="0" Text="Days" HorizontalOptions="Center" VerticalOptions="Start"></Label>
-                <Label Grid.Row="0" Grid.Column="1" Text="Orders" HorizontalOptions="Center" VerticalOptions="Start"></Label>
-                <Label Grid.Row="0" Grid.Column="2" Text="Info" HorizontalOptions="Center" VerticalOptions="Start"></Label>
-                <Label Grid.Row="0" Grid.Column="3" Text="Profile" HorizontalOptions="Center" VerticalOptions="Start"></Label>
-            </Grid>
-        </StackLayout>
-    </StackLayout>
+        </Grid>
+    </ContentPage.Content>
 </ContentPage>

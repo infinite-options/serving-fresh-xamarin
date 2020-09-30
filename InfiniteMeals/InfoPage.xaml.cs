@@ -14,12 +14,12 @@ namespace InfiniteMeals
 
         void DeliveryDaysClick(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new CarlosCategoriesPage();
+            Application.Current.MainPage = new NewUI.StartPage();
         }
 
         void OrderscClick(System.Object sender, System.EventArgs e)
         {
-            Application.Current.MainPage = new OrdersPage();
+            Application.Current.MainPage = new NewUI.CheckoutPage();
         }
 
         void InfoClick(System.Object sender, System.EventArgs e)

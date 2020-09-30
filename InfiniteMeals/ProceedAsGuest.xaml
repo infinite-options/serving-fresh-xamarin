@@ -88,7 +88,7 @@
 
                         </Button>
                         <Button
-                            Text="Proceed as Guest"
+                            Text="Proceed"
                             TextColor="#FF8500"
                             FontAttributes="Bold"
                             CornerRadius="5"

@@ -3,15 +3,20 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:infinitemeals="clr-namespace:InfiniteMeals"
+    xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
     x:Class="InfiniteMeals.TestingUI">
-    <ContentPage.Content>
+   <ContentPage.Content>
         <Grid RowSpacing="0">
             <Grid.RowDefinitions>
+                <RowDefinition Height="35"></RowDefinition>
                 <RowDefinition Height="95"></RowDefinition>
+                <RowDefinition Height="0.5"></RowDefinition>
+                <RowDefinition Height="65"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="80"></RowDefinition>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" BackgroundColor="#136D74">
+            <Label Grid.Row="0" BackgroundColor="#136D74"></Label>
+            <Grid Grid.Row="1" BackgroundColor="#136D74">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="70"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -22,11 +27,12 @@
                     HeightRequest="136"
                     HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center"
-                    Text="Delivery Days"
+                    Text="Orders"
                     TextColor="White"
                     FontSize="34"
                     FontAttributes="Bold">
                 </Label>
+                
                 <ImageButton
                     Grid.Column="2"
                     HorizontalOptions="Center"
@@ -39,8 +45,24 @@
                     </ImageButton.Effects>
                 </ImageButton>
             </Grid>
-            <StackLayout Grid.Row="1" BackgroundColor="LightSalmon"></StackLayout>
-            <Grid Grid.Row="2" BackgroundColor="WhiteSmoke">
+            <BoxView Grid.Row="2" HeightRequest="0.5" BackgroundColor="Black"></BoxView>
+            <Grid
+                Grid.Row="3"
+                ColumnSpacing="0.5"
+                BackgroundColor="#136D74">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="1"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="1"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+            </Grid>
+            <StackLayout Grid.Row="4">
+
+            </StackLayout>
+            <Grid Grid.Row="5" BackgroundColor="WhiteSmoke">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="45"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>

@@ -109,7 +109,7 @@ namespace InfiniteMeals.NewUI
         async void Open_Checkout(Object sender, EventArgs e)
         {
 
-            await Navigation.PushAsync(new CheckoutPage(null));
+            Application.Current.MainPage = new NewUI.CheckoutPage(null);
         }
 
         async void Open_Farm(Object sender, EventArgs e)
