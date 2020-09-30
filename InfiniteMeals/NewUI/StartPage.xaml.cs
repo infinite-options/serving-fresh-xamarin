@@ -40,6 +40,9 @@ namespace InfiniteMeals.NewUI
             public string sql { get; set; }
         }
 
+        List<DeliveriesModel> AllDeliveries = new List<DeliveriesModel>();
+        List<Business> AllFarms = new List<Business>();
+        List<Business> AllFarmersMarkets = new List<Business>();
         ObservableCollection<DeliveriesModel> Deliveries = new ObservableCollection<DeliveriesModel>();
         ObservableCollection<Business> Farms = new ObservableCollection<Business>();
         ObservableCollection<Business> FarmersMarkets = new ObservableCollection<Business>();
@@ -61,7 +64,7 @@ namespace InfiniteMeals.NewUI
 
         void GetDays()
         {
-            Deliveries.Clear();
+            AllDeliveries.Clear();
             var date = DateTime.Today;
             var monthNames = new List<string>();
             monthNames.Add("");
@@ -79,12 +82,18 @@ namespace InfiniteMeals.NewUI
             monthNames.Add("Dec");
             for (int i = 0; i < 7; i++)
             {
-                Deliveries.Add(new DeliveriesModel()
+                AllDeliveries.Add(new DeliveriesModel()
                 {
                     delivery_dayofweek = date.DayOfWeek.ToString(),
+                    delivery_shortname = date.DayOfWeek.ToString().Substring(0, 3).ToUpper(),
                     delivery_date = monthNames[date.Month] + " " + date.Day
                 });
                 date = date.AddDays(1);
+            }
+            Deliveries.Clear();
+            foreach (DeliveriesModel dm in AllDeliveries)
+            {
+                Deliveries.Add(dm);
             }
             delivery_list.ItemsSource = Deliveries;
         }
@@ -95,13 +104,17 @@ namespace InfiniteMeals.NewUI
             var response = await client.GetAsync("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/businesses");
             string result = response.Content.ReadAsStringAsync().Result;
             var data = JsonConvert.DeserializeObject<ServingFreshBusiness>(result);
-            FarmersMarkets.Clear();
-            Farms.Clear();
+            AllFarmersMarkets.Clear();
+            AllFarms.Clear();
             foreach (Business b in data.result.result)
             {
-                if (b.business_type == "Farm") Farms.Add(b);
-                else if (b.business_type == "Farmers Market") FarmersMarkets.Add(b);
+                if (b.business_type == "Farm") AllFarms.Add(b);
+                else if (b.business_type == "Farmers Market") AllFarmersMarkets.Add(b);
             }
+            Farms.Clear();
+            FarmersMarkets.Clear();
+            foreach (Business b in AllFarms) { Farms.Add(b); }
+            foreach (Business b in AllFarmersMarkets) { FarmersMarkets.Add(b); }
             market_list.ItemsSource = FarmersMarkets;
             farm_list.ItemsSource = Farms;
         }
@@ -114,8 +127,12 @@ namespace InfiniteMeals.NewUI
 
         async void Open_Farm(Object sender, EventArgs e)
         {
-            _ = GetData(GetWeekDay(sender));
-            Application.Current.MainPage = new businessItems(datagrid, "Monday");
+            var sl = (StackLayout)sender;
+            var tgr = (TapGestureRecognizer)sl.GestureRecognizers[0];
+            var delivery = (DeliveriesModel)tgr.CommandParameter;
+            string weekday = delivery.delivery_dayofweek;
+            _ = GetData(weekday);
+            Application.Current.MainPage = new businessItems(datagrid, weekday);
         }
 
         private async Task GetData(string weekDay)
@@ -269,16 +286,26 @@ namespace InfiniteMeals.NewUI
                 if (imgbtn.Effects[0] is TintImageEffect tint)
                 {
                     imgbtn.Effects.RemoveAt(0);
-                    if (tint.TintColor.Equals(Color.White))
+                    if (tint.TintColor.Equals(Constants.PrimaryColor))
                     {
                         tint.TintColor = Constants.SecondaryColor;
                     }
                     else
                     {
-                        tint.TintColor = Color.White;
+                        tint.TintColor = Constants.PrimaryColor;
                     }
                     imgbtn.Effects.Insert(0, tint);
                 }
+            }
+        }
+
+        void Change_Border_Color(Object sender, EventArgs e)
+        {
+            var f = (Frame)sender;
+            if (f.BorderColor == Color.LightGray) {
+                f.BorderColor = Constants.SecondaryColor;
+            } else if (f.BorderColor == Constants.SecondaryColor) {
+                f.BorderColor = Color.LightGray;
             }
         }
 

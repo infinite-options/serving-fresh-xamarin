@@ -11,6 +11,7 @@ namespace InfiniteMeals.Models
     public class DeliveriesModel
     {
         public string delivery_date { get; set; }
+        public string delivery_shortname { get; set; }
         public string delivery_dayofweek { get; set; }
         public List<FarmsModel> farms { get; set; }
     }

@@ -120,12 +120,12 @@
             <Grid VerticalOptions="End" HeightRequest="40">
                 <ImageButton Grid.Row="0" Grid.Column="0" Source="calendarIcon.png" Clicked="DeliveryDaysClick" BackgroundColor="Transparent"></ImageButton>
                 <ImageButton Grid.Row="0" Grid.Column="1" Source="ordersIcon.png" Clicked="OrdersClick" BackgroundColor="Transparent"></ImageButton>
-                <ImageButton Grid.Row="0" Grid.Column="2" Source="informationIcon.png" Clicked="InfoClick" BackgroundColor="Transparent">
+                <ImageButton Grid.Row="0" Grid.Column="2" Source="informationIcon.png" Clicked="InfoClick" BackgroundColor="Transparent"></ImageButton>
+                <ImageButton Grid.Row="0" Grid.Column="3" Source="profileIcon.png" Clicked="ProfileClick" BackgroundColor="Transparent">
                     <ImageButton.Effects>
                         <infinitemeals:TintImageEffect TintColor="#FF8500"/>
                     </ImageButton.Effects>
                 </ImageButton>
-                <ImageButton Grid.Row="0" Grid.Column="3" Source="profileIcon.png" Clicked="ProfileClick" BackgroundColor="Transparent"></ImageButton>
             </Grid>
             <Grid HeightRequest="50">
                 <Label Grid.Row="0" Grid.Column="0" Text="Days" HorizontalOptions="Center" VerticalOptions="Start"></Label>
