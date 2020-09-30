@@ -99,6 +99,16 @@ namespace InfiniteMeals
                         longitude = $"{position.Longitude}";
                         Application.Current.Properties["latitude"] = latitude;
                         Application.Current.Properties["longitude"] = longitude;
+                        map.MapType = MapType.Street;
+                        var mapSpan = new MapSpan(position, 0.001, 0.001);
+
+                        Pin address = new Pin();
+                        address.Label = "Delivery Address";
+                        address.Type = PinType.SearchResult;
+                        address.Position = position;
+                        
+                        map.MoveToRegion(mapSpan);
+                        map.Pins.Add(address);
                         break;
                     }
                     else if (GetXMLElement(element, "DPVConfirmation").Equals("D"))
