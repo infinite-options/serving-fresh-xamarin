@@ -100,7 +100,11 @@
                 </Grid.ColumnDefinitions>
                 <ImageButton Grid.Row="0" Grid.Column="0" BackgroundColor="Transparent" Source="calendarIcon.png" Padding="6"></ImageButton>
                 <Label Grid.Row="1" Grid.Column="0" Text="Days" HorizontalTextAlignment="Center"></Label>
-                <ImageButton Grid.Row="0" Grid.Column="1" BackgroundColor="Transparent" Source="ordersIcon.png" Padding="6"></ImageButton>
+                <ImageButton Grid.Row="0" Grid.Column="1" BackgroundColor="Transparent" Source="ordersIcon.png" Padding="6">
+                    <ImageButton.Effects>
+                        <infinitemeals:TintImageEffect TintColor="#FF8500"/>
+                    </ImageButton.Effects>
+                </ImageButton>
                 <Label Grid.Row="1" Grid.Column="1" Text="Orders" HorizontalTextAlignment="Center"></Label>
                 <ImageButton Grid.Row="0" Grid.Column="2" BackgroundColor="Transparent" Source="informationIcon.png" Padding="6"></ImageButton>
                 <Label Grid.Row="1" Grid.Column="2" Text="Info" HorizontalTextAlignment="Center"></Label>
