@@ -44,6 +44,15 @@
                         <infinitemeals:TintImageEffect TintColor="White"/>
                     </ImageButton.Effects>
                 </ImageButton>
+                <Label
+                    Grid.Column="2"
+                    x:Name="CartTotal"
+                    StyleClass="secondary"
+                    FontAttributes="Bold"
+                    TranslationX="-14"
+                    TranslationY="-12"
+                    VerticalOptions="Center"
+                    HorizontalOptions="End"/>
             </Grid>
             <BoxView Grid.Row="2" HeightRequest="0.5" BackgroundColor="Black"></BoxView>
             <Grid

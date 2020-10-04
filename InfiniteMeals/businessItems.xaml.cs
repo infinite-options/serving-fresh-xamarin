@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 using InfiniteMeals.Models;
 using InfiniteMeals.NewUI;
 using Newtonsoft.Json;
@@ -12,8 +14,42 @@ namespace InfiniteMeals
 {
     public partial class businessItems : ContentPage
     {
+
+        public class Items
+        {
+            public string item_uid { get; set; }
+            public string created_at { get; set; }
+            public string itm_business_uid { get; set; }
+            public string item_name { get; set; }
+            public object item_status { get; set; }
+            public string item_type { get; set; }
+            public string item_desc { get; set; }
+            public object item_unit { get; set; }
+            public double item_price { get; set; }
+            public string item_sizes { get; set; }
+            public string favorite { get; set; }
+            public string item_photo { get; set; }
+            public object exp_date { get; set; }
+            public string business_delivery_hours { get; set; }
+        }
+
+        public class ServingFreshBusinessItems
+        {
+            public string message { get; set; }
+            public int code { get; set; }
+            public IList<Items> result { get; set; }
+            public string sql { get; set; }
+        }
+
+        public class GetItemPost
+        {
+            public IList<string> type { get; set; }
+            public IList<string> ids { get; set; }
+        }
+
         // THIS VARIABLE SHOULD BE THE COMPLETE SOLUTION THAT ZACK MAY USE
         public ObservableCollection<ItemsModel> datagrid = new ObservableCollection<ItemsModel>();
+        ServingFreshBusinessItems data = new ServingFreshBusinessItems();
 
         public class ItemPurchased
         {
@@ -25,13 +61,157 @@ namespace InfiniteMeals
         }
 
         public IDictionary<string, ItemPurchased> order = new Dictionary<string,ItemPurchased>();
+        public int totalCount = 0;
         //ServingFreshBusinessItems data = new ServingFreshBusinessItems();
 
-        public businessItems(ObservableCollection<ItemsModel> data, string day)
+        public businessItems(List<string> types, List<string> b_uids, string day)
         {
             InitializeComponent();
+            GetData(types, b_uids);
             titlePage.Text = day;
-            itemList.ItemsSource = data;
+            itemList.ItemsSource = datagrid;
+            CartTotal.Text = totalCount.ToString();
+        }
+
+        private async void GetData(List<string> types, List<string> b_uids)
+        {
+            GetItemPost post = new GetItemPost();
+            post.type = types;
+            post.ids = b_uids;
+
+            var client = new HttpClient();
+            var getItemsString = JsonConvert.SerializeObject(post);
+            var getItemsStringMessage = new StringContent(getItemsString, Encoding.UTF8, "application/json");
+            var request = new HttpRequestMessage();
+            request.Method = HttpMethod.Post;
+            request.Content = getItemsStringMessage;
+
+            var httpResponse = await client.PostAsync("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/getItems", getItemsStringMessage);
+            string responseStr = await httpResponse.Content.ReadAsStringAsync();
+            //ServingFreshBusinessItems data = JsonConvert.DeserializeObject<ServingFreshBusinessItems>(responseStr);
+            //var response = await client.GetAsync("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/getItems/" + weekDay);
+            //var d = await client.GetStringAsync("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/getItems/" + weekDay);
+            //Console.WriteLine("This is the data received for items = " + d);
+            //Console.WriteLine(response.IsSuccessStatusCode);
+            Console.WriteLine(responseStr);
+            if (responseStr != null)
+            {
+                //string result = response.Content.ReadAsStringAsync().Result;
+                data = JsonConvert.DeserializeObject<ServingFreshBusinessItems>(responseStr);
+
+                // COMMENT THE FOLLOWING LINE OF CODE AS (CHANGE 2)
+                // datagrid = new List<ItemModel>();
+                this.datagrid.Clear();
+                int n = data.result.Count;
+                int j = 0;
+                if (n == 0)
+                {
+                    this.datagrid.Add(new ItemsModel()
+                    {
+                        height = this.Width / 2 + 25,
+                        width = this.Width / 2 - 25,
+                        imageSourceLeft = "",
+                        quantityLeft = 0,
+                        itemNameLeft = "",
+                        itemPriceLeft = "$ " + "",
+                        isItemLeftVisiable = false,
+                        isItemLeftEnable = false,
+                        quantityL = 0,
+
+                        imageSourceRight = "",
+                        quantityRight = 0,
+                        itemNameRight = "",
+                        itemPriceRight = "$ " + "",
+                        isItemRightVisiable = false,
+                        isItemRightEnable = false,
+                        quantityR = 0
+                    });
+                }
+                if (isAmountItemsEven(n))
+                {
+                    for (int i = 0; i < n / 2; i++)
+                    {
+                        this.datagrid.Add(new ItemsModel()
+                        {
+                            height = this.Width / 2 + 25,
+                            width = this.Width / 2 - 25,
+                            imageSourceLeft = data.result[j].item_photo,
+                            item_uidLeft = data.result[j].item_uid,
+                            itm_business_uidLeft = data.result[j].itm_business_uid,
+                            quantityLeft = 0,
+                            itemNameLeft = data.result[j].item_name,
+                            itemPriceLeft = "$ " + data.result[j].item_price.ToString(),
+                            isItemLeftVisiable = true,
+                            isItemLeftEnable = true,
+                            quantityL = 0,
+
+                            imageSourceRight = data.result[j + 1].item_photo,
+                            item_uidRight = data.result[j + 1].item_uid,
+                            itm_business_uidRight = data.result[j + 1].itm_business_uid,
+                            quantityRight = 0,
+                            itemNameRight = data.result[j + 1].item_name,
+                            itemPriceRight = "$ " + data.result[j + 1].item_price.ToString(),
+                            isItemRightVisiable = true,
+                            isItemRightEnable = true,
+                            quantityR = 0
+                        });
+                        j = j + 2;
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < n / 2; i++)
+                    {
+                        this.datagrid.Add(new ItemsModel()
+                        {
+                            height = this.Width / 2 + 25,
+                            width = this.Width / 2 - 25,
+                            imageSourceLeft = data.result[j].item_photo,
+                            item_uidLeft = data.result[j].item_uid,
+                            itm_business_uidLeft = data.result[j].itm_business_uid,
+                            quantityLeft = 0,
+                            itemNameLeft = data.result[j].item_name,
+                            itemPriceLeft = "$ " + data.result[j].item_price.ToString(),
+                            isItemLeftVisiable = true,
+                            isItemLeftEnable = true,
+                            quantityL = 0,
+
+                            imageSourceRight = data.result[j + 1].item_photo,
+                            item_uidRight = data.result[j + 1].item_uid,
+                            itm_business_uidRight = data.result[j + 1].itm_business_uid,
+                            quantityRight = 0,
+                            itemNameRight = data.result[j + 1].item_name,
+                            itemPriceRight = "$ " + data.result[j + 1].item_price.ToString(),
+                            isItemRightVisiable = true,
+                            isItemRightEnable = true,
+                            quantityR = 0
+                        });
+                        j = j + 2;
+                    }
+                    this.datagrid.Add(new ItemsModel()
+                    {
+                        height = this.Width / 2 + 25,
+                        width = this.Width / 2 - 25,
+                        imageSourceLeft = data.result[j].item_photo,
+                        item_uidLeft = data.result[j].item_uid,
+                        itm_business_uidLeft = data.result[j].itm_business_uid,
+                        quantityLeft = 0,
+                        itemNameLeft = data.result[j].item_name,
+                        itemPriceLeft = "$ " + data.result[j].item_price.ToString(),
+                        isItemLeftVisiable = true,
+                        isItemLeftEnable = true,
+                        quantityL = 0,
+
+                        imageSourceRight = "",
+                        quantityRight = 0,
+                        itemNameRight = "",
+                        itemPriceRight = "$ " + "",
+                        isItemRightVisiable = false,
+                        isItemRightEnable = false,
+                        quantityR = 0
+                    });
+                }
+            }
         }
 
         public bool isAmountItemsEven(int num)
@@ -114,7 +294,9 @@ namespace InfiniteMeals
                 if (itemModelObject.quantityL != 0)
                 {
                     itemModelObject.quantityL -= 1;
-                    if(order != null)
+                    totalCount -= 1;
+                    CartTotal.Text = totalCount.ToString();
+                    if (order != null)
                     {
                         if (order.ContainsKey(itemModelObject.itemNameLeft))
                         {
@@ -144,6 +326,8 @@ namespace InfiniteMeals
             if (itemModelObject != null)
             {
                 itemModelObject.quantityL += 1;
+                totalCount += 1;
+                CartTotal.Text = totalCount.ToString();
                 if (order != null)
                 {
                     if (order.ContainsKey(itemModelObject.itemNameLeft))
@@ -175,6 +359,8 @@ namespace InfiniteMeals
                 if (itemModelObject.quantityR != 0)
                 {
                     itemModelObject.quantityR -= 1;
+                    totalCount -= 1;
+                    CartTotal.Text = totalCount.ToString();
                     if (order.ContainsKey(itemModelObject.itemNameRight))
                     {
                         var itemToUpdate = order[itemModelObject.itemNameRight];
@@ -202,6 +388,8 @@ namespace InfiniteMeals
             if (itemModelObject != null)
             {
                 itemModelObject.quantityR += 1;
+                totalCount += 1;
+                CartTotal.Text = totalCount.ToString();
                 if (order.ContainsKey(itemModelObject.itemNameRight))
                 {
                     var itemToUpdate = order[itemModelObject.itemNameRight];

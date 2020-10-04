@@ -82,6 +82,7 @@ namespace InfiniteMeals.NewUI
         public double delivery_fee;
         public double taxes;
         public double total;
+        public static int total_qty = 0;
         public CheckoutPage(IDictionary<string, ItemPurchased> order = null, string day = "")
         {
             InitializeComponent();
@@ -136,8 +137,10 @@ namespace InfiniteMeals.NewUI
         public void updateTotals()
         {
             subtotal = 0.0;
+            total_qty = 0;
             foreach (ItemObject item in cartItems)
             {
+                total_qty += item.qty;
                 subtotal += (item.qty * item.price);
             }
             SubTotal.Text = "$" + subtotal.ToString("N2");
@@ -149,6 +152,8 @@ namespace InfiniteMeals.NewUI
             Taxes.Text = "$" + taxes.ToString("N2");
             total = subtotal - discount + delivery_fee + taxes;
             GrandTotal.Text = "$" + total.ToString("N2");
+
+            CartTotal.Text = total_qty.ToString();
         }
         public string createItemJSON(ItemObject item)
         {
@@ -172,6 +177,12 @@ namespace InfiniteMeals.NewUI
         {
             var now = DateTime.Now;
             Console.WriteLine(now);
+            Console.WriteLine(now.Year.ToString("D4") + "-" +
+                              now.Month.ToString("D2") + "-" +
+                              now.Day.ToString("D2") + " " +
+                              now.Hour.ToString("D2") + ":" +
+                              now.Minute.ToString("D2") + ":" +
+                              now.Second.ToString("D2"));
         }
         public async void checkoutAsync(object sender, EventArgs e)
         {

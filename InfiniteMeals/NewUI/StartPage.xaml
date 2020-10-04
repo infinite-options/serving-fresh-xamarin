@@ -44,10 +44,19 @@
                         <infinitemeals:TintImageEffect TintColor="White"/>
                     </ImageButton.Effects>
                 </ImageButton>
+                <Label
+                    Grid.Column="2"
+                    x:Name="CartTotal"
+                    StyleClass="secondary"
+                    FontAttributes="Bold"
+                    TranslationX="-14"
+                    TranslationY="-12"
+                    VerticalOptions="Center"
+                    HorizontalOptions="End"/>
             </Grid>
             <BoxView Grid.Row="2" BackgroundColor="Black"></BoxView>
             <StackLayout Grid.Row="3" Padding="0">
-              <ScrollView Orientation="Horizontal" HeightRequest="130" BackgroundColor="#136D74">
+              <ScrollView Orientation="Horizontal" HeightRequest="120" MinimumHeightRequest="120" BackgroundColor="#136D74">
                   <StackLayout Orientation="Horizontal">
                       <CollectionView x:Name="delivery_list" ItemsLayout="HorizontalList">
                           <CollectionView.ItemTemplate>
@@ -86,13 +95,15 @@
                                   <CollectionView.ItemTemplate>
                                       <DataTemplate>
                                           <StackLayout Padding="10" WidthRequest="100">
-                                              <Frame Padding="0" CornerRadius="10" HasShadow="False" BorderColor="LightGray" HeightRequest="100" WidthRequest="100">
+                                              <Frame Padding="1" CornerRadius="10" HasShadow="False" BorderColor="{Binding border_color}" HeightRequest="100" WidthRequest="100">
+                                              <Frame Padding="1" CornerRadius="10" HasShadow="False" BorderColor="{Binding border_color}">
                                                   <Frame.GestureRecognizers>
-                                                      <TapGestureRecognizer Tapped="Change_Border_Color"/>
+                                                      <TapGestureRecognizer Tapped="Change_Border_Color" CommandParameter="{Binding .}"/>
                                                   </Frame.GestureRecognizers>
                                                   <Image Source="{Binding business_image}" HeightRequest="100"/>
                                               </Frame>
-                                              <Label Text="{Binding business_name}" StyleClass="black"/>
+                                              </Frame>
+                                              <Label Text="{Binding business_name}" StyleClass="black, center"/>
                                           </StackLayout>
                                       </DataTemplate>
                                   </CollectionView.ItemTemplate>
@@ -114,13 +125,15 @@
                                   <CollectionView.ItemTemplate>
                                       <DataTemplate>
                                           <StackLayout Padding="10" WidthRequest="100">
-                                              <Frame Padding="0" CornerRadius="10" HasShadow="False" BorderColor="LightGray" HeightRequest="100" WidthRequest="100">
+                                              <Frame Padding="1" CornerRadius="10" HasShadow="False" BorderColor="{Binding border_color}" HeightRequest="100" WidthRequest="100">
+                                              <Frame Padding="1" CornerRadius="10" HasShadow="False" BorderColor="{Binding border_color}">
                                                   <Frame.GestureRecognizers>
-                                                      <TapGestureRecognizer Tapped="Change_Border_Color"/>
+                                                      <TapGestureRecognizer Tapped="Change_Border_Color" CommandParameter="{Binding .}"/>
                                                   </Frame.GestureRecognizers>
                                                   <Image Source="{Binding business_image}" HeightRequest="100"/>
                                               </Frame>
-                                              <Label Text="{Binding business_name}" StyleClass="black"/>
+                                              </Frame>
+                                              <Label Text="{Binding business_name}" StyleClass="black, center"/>
                                           </StackLayout>
                                       </DataTemplate>
                                   </CollectionView.ItemTemplate>
@@ -138,7 +151,7 @@
                       </Label>
                       <FlexLayout JustifyContent="SpaceBetween" Padding="15">
                           <StackLayout>
-                              <ImageButton Source="OrangeIcon" Clicked="Change_Color" BackgroundColor="Transparent" HeightRequest="75">
+                              <ImageButton x:Name="FruitIcon" Source="OrangeIcon" Clicked="Change_Color" BackgroundColor="Transparent" HeightRequest="75">
                                   <ImageButton.Effects>
                                       <infinitemeals:TintImageEffect TintColor="#136D74"/>
                                   </ImageButton.Effects>
@@ -146,7 +159,7 @@
                               <Label Text="Fruits" StyleClass="black, center"/>
                           </StackLayout>
                           <StackLayout>
-                              <ImageButton Source="VegIcon" Clicked="Change_Color"  BackgroundColor="Transparent" HeightRequest="75">
+                              <ImageButton x:Name="VegetableIcon" Source="VegIcon" Clicked="Change_Color" BackgroundColor="Transparent" HeightRequest="75">
                                   <ImageButton.Effects>
                                       <infinitemeals:TintImageEffect TintColor="#136D74"/>
                                   </ImageButton.Effects>
@@ -154,7 +167,7 @@
                               <Label Text="Vegetables" StyleClass="black, center"/>
                           </StackLayout>
                           <StackLayout>
-                              <ImageButton Source="DonutIcon" Clicked="Change_Color" BackgroundColor="Transparent" HeightRequest="75">
+                              <ImageButton x:Name="DessertIcon" Source="DonutIcon" Clicked="Change_Color" BackgroundColor="Transparent" HeightRequest="75">
                                   <ImageButton.Effects>
                                       <infinitemeals:TintImageEffect TintColor="#136D74"/>
                                   </ImageButton.Effects>
@@ -162,7 +175,7 @@
                               <Label Text="Desserts" StyleClass="black, center"/>
                           </StackLayout>
                           <StackLayout>
-                              <ImageButton Source="BreadIcon" Clicked="Change_Color" BackgroundColor="Transparent" HeightRequest="75">
+                              <ImageButton x:Name="OtherIcon" Source="BreadIcon" Clicked="Change_Color" BackgroundColor="Transparent" HeightRequest="75">
                                   <ImageButton.Effects>
                                       <infinitemeals:TintImageEffect TintColor="#136D74"/>
                                   </ImageButton.Effects>

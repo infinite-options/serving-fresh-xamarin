@@ -1,77 +1,82 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Xamarin.Forms;
 
 using InfiniteMeals.Models;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using Newtonsoft.Json;
-using System.Threading.Tasks;
 
 namespace InfiniteMeals.NewUI
 {
     public partial class StartPage : ContentPage
     {
-
-        public class Items
+        class BusinessCard
         {
-            public string item_uid { get; set; }
-            public string created_at { get; set; }
-            public string itm_business_uid { get; set; }
-            public string item_name { get; set; }
-            public object item_status { get; set; }
+            public string business_image { get; set; }
+            public string business_name { get; set; }
             public string item_type { get; set; }
-            public string item_desc { get; set; }
-            public object item_unit { get; set; }
-            public double item_price { get; set; }
-            public string item_sizes { get; set; }
-            public string favorite { get; set; }
-            public string item_photo { get; set; }
-            public object exp_date { get; set; }
-            public string business_delivery_hours { get; set; }
+            public string business_uid { get; set; }
+            public string business_type { get; set; }
+            public Color border_color { get; set; }
         }
-
-        public class ServingFreshBusinessItems
+        BusinessCard unselectedBusiness(Business b)
         {
-            public string message { get; set; }
-            public int code { get; set; }
-            public IList<Items> result { get; set; }
-            public string sql { get; set; }
+            return new BusinessCard()
+            {
+                business_image = b.business_image,
+                business_name = b.business_name,
+                item_type = b.item_type,
+                business_uid = b.business_uid,
+                business_type = b.business_type,
+                border_color = Color.LightGray
+            };
         }
-
-        public class GetItemPost
+        BusinessCard selectedBusiness(Business b)
         {
-            public IList<string> type { get; set; }
-            public IList<string> ids { get; set; }
+            return new BusinessCard()
+            {
+                business_image = b.business_image,
+                business_name = b.business_name,
+                item_type = b.item_type,
+                business_uid = b.business_uid,
+                business_type = b.business_type,
+                border_color = Constants.SecondaryColor
+            };
         }
 
         List<DeliveriesModel> AllDeliveries = new List<DeliveriesModel>();
         List<Business> AllFarms = new List<Business>();
         List<Business> AllFarmersMarkets = new List<Business>();
         ObservableCollection<DeliveriesModel> Deliveries = new ObservableCollection<DeliveriesModel>();
-        ObservableCollection<Business> Farms = new ObservableCollection<Business>();
-        ObservableCollection<Business> FarmersMarkets = new ObservableCollection<Business>();
-        ObservableCollection<ItemsModel> datagrid = new ObservableCollection<ItemsModel>();
-        ServingFreshBusinessItems data = new ServingFreshBusinessItems();
+        ObservableCollection<BusinessCard> Farms = new ObservableCollection<BusinessCard>();
+        ObservableCollection<BusinessCard> FarmersMarkets = new ObservableCollection<BusinessCard>();
+        List<string> types = new List<string>();
+        List<string> b_uids = new List<string>();
+        string selected_market_id = "";
+        string selected_farm_id = "";
 
         public StartPage()
         {
             InitializeComponent();
             Init();
-            GetDays();
             GetBusinesses();
+            GetDays();
+            CartTotal.Text = CheckoutPage.total_qty.ToString();
         }
 
         void Init()
         {
             BackgroundColor = Constants.PrimaryColor;
+            delivery_list.ItemsSource = Deliveries;
+            market_list.ItemsSource = FarmersMarkets;
+            farm_list.ItemsSource = Farms;
         }
 
         void GetDays()
         {
             AllDeliveries.Clear();
-            var date = DateTime.Today;
+            var date = DateTime.Now.AddHours(7);
             var monthNames = new List<string>();
             monthNames.Add("");
             monthNames.Add("Jan");
@@ -97,247 +102,291 @@ namespace InfiniteMeals.NewUI
                 date = date.AddDays(1);
             }
             Deliveries.Clear();
+            foreach (DeliveriesModel dm in AllDeliveries) Deliveries.Add(dm);
+        }
+
+        void ResetDays()
+        {
+            List<string> business_uids = new List<string>();
+            if (selected_farm_id != "")
+            {
+                business_uids.Add(selected_farm_id);
+            }
+            else
+            {
+                foreach (BusinessCard bc in Farms)
+                {
+                    business_uids.Add(bc.business_uid);
+                }
+            }
+            Deliveries.Clear();
             foreach (DeliveriesModel dm in AllDeliveries)
             {
-                Deliveries.Add(dm);
+                if (anyBusinessesOpen(business_uids, dm.delivery_dayofweek))
+                    Deliveries.Add(dm);
             }
-            delivery_list.ItemsSource = Deliveries;
+        }
+
+        void ResetFarms()
+        {
+            if (selected_farm_id != "") return;
+            Farms.Clear();
+            if (selected_market_id != "")
+            {
+                foreach (Business b in AllFarms)
+                {
+                    if (b.business_association != null)
+                    {
+                        var association = JsonConvert.DeserializeObject<List<string>>(b.business_association);
+                        if (association.Contains(selected_market_id))
+                        {
+                            bool matchesItemType = true;
+                            foreach (string type in types)
+                            {
+                                if (!b.item_type.Contains(type)) matchesItemType = false;
+                            }
+                            if (matchesItemType) Farms.Add(unselectedBusiness(b));
+                        }
+                    }
+                }
+            }
+            else
+            {
+                foreach (Business b in AllFarms)
+                {
+                    bool matchesItemType = true;
+                    foreach (string type in types)
+                    {
+                        if (!b.item_type.Contains(type)) matchesItemType = false;
+                    }
+                    if (matchesItemType) Farms.Add(unselectedBusiness(b));
+                }
+            }
+        }
+
+        void ResetFarmersMarkets()
+        {
+            if (selected_market_id != "") return;
+            FarmersMarkets.Clear();
+            if (selected_farm_id != "")
+            {
+                foreach (Business b in AllFarms)
+                {
+                    if (b.business_uid == selected_farm_id)
+                    {
+                        foreach (Business market in AllFarmersMarkets)
+                        {
+                            if (b.business_association != null &&
+                                b.business_association.Contains(market.business_uid))
+                            {
+                                FarmersMarkets.Add(unselectedBusiness(market));
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                foreach (Business b in AllFarmersMarkets)
+                {
+                    FarmersMarkets.Add(unselectedBusiness(b));
+                }
+            }
         }
 
         async void GetBusinesses()
         {
+            string userLat = (string)Application.Current.Properties["latitude"];
+            string userLong = (string)Application.Current.Properties["longitude"];
+            if (userLat == "0" && userLong == "0")
+            {
+                userLong = "-121.924799";
+                userLat = "37.364027";
+            }
             // post and champ market.
             var client = new HttpClient();
-            var response = await client.GetAsync("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/businesses");
+            var response = await client.GetAsync("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/Categorical_Options/"+userLong+","+userLat);
             string result = response.Content.ReadAsStringAsync().Result;
             var data = JsonConvert.DeserializeObject<ServingFreshBusiness>(result);
             AllFarmersMarkets.Clear();
             AllFarms.Clear();
-            foreach (Business b in data.result.result)
+            if (data.result != null)
             {
-                if (b.business_type == "Farm") AllFarms.Add(b);
-                else if (b.business_type == "Farmers Market") AllFarmersMarkets.Add(b);
+                foreach (Business b in data.result)
+                {
+                    if (b.business_type == "Farm") AllFarms.Add(b);
+                    else if (b.business_type == "Farmers Market") AllFarmersMarkets.Add(b);
+                }
             }
-            Farms.Clear();
-            FarmersMarkets.Clear();
-            foreach (Business b in AllFarms) { Farms.Add(b); }
-            foreach (Business b in AllFarmersMarkets) { FarmersMarkets.Add(b); }
-            market_list.ItemsSource = FarmersMarkets;
-            farm_list.ItemsSource = Farms;
+            ResetFarms();
+            ResetFarmersMarkets();
+            ResetDays();
         }
 
-        async void Open_Checkout(Object sender, EventArgs e)
+        bool isBusinessOpen(string business_uid, string weekday)
+        {
+            foreach (Business b in AllFarms)
+            {
+                if (b.business_uid == business_uid)
+                {
+                    var hours = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(b.business_delivery_hours);
+                    return hours[weekday][0] != hours[weekday][1];
+                }
+            }
+            return false;
+        }
+        bool anyBusinessesOpen(List<string> business_uids, string weekday)
+        {
+            bool anyOpen = false;
+            foreach (string s in business_uids)
+            {
+                if (isBusinessOpen(s, weekday))
+                {
+                    anyOpen = true;
+                }
+            }
+            return anyOpen;
+        }
+
+        void Open_Checkout(Object sender, EventArgs e)
         {
 
             Application.Current.MainPage = new NewUI.CheckoutPage(null);
         }
 
-        async void Open_Farm(Object sender, EventArgs e)
+        void Open_Farm(Object sender, EventArgs e)
         {
-            Console.WriteLine("I am here");
             var sl = (StackLayout)sender;
             var tgr = (TapGestureRecognizer)sl.GestureRecognizers[0];
-            var delivery = (DeliveriesModel)tgr.CommandParameter;
-            string weekday = delivery.delivery_dayofweek;
-            _ = GetData(weekday);
-            Application.Current.MainPage = new businessItems(datagrid, weekday);
-        }
-
-        private async Task GetData(string weekDay)
-        {
-            // THE "200-000004" WOULD GET REPLACE BY THE "weekDay" STRING
-
-            List<string> types = new List<string>();
-            types.Add("fruit");
-            List<string> b_uids = new List<string>();
-            b_uids.Add("200-000003");
-            b_uids.Add("200-000004");
-            b_uids.Add("200-000005");
-
-            GetItemPost post = new GetItemPost();
-            post.type = types;
-            post.ids = b_uids;
-
-            var client = new HttpClient();
-            var getItemsString = JsonConvert.SerializeObject(post);
-            var getItemsStringMessage = new StringContent(getItemsString, Encoding.UTF8, "application/json");
-            var request = new HttpRequestMessage();
-            request.Method = HttpMethod.Post;
-            request.Content = getItemsStringMessage;
-
-            var httpResponse = await client.PostAsync("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/getItems", getItemsStringMessage);
-            string responseStr = await httpResponse.Content.ReadAsStringAsync();
-            //ServingFreshBusinessItems data = JsonConvert.DeserializeObject<ServingFreshBusinessItems>(responseStr);
-            //var response = await client.GetAsync("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/getItems/" + weekDay);
-            //var d = await client.GetStringAsync("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/getItems/" + weekDay);
-            //Console.WriteLine("This is the data received for items = " + d);
-            //Console.WriteLine(response.IsSuccessStatusCode);
-            Console.WriteLine(responseStr);
-            if (responseStr != null)
+            var dm = (DeliveriesModel)tgr.CommandParameter;
+            string weekday = dm.delivery_dayofweek;
+            if (types.Count == 0)
             {
-                //string result = response.Content.ReadAsStringAsync().Result;
-                data = JsonConvert.DeserializeObject<ServingFreshBusinessItems>(responseStr);
-
-                // COMMENT THE FOLLOWING LINE OF CODE AS (CHANGE 2)
-                // datagrid = new List<ItemModel>();
-                this.datagrid.Clear();
-                int n = data.result.Count;
-                int j = 0;
-                if (n == 0)
+                types.Add("fruit");
+                types.Add("vegetable");
+                types.Add("dessert");
+                types.Add("other");
+            }
+            b_uids.Clear();
+            if (selected_farm_id != "") b_uids.Add(selected_farm_id);
+            else
+            {
+                foreach (BusinessCard bc in Farms)
                 {
-                    this.datagrid.Add(new ItemsModel()
-                    {
-                        height = this.Width / 2 + 25,
-                        width = this.Width / 2 - 25,
-                        imageSourceLeft = "",
-                        quantityLeft = 0,
-                        itemNameLeft = "",
-                        itemPriceLeft = "$ " + "",
-                        isItemLeftVisiable = false,
-                        isItemLeftEnable = false,
-                        quantityL = 0,
-
-                        imageSourceRight = "",
-                        quantityRight = 0,
-                        itemNameRight = "",
-                        itemPriceRight = "$ " + "",
-                        isItemRightVisiable = false,
-                        isItemRightEnable = false,
-                        quantityR = 0
-                    });
-                }
-                if (isAmountItemsEven(n))
-                {
-                    for (int i = 0; i < n / 2; i++)
-                    {
-                        this.datagrid.Add(new ItemsModel()
-                        {
-                            height = this.Width / 2 + 25,
-                            width = this.Width / 2 - 25,
-                            imageSourceLeft = data.result[j].item_photo,
-                            item_uidLeft = data.result[j].item_uid,
-                            itm_business_uidLeft = data.result[j].itm_business_uid,
-                            quantityLeft = 0,
-                            itemNameLeft = data.result[j].item_name,
-                            itemPriceLeft = "$ " + data.result[j].item_price.ToString(),
-                            isItemLeftVisiable = true,
-                            isItemLeftEnable = true,
-                            quantityL = 0,
-
-                            imageSourceRight = data.result[j + 1].item_photo,
-                            item_uidRight = data.result[j + 1].item_uid,
-                            itm_business_uidRight = data.result[j + 1].itm_business_uid,
-                            quantityRight = 0,
-                            itemNameRight = data.result[j + 1].item_name,
-                            itemPriceRight = "$ " + data.result[j + 1].item_price.ToString(),
-                            isItemRightVisiable = true,
-                            isItemRightEnable = true,
-                            quantityR = 0
-                        });
-                        j = j + 2;
-                    }
-                }
-                else
-                {
-                    for (int i = 0; i < n / 2; i++)
-                    {
-                        this.datagrid.Add(new ItemsModel()
-                        {
-                            height = this.Width / 2 + 25,
-                            width = this.Width / 2 - 25,
-                            imageSourceLeft = data.result[j].item_photo,
-                            item_uidLeft = data.result[j].item_uid,
-                            itm_business_uidLeft = data.result[j].itm_business_uid,
-                            quantityLeft = 0,
-                            itemNameLeft = data.result[j].item_name,
-                            itemPriceLeft = "$ " + data.result[j].item_price.ToString(),
-                            isItemLeftVisiable = true,
-                            isItemLeftEnable = true,
-                            quantityL = 0,
-
-                            imageSourceRight = data.result[j + 1].item_photo,
-                            item_uidRight = data.result[j + 1].item_uid,
-                            itm_business_uidRight = data.result[j + 1].itm_business_uid,
-                            quantityRight = 0,
-                            itemNameRight = data.result[j + 1].item_name,
-                            itemPriceRight = "$ " + data.result[j + 1].item_price.ToString(),
-                            isItemRightVisiable = true,
-                            isItemRightEnable = true,
-                            quantityR = 0
-                        });
-                        j = j + 2;
-                    }
-                    this.datagrid.Add(new ItemsModel()
-                    {
-                        height = this.Width / 2 + 25,
-                        width = this.Width / 2 - 25,
-                        imageSourceLeft = data.result[j].item_photo,
-                        item_uidLeft = data.result[j].item_uid,
-                        itm_business_uidLeft = data.result[j].itm_business_uid,
-                        quantityLeft = 0,
-                        itemNameLeft = data.result[j].item_name,
-                        itemPriceLeft = "$ " + data.result[j].item_price.ToString(),
-                        isItemLeftVisiable = true,
-                        isItemLeftEnable = true,
-                        quantityL = 0,
-
-                        imageSourceRight = "",
-                        quantityRight = 0,
-                        itemNameRight = "",
-                        itemPriceRight = "$ " + "",
-                        isItemRightVisiable = false,
-                        isItemRightEnable = false,
-                        quantityR = 0
-                    });
+                    if (isBusinessOpen(bc.business_uid, weekday)) b_uids.Add(bc.business_uid);
                 }
             }
-        }
-
-        public bool isAmountItemsEven(int num)
-        {
-            bool result = false;
-            if (num % 2 == 0) { result = true; }
-            return result;
-        }
-
-        string GetWeekDay(Object sender)
-        {
-            var myStack = (StackLayout)sender;
-            var myFrame = (Frame)myStack.Children[0];
-            var myLabel = (Label)myFrame.Content;
-            string day = myLabel.Text;
-            return day;
+            Application.Current.MainPage = new businessItems(types, b_uids, weekday);
         }
 
         void Change_Color(Object sender, EventArgs e)
         {
-            if (sender is ImageButton imgbtn)
+            var imgbtn = (ImageButton)sender;
+            var sl = (StackLayout)imgbtn.Parent;
+            var l = (Label)sl.Children[1];
+            var type = "";
+            if (l.Text == "Fruits") type = "fruit";
+            else if (l.Text == "Vegetables") type = "vegetable";
+            else if (l.Text == "Desserts") type = "dessert";
+            else if (l.Text == "Other") type = "other";
+            var tint = (TintImageEffect)imgbtn.Effects[0];
+            if (tint.TintColor == Constants.PrimaryColor)
             {
-
-                if (imgbtn.Effects[0] is TintImageEffect tint)
-                {
-                    imgbtn.Effects.RemoveAt(0);
-                    if (tint.TintColor.Equals(Constants.PrimaryColor))
-                    {
-                        tint.TintColor = Constants.SecondaryColor;
-                    }
-                    else
-                    {
-                        tint.TintColor = Constants.PrimaryColor;
-                    }
-                    imgbtn.Effects.Insert(0, tint);
-                }
+                tint.TintColor = Constants.SecondaryColor;
+                types.Add(type);
             }
+            else if (tint.TintColor == Constants.SecondaryColor)
+            {
+                tint.TintColor = Constants.PrimaryColor;
+                types.Remove(type);
+            }
+            imgbtn.Effects.Clear();
+            imgbtn.Effects.Add(tint);
+            ResetFarmersMarkets();
+            ResetFarms();
+            ResetDays();
+        }
+
+        void Update_Item_Types()
+        {
+            bool hasFruit = false;
+            bool hasVegetable = false;
+            bool hasDessert = false;
+            bool hasOther = false;
+            foreach (BusinessCard bc in Farms) {
+                if (!hasFruit && bc.item_type.Contains("fruit")) hasFruit = true;
+                if (!hasVegetable && bc.item_type.Contains("vegetable")) hasVegetable = true;
+                if (!hasDessert && bc.item_type.Contains("dessert")) hasDessert = true;
+                if (!hasOther && bc.item_type.Contains("other")) hasOther = true;
+            }
+            var tint = (TintImageEffect)FruitIcon.Effects[0];
+            if (hasFruit) tint.TintColor = types.Contains("fruit") ? Constants.SecondaryColor : Constants.PrimaryColor;
+            else tint.TintColor = Color.LightGray;
+            FruitIcon.Effects.Clear();
+            FruitIcon.Effects.Add(tint);
+            tint = (TintImageEffect)VegetableIcon.Effects[0];
+            if (hasVegetable) tint.TintColor = types.Contains("vegetable") ? Constants.SecondaryColor : Constants.PrimaryColor;
+            else tint.TintColor = Color.LightGray;
+            VegetableIcon.Effects.Clear();
+            VegetableIcon.Effects.Add(tint);
+            tint = (TintImageEffect)DessertIcon.Effects[0];
+            if (hasDessert) tint.TintColor = types.Contains("dessert") ? Constants.SecondaryColor : Constants.PrimaryColor;
+            else tint.TintColor = Color.LightGray;
+            DessertIcon.Effects.Clear();
+            DessertIcon.Effects.Add(tint);
+            tint = (TintImageEffect)OtherIcon.Effects[0];
+            if (hasOther) tint.TintColor = types.Contains("other") ? Constants.SecondaryColor : Constants.PrimaryColor;
+            else tint.TintColor = Color.LightGray;
+            OtherIcon.Effects.Clear();
+            OtherIcon.Effects.Add(tint);
         }
 
         void Change_Border_Color(Object sender, EventArgs e)
         {
             var f = (Frame)sender;
-            if (f.BorderColor == Color.LightGray) {
-                f.BorderColor = Constants.SecondaryColor;
-            } else if (f.BorderColor == Constants.SecondaryColor) {
-                f.BorderColor = Color.LightGray;
+            var tgr = (TapGestureRecognizer)f.GestureRecognizers[0];
+            var bc = (BusinessCard)tgr.CommandParameter;
+            if (bc.border_color == Color.LightGray)
+            {
+                if (bc.business_type == "Farmers Market")
+                {
+                    selected_market_id = bc.business_uid;
+                    FarmersMarkets.Clear();
+                    foreach (Business b in AllFarmersMarkets)
+                    {
+                        if (b.business_uid == bc.business_uid)
+                        {
+                            FarmersMarkets.Add(selectedBusiness(b));
+                        }
+                    }
+                    ResetFarms();
+                }
+                else
+                {
+                    selected_farm_id = bc.business_uid;
+                    Farms.Clear();
+                    foreach (Business b in AllFarms)
+                    {
+                        if (b.business_uid == bc.business_uid) Farms.Add(selectedBusiness(b));
+                    }
+                    ResetFarmersMarkets();
+                }
             }
+            else
+            {
+                if (bc.business_type == "Farmers Market")
+                {
+                    selected_market_id = "";
+                }
+                else
+                {
+                    selected_farm_id = "";
+                }
+                ResetFarms();
+                ResetFarmersMarkets();
+            }
+            ResetDays();
+            Update_Item_Types();
         }
 
         void CheckOutClickDeliveryDaysPage(System.Object sender, System.EventArgs e)

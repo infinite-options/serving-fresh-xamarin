@@ -8,6 +8,7 @@ namespace InfiniteMeals.Models
     {
         public string business_uid { get; set; }
         public DateTime? business_created_at { get; set; }
+        public string business_association { get; set; }
         public string business_name { get; set; }
         public string business_type { get; set; }
         public string business_desc { get; set; }
@@ -37,20 +38,15 @@ namespace InfiniteMeals.Models
         public int? reusable { get; set; }
         public string business_image { get; set; }
         public string business_password { get; set; }
+        public string item_type { get; set; }
+        public string itm_business_uid { get; set; }
     }
 
-        public class Result
-        {
-            public string message { get; set; }
-            public int code { get; set; }
-            public IList<Business> result { get; set; }
-            public string sql { get; set; }
-        }
-
-        public class ServingFreshBusiness
-        {
-            public string message { get; set; }
-            public Result result { get; set; }
-        }
+    public class ServingFreshBusiness
+    {
+        public string message { get; set; }
+        public int code { get; set; }
+        public IList<Business> result { get; set; }
+    }
     
 }
