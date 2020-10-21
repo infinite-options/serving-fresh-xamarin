@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -41,12 +41,6 @@
     <ProjectReference Include="..\InfiniteMeals.iOS\InfiniteMeals.iOS.csproj">
       <Project>{DD6E2509-A8E4-4C1B-B14F-AA35BFA66411}</Project>
       <Name>InfiniteMeals.iOS</Name>
-      <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\InfiniteMeals.Android\InfiniteMeals.Android.csproj">
-      <Project>{69727BA4-AE22-4D90-8110-410E8487C39D}</Project>
-      <Name>InfiniteMeals.Android</Name>
       <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
       <Private>False</Private>
     </ProjectReference>

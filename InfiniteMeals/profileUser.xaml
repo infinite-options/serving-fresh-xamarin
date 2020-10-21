@@ -39,6 +39,8 @@
                 ColumnSpacing="0.5"
                 BackgroundColor="Black">
                 <Button
+                    x:Name="DeliveryInfoButton"
+                    Clicked="DeliveryInfoButton_Clicked"
                     Grid.Row="0"
                     Grid.Column="0"
                     Text="Delivery Info"
@@ -48,12 +50,14 @@
                     CornerRadius="0">
                 </Button>
                 <Button
+                    x:Name="RewardsButton"
                     Grid.Row="0"
                     Grid.Column="1"
                     Text="Rewards"
                     TextColor="White"
                     FontAttributes="Bold"
                     BackgroundColor="#136D74"
+                    Clicked="RewardsClicked"
                     CornerRadius="0">
                 </Button>
             </Grid>
@@ -74,8 +78,8 @@
                     Placeholder="Confirm Password">
                 </Entry>
                 <Grid>
-                    <Entry Placeholder="Push Notification" IsReadOnly="True"></Entry>
-                    <Switch HorizontalOptions="End" Grid.Column="1" IsToggled="True"></Switch>
+                    <Entry x:Name="pushNotificationEntry" Placeholder="Push Notification" IsReadOnly="True"></Entry>
+                    <Switch x:Name="pushNotificationSwitch" HorizontalOptions="End" Grid.Column="1" IsToggled="True"></Switch>
                 </Grid>
                 <Entry
                     x:Name="userFirstName"
@@ -114,13 +118,14 @@
                         Placeholder="Zipcode">
                     </Entry>
                 </Grid>
-                <Frame HasShadow="False" BackgroundColor="Gray" Padding="0" HeightRequest="200">
+                <Frame x:Name="mapFrame" HasShadow="False" BackgroundColor="Gray" Padding="0" HeightRequest="200">
                     <maps:Map
                         x:Name="map"
                         IsVisible="true">
                     </maps:Map>
                 </Frame>
                 <Button
+                    x:Name="saveChangesButton"
                     Text="Save Changes"
                     TextColor="#FF8500"
                     CornerRadius="5"
@@ -130,8 +135,38 @@
                     BackgroundColor="White"
                     Clicked="SaveChangesClick">
                 </Button>
+                <Grid x:Name="reward1Grid" HeightRequest="75" Grid.Row="2">
+                    <Label
+                        x:Name="reward1"
+                        Text="Reward1"
+                        VerticalTextAlignment="Center"
+                        HorizontalTextAlignment="Center"
+                        FontSize="32"
+                        IsVisible="false"
+                        Grid.Column="1">
+                    </Label>
+                    <Image 
+                        x:Name="reward1PNG"
+                        Grid.Column="0">
+                        
+                    </Image>
+                </Grid>
+                        <Label
+                    x:Name="reward2"
+                    Text="Reward2"
+                    HeightRequest="75"
+                    IsVisible="false"
+                    Grid.Row="3">
+                </Label>
+                <Label
+                    x:Name="reward3"
+                    Text="Reward3"
+                    HeightRequest="75"
+                    IsVisible="false"
+                    Grid.Row="4">
+                </Label>
             </StackLayout>
-        </ScrollView>
+            </ScrollView>
             </StackLayout>
             <Grid Grid.Row="5" BackgroundColor="WhiteSmoke">
                 <Grid.RowDefinitions>
