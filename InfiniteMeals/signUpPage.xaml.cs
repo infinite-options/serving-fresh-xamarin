@@ -134,6 +134,10 @@ namespace InfiniteMeals
                     Application.Current.Properties["userAddressUnit"] = "";
                 }
             }
+            else
+            {
+                Application.Current.Properties["userAddressUnit"] = "";
+            }
             if (userZipcode.Text != null)
             {
                 userZipcode.Text = userZipcode.Text.Trim();

@@ -100,7 +100,7 @@
 
                         </Button>
                         <Button
-                            Text="Enter email and password Sign Up"
+                            Text="Enter email and password to Sign Up"
                             TextColor="White"
                             FontAttributes="Bold"
                             CornerRadius="5"

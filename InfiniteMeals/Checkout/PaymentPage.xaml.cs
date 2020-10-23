@@ -10,10 +10,11 @@ using System.Text;
 
 namespace InfiniteMeals.Checkout
 {
-    public class message
+    public class StripeResponse
     {
         public string client_secret { get; set; }
         public string id { get; set; }
+        public int code { get; set; }
     }
 
     public partial class PaymentPage : ContentPage
@@ -28,24 +29,45 @@ namespace InfiniteMeals.Checkout
         async void placeOrder(object sender, System.EventArgs e)
         {
             var request = new HttpRequestMessage();
-            request.RequestUri = new Uri("http://10.0.2.2:5000/api/v1/payment");
+            request.RequestUri = new Uri("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/Stripe_Intent");
 
-            request.Method = HttpMethod.Get;
+            request.Method = HttpMethod.Post;
             var client = new HttpClient();
+
+            // 1. SEND PARVA THE AMOUNT
+            // 2. GET A RESPONSE WITH CLIENT SECRET & ID
+            // 3. USE THIS CLIENT SECRET AND ID IN SERVICE
+            // 4. RECEIVE CONFIMATION FROM STRIPE
+
+
             MultipartFormDataContent requestContent = new MultipartFormDataContent();
-            StringContent amountContent = new StringContent("9923", Encoding.UTF8);
+            StringContent amountContent = new StringContent("10", Encoding.UTF8);
             requestContent.Add(amountContent, "amount");
             request.Content = requestContent;
 
-
             HttpResponseMessage response = await client.SendAsync(request);
-            StripeConfiguration.ApiKey = "pk_test_j5YImiDFgybfafp8HuEkn6Ou00JtFKI0s9";
+
+
+            Console.WriteLine("Response From Parva: " + response.Content.ReadAsStringAsync());
+            // string data = await response.Content.ReadAsStringAsync();
+           
+
+
+            // NEW KEY: pk_test_6RSoSd9tJgB2fN2hGkEDHCXp00MQdrK3Tw
+            // SECRET KEY: sk_test_fe99fW2owhFEGTACgW3qaykd006gHUwj1j
+            // OLD KEY: "pk_test_j5YImiDFgybfafp8HuEkn6Ou00JtFKI0s9"
+
+            StripeConfiguration.ApiKey = "pk_test_6RSoSd9tJgB2fN2hGkEDHCXp00MQdrK3Tw";
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 HttpContent content = response.Content;
                 var responseString = await content.ReadAsStringAsync();
-                var messageObj = JsonConvert.DeserializeObject<message>(responseString);
+                var messageObj = JsonConvert.DeserializeObject<StripeResponse>(responseString);
+
+                Console.WriteLine("Client: " + messageObj.client_secret);
+                Console.WriteLine("ID: " + messageObj.id);
+
                 var client_secret = messageObj.client_secret;
 
                 var service = new PaymentIntentService();
@@ -53,18 +75,20 @@ namespace InfiniteMeals.Checkout
                 {
                     ClientSecret = client_secret
                 };
-                PaymentIntent paymentIntent = service.Get(messageObj.id,getOptions);
 
+                PaymentIntent paymentIntent = service.Get(messageObj.id, getOptions);
+                paymentIntent.Description = "Serving Fresh Order";
                 //var creditCardOptions = new CreditCardOptions
                 //{
                 //    Number = "4000 0000 0000 9995",
                 //    Cvc = "333",
                 //    ExpMonth = 02,
                 //    ExpYear = 24,
-                    
+
                 //};
 
-                var paymentMethodCardCreateOption = new PaymentMethodCardCreateOptions {
+                var paymentMethodCardCreateOption = new PaymentMethodCardCreateOptions
+                {
                     //Insufficiant fund
                     //Number = "4000000000009995",
                     //Payment Succeed
@@ -81,20 +105,23 @@ namespace InfiniteMeals.Checkout
                 //{
                 //    Card = paymentMethodCardCreateOption,
                 //    Type = "card",
-                    
+
                 //};
                 List<String> methodTypes = new List<String>();
-                methodTypes.Add("pm_card_visa");
-                var confirmOptions = new PaymentIntentConfirmOptions
-                {
-                    //PaymentMethod = "pm_card_visa",
-                    PaymentMethodData = paymentMethodDataOption,
-                    
-                    ClientSecret = client_secret,
-                };
+                methodTypes.Add("card");
+                var confirmOptions = new PaymentIntentConfirmOptions();
+                //{
+                //    //PaymentMethod = "pm_card_visa",
+                //    PaymentMethodData = paymentMethodDataOption,
+
+                //    ClientSecret = client_secret,
+                //};
+                confirmOptions.PaymentMethod = "pm_card_visa";
+                confirmOptions.ClientSecret = messageObj.client_secret;
                 try
                 {
                     var status = service.Confirm(messageObj.id, confirmOptions);
+                    Console.WriteLine("This is the status: " + status);
                     if (status.Status == "succeeded")
                     {
                         await DisplayAlert("Request Sent!", "Our customer service will reach out to you in 3-5 bussiness days", "OK");
@@ -104,13 +131,10 @@ namespace InfiniteMeals.Checkout
                         await DisplayAlert("Failed", "Please try another card", "OK");
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    await DisplayAlert("Failed", "Please try another card", "OK");
+                    await DisplayAlert("Catch", ex.Message, "OK");
                 }
-
-
-                //Console.WriteLine(status.Status);
             }
         }
     }

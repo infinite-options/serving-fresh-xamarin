@@ -81,7 +81,8 @@
                         Source="appleIcon.png"
                         Padding="25,0,0,0"
                         BackgroundColor="Transparent"
-                        Clicked="AppleLogInClick">
+                        Clicked="AppleLogInClick"
+                        Command="{Binding SignInWithAppleCommand}">
 
                     </ImageButton>
                 </Grid>

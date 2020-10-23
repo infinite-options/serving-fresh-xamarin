@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -67,13 +68,43 @@ namespace InfiniteMeals
         public businessItems(List<string> types, List<string> b_uids, string day)
         {
             InitializeComponent();
-            GetData(types, b_uids);
+            SetInitialFilters(types);
+            _ = GetData(types, b_uids);
             titlePage.Text = day;
             itemList.ItemsSource = datagrid;
             CartTotal.Text = totalCount.ToString();
         }
 
-        private async void GetData(List<string> types, List<string> b_uids)
+        void SetInitialFilters(List<string> types)
+        {
+            if(types.Count != 4) {
+                foreach (string type in types)
+                {
+                    if (type == "fruit")
+                    {
+                        var tint = (TintImageEffect)fruit.Effects[0];
+                        tint.TintColor = Constants.SecondaryColor;
+                    }
+                    if (type == "vegetable")
+                    {
+                        var tint = (TintImageEffect)vegetable.Effects[0];
+                        tint.TintColor = Constants.SecondaryColor;
+                    }
+                    if (type == "dessert")
+                    {
+                        var tint = (TintImageEffect)dessert.Effects[0];
+                        tint.TintColor = Constants.SecondaryColor;
+                    }
+                    if (type == "other")
+                    {
+                        var tint = (TintImageEffect)other.Effects[0];
+                        tint.TintColor = Constants.SecondaryColor;
+                    }
+                }
+            }
+        }
+
+        private async Task GetData(List<string> types, List<string> b_uids)
         {
             GetItemPost post = new GetItemPost();
             post.type = types;
@@ -87,17 +118,22 @@ namespace InfiniteMeals
             request.Content = getItemsStringMessage;
 
             var httpResponse = await client.PostAsync("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/getItems", getItemsStringMessage);
-            string responseStr = await httpResponse.Content.ReadAsStringAsync();
+            //string responseStr = await httpResponse.Content.ReadAsStringAsync();
+            var r = await httpResponse.Content.ReadAsStreamAsync();
+            StreamReader sr = new StreamReader(r);
+            JsonReader reader = new JsonTextReader(sr);
             //ServingFreshBusinessItems data = JsonConvert.DeserializeObject<ServingFreshBusinessItems>(responseStr);
             //var response = await client.GetAsync("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/getItems/" + weekDay);
             //var d = await client.GetStringAsync("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/getItems/" + weekDay);
             //Console.WriteLine("This is the data received for items = " + d);
             //Console.WriteLine(response.IsSuccessStatusCode);
-            Console.WriteLine(responseStr);
-            if (responseStr != null)
+            //Console.WriteLine(responseStr);
+            if (httpResponse.IsSuccessStatusCode)
             {
                 //string result = response.Content.ReadAsStringAsync().Result;
-                data = JsonConvert.DeserializeObject<ServingFreshBusinessItems>(responseStr);
+                //data = JsonConvert.DeserializeObject<ServingFreshBusinessItems>(reader);
+                JsonSerializer serializer = new JsonSerializer();
+                data = serializer.Deserialize<ServingFreshBusinessItems>(reader);
 
                 // COMMENT THE FOLLOWING LINE OF CODE AS (CHANGE 2)
                 // datagrid = new List<ItemModel>();
@@ -431,18 +467,18 @@ namespace InfiniteMeals
 
         void CheckOutClickBusinessPage(System.Object sender, System.EventArgs e)
         {
-            Console.WriteLine("THIS IS THE LIST OF ITEMS I ORDERED");
-            int itemNumber = 1;
-            foreach (string key in order.Keys)
-            {
-                Console.WriteLine("ITEM NUMBER IN THE LIST: " + itemNumber);
-                Console.WriteLine("ITEM NUMBER IN THE BUSINESS_ID: " + order[key].pur_business_uid);
-                Console.WriteLine("ITEM NUMBER IN THE ITEM_ID: " + order[key].item_uid);
-                Console.WriteLine("ITEM NAME = " + order[key].item_name);
-                Console.WriteLine("ITEMS QUANTITY = " + order[key].item_quantity);
-                Console.WriteLine("ITEMS PRICE = " + order[key].item_price);
-                itemNumber++;
-            }
+            //Console.WriteLine("THIS IS THE LIST OF ITEMS I ORDERED");
+            //int itemNumber = 1;
+            //foreach (string key in order.Keys)
+            //{
+            //    Console.WriteLine("ITEM NUMBER IN THE LIST: " + itemNumber);
+            //    Console.WriteLine("ITEM NUMBER IN THE BUSINESS_ID: " + order[key].pur_business_uid);
+            //    Console.WriteLine("ITEM NUMBER IN THE ITEM_ID: " + order[key].item_uid);
+            //    Console.WriteLine("ITEM NAME = " + order[key].item_name);
+            //    Console.WriteLine("ITEMS QUANTITY = " + order[key].item_quantity);
+            //    Console.WriteLine("ITEMS PRICE = " + order[key].item_price);
+            //    itemNumber++;
+            //}
 
             Application.Current.MainPage = new NewUI.CheckoutPage(order);
         }

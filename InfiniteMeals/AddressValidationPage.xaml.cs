@@ -51,6 +51,10 @@ namespace InfiniteMeals
                     Application.Current.Properties["userAddressUnit"] = "";
                 }
             }
+            if (userUnitNumber.Text == null)
+            {
+                Application.Current.Properties["userAddressUnit"] = "";
+            }
             if (userZipcode.Text != null)
             {
                 userZipcode.Text = userZipcode.Text.Trim();

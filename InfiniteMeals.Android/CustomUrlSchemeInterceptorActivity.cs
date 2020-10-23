@@ -11,6 +11,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Xamarin.Auth;
 
 namespace InfiniteMeals.Droid
 {
@@ -26,23 +27,40 @@ namespace InfiniteMeals.Droid
 		{
 			base.OnCreate(savedInstanceState);
 
+			//global::Android.Net.Uri uri_android = Intent.Data;
+
+			//Uri uri_netfx = new Uri(uri_android.ToString());
+
+			//         //new Task(() =>
+			//         //{
+			//         //    StartActivity(new Intent(Application.Context, typeof(MainActivity)));
+			//         //}).Start();
+
+			////load redirect_url Page
+			//Console.WriteLine("This is link: " + uri_netfx);
+			//         AuthenticationState.Authenticator.OnPageLoading(uri_netfx);
+
+			//         //var intent = new Intent(this, typeof(MainActivity));
+			//         //intent.SetFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
+			//         //StartActivity(intent);
+
+			////var intent = new Intent(this, typeof(MainActivity)).SetFlags(ActivityFlags.ReorderToFront);
+			////StartActivity(intent);
+			///
+		
 			global::Android.Net.Uri uri_android = Intent.Data;
 
 			Uri uri_netfx = new Uri(uri_android.ToString());
 
-			//new Task(() =>
-			//{
-			//	StartActivity(new Intent(Application.Context, typeof(MainActivity)));
-			//}).Start();
-
 			// load redirect_url Page
+			Console.WriteLine("This is the uri" + uri_netfx);
 			AuthenticationState.Authenticator.OnPageLoading(uri_netfx);
 
-            var intent = new Intent(this, typeof(MainActivity));
-            intent.SetFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
-            StartActivity(intent);
+			var intent = new Intent(this, typeof(MainActivity));
+			intent.SetFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
+			StartActivity(intent);
 
-            this.Finish();
+			this.Finish();
 
 			return;
 		}

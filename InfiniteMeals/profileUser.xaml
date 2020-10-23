@@ -130,6 +130,16 @@
                     BackgroundColor="White"
                     Clicked="SaveChangesClick">
                 </Button>
+                <Button
+                    Text="Sign Out"
+                    TextColor="#FF8500"
+                    CornerRadius="5"
+                    BorderColor="LightGray"
+                    BorderWidth="1"
+                    HeightRequest="40"
+                    BackgroundColor="White"
+                    Clicked="LogOut">
+                </Button>
             </StackLayout>
         </ScrollView>
             </StackLayout>

@@ -276,7 +276,14 @@ namespace InfiniteMeals.NewUI
                     if (isBusinessOpen(bc.business_uid, weekday)) b_uids.Add(bc.business_uid);
                 }
             }
-            Application.Current.MainPage = new businessItems(types, b_uids, weekday);
+
+            foreach(string type in types)
+            {
+                System.Diagnostics.Debug.WriteLine(type);
+            }
+
+            businessItems businessItemPage = new businessItems(types, b_uids, weekday);
+            Application.Current.MainPage = businessItemPage;
         }
 
         void Change_Color(Object sender, EventArgs e)

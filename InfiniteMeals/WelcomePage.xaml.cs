@@ -1,4 +1,5 @@
 ﻿using System;
+using InfiniteMeals.ViewModel;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -27,6 +28,28 @@ namespace InfiniteMeals
         // THE FOLLOWING CLASSES STORE THE PASSWORD_ALGORITHM, PASSWORD_SALT, AND
         // THE USER INFORMATION WHICH IS SEND TO THE DATABASE TO AUTH USER'S
         // CREDENTIALS
+
+
+        public class Data
+        {
+            public int height { get; set; }
+            public bool is_silhouette { get; set; }
+            public string url { get; set; }
+            public int width { get; set; }
+        }
+
+        public class Picture
+        {
+            public Data data { get; set; }
+        }
+
+        public class FacebookResponse
+        {
+            public string email { get; set; }
+            public string name { get; set; }
+            public Picture picture { get; set; }
+            public string id { get; set; }
+        }
 
         public class UserInfo
         {
@@ -103,6 +126,15 @@ namespace InfiniteMeals
         public logInPage()
         {
             InitializeComponent();
+
+            var vm = new LoginViewModel();
+            vm.OnSignIn += OnSignIn;
+            BindingContext = vm;
+        }
+
+        private void OnSignIn(object sender, EventArgs e)
+        {
+            Application.Current.MainPage = new signUpPage();
         }
 
         // INFINITE OPTIONS LOGIN IMPLEMENTATION
@@ -230,7 +262,49 @@ namespace InfiniteMeals
         // LOG IN CREDENTIALS
         async void FacebookLogInClick(System.Object sender, System.EventArgs e)
         {
-            await DisplayAlert("You clicked Facebook button", "", "OK");
+            string clientID = string.Empty;
+            string redirectURL = string.Empty;
+
+            switch (Device.RuntimePlatform)
+            {
+                case Device.iOS:
+                    clientID = Constant.FacebookAndroidClientID;
+                    redirectURL = Constant.FacebookiOSRedirectUrl;
+                    break;
+                case Device.Android:
+                    clientID = Constant.FacebookAndroidClientID;
+                    redirectURL = Constant.FacebookAndroidRedirectUrl;
+                    break;
+            }
+
+            var autheticator = new OAuth2Authenticator(clientID, Constant.FacebookScope, new Uri(Constant.FacebookAuthorizeUrl), new Uri(redirectURL), null, false);
+            var presenter = new Xamarin.Auth.Presenters.OAuthLoginPresenter();
+
+            presenter.Login(autheticator);
+            autheticator.Completed += Autheticator_CompletedFa;
+        }
+
+        private void Autheticator_CompletedFa(object sender, AuthenticatorCompletedEventArgs e)
+        {
+            if (e.IsAuthenticated)
+            {
+                string accessToken = e.Account.Properties["access_token"];
+                FacebookUserProfileAsync(accessToken);
+                Application.Current.MainPage = new AddressValidationPage();
+            }
+        }
+
+        public void FacebookUserProfileAsync(string accessToken)
+        {
+            HttpClient client = new HttpClient();
+            var response = client.GetStringAsync(Constant.FacebookUserInfoUrl + accessToken);
+            var userData = response.Result;
+            //0System.Diagnostics.Debug.WriteLine("This is the response: " + userData);
+            FacebookResponse data = JsonConvert.DeserializeObject<FacebookResponse>(userData);
+            Application.Current.Properties["customer_uid"] = "100-000097";
+            Application.Current.Properties["userFirstName"] = data.name;
+            Application.Current.Properties["userLastName"] = "";
+            Application.Current.Properties["userEmailAddress"] = data.email;
         }
 
         // THIS FUNCTION WILL START THE FLOW TO LOG IN WITH USER'S GOOGLE
@@ -266,7 +340,7 @@ namespace InfiniteMeals
                 null,
                 true);
 
-            authenticator.Completed += Authenticator_Completed;
+            authenticator.Completed += Authenticator_Completed1; ;
             authenticator.Error += Authenticator_Error;
 
             AuthenticationState.Authenticator = authenticator;
@@ -276,8 +350,44 @@ namespace InfiniteMeals
 
         }
 
+        private async void Authenticator_Completed1(object sender, AuthenticatorCompletedEventArgs e)
+        {
+            var authenticator = sender as OAuth2Authenticator;
 
-    private void Authenticator_Error(object sender, AuthenticatorErrorEventArgs e)
+            //Console.WriteLine("This is the isAuth: " + e.IsAuthenticated);
+            if (authenticator != null)
+            {
+                Console.WriteLine("The authenticator is null");
+                authenticator.Completed -= Authenticator_Completed;
+                authenticator.Error -= Authenticator_Error;
+            }
+            
+            if (e.IsAuthenticated)
+            {
+                // If the user is authenticated, request their basic user data from Google
+                string UserInfoUrl = "https://www.googleapis.com/oauth2/v2/userinfo";
+                var request = new OAuth2Request("GET", new Uri(UserInfoUrl), null, e.Account);
+                var response = await request.GetResponseAsync();
+                string userJsonString = await response.GetResponseTextAsync();
+                var str = JObject.Parse(userJsonString);
+
+                var googleUser = JsonConvert.DeserializeObject<GoogleUser>(userJsonString);
+
+                Application.Current.Properties["customer_uid"] = "100-000097";
+                Application.Current.Properties["userFirstName"] = googleUser.given_name;
+                Application.Current.Properties["userLastName"] = googleUser.family_name;
+                Application.Current.Properties["userEmailAddress"] = googleUser.email;
+
+                //Console.WriteLine("THIS IS THE RESPONSE FROM GET REQUEST" + str);
+                //Console.WriteLine(e.Account.Properties["access_token"]);
+                //Console.WriteLine(e.Account.Properties["refresh_token"]);
+
+                // THE PROCEED AS GUEST PAGE SHOULD BE CALLED DELIVERY ADDRESS
+                Application.Current.MainPage = new AddressValidationPage();
+            }
+        }
+
+        private void Authenticator_Error(object sender, AuthenticatorErrorEventArgs e)
         {
             var authenticator = sender as OAuth2Authenticator;
             if (authenticator != null)
@@ -292,6 +402,8 @@ namespace InfiniteMeals
         private async void Authenticator_Completed(object sender, AuthenticatorCompletedEventArgs e)
         {
             var authenticator = sender as OAuth2Authenticator;
+
+            Console.WriteLine("This is the isAuth: " + e.IsAuthenticated);
             if (authenticator != null)
             {
                 Console.WriteLine("The authenticator is null");
@@ -315,9 +427,9 @@ namespace InfiniteMeals
                 Application.Current.Properties["userLastName"] = googleUser.family_name;
                 Application.Current.Properties["userEmailAddress"] = googleUser.email;
 
-                Console.WriteLine("THIS IS THE RESPONSE FROM GET REQUEST" + str);
-                Console.WriteLine(e.Account.Properties["access_token"]);
-                Console.WriteLine(e.Account.Properties["refresh_token"]);
+                //Console.WriteLine("THIS IS THE RESPONSE FROM GET REQUEST" + str);
+                //Console.WriteLine(e.Account.Properties["access_token"]);
+                //Console.WriteLine(e.Account.Properties["refresh_token"]);
 
                 // THE PROCEED AS GUEST PAGE SHOULD BE CALLED DELIVERY ADDRESS
                 Application.Current.MainPage = new AddressValidationPage();
@@ -326,10 +438,18 @@ namespace InfiniteMeals
 
         // THIS FUNCTION WILL START THE FLOW TO LOG IN WITH USER'S APPLE
         // LOG IN CREDENTIALS
-        async void AppleLogInClick(System.Object sender, System.EventArgs e)
+        public async void AppleLogInClick(System.Object sender, System.EventArgs e)
         {
-            await DisplayAlert("You clicked Apple button", "", "OK");
+            SignIn?.Invoke(sender, e);
+            var c = (ImageButton)sender;
+            c.Command?.Execute(c.CommandParameter);
         }
+
+
+        public event EventHandler SignIn;
+
+        public void InvokeSignInEvent(object sender, EventArgs e)
+            => SignIn?.Invoke(sender, e);
 
         // THIS FUNCTION WILL SEND YOU TO THE PROCEEDASGUEST PAGE UPON
         // A CLICK EVENT

@@ -18,7 +18,7 @@ namespace InfiniteMeals.NewUI
         public string name { get; set; }
         public int qty { get; set; }
         public double price { get; set; }
-        public string total_price { get { return "$" + (qty * price).ToString("N2"); } }
+        public string total_price { get { return "$ " + (qty * price).ToString("N2"); } }
         public void increase_qty()
         {
             qty++;
@@ -32,7 +32,6 @@ namespace InfiniteMeals.NewUI
             PropertyChanged(this, new PropertyChangedEventArgs("qty"));
             PropertyChanged(this, new PropertyChangedEventArgs("total_price"));
         }
-
     }
     public class PurchaseDataObject
     {
@@ -143,15 +142,15 @@ namespace InfiniteMeals.NewUI
                 total_qty += item.qty;
                 subtotal += (item.qty * item.price);
             }
-            SubTotal.Text = "$" + subtotal.ToString("N2");
+            SubTotal.Text = "$ " + subtotal.ToString("N2");
             discount = subtotal * .1;
-            Discount.Text = "-$" + discount.ToString("N2");
+            Discount.Text = "-$ " + discount.ToString("N2");
             delivery_fee = 1.50;
-            DeliveryFee.Text = "$" + delivery_fee.ToString("N2");
+            DeliveryFee.Text = "$ " + delivery_fee.ToString("N2");
             taxes = subtotal * 0.085;
-            Taxes.Text = "$" + taxes.ToString("N2");
+            Taxes.Text = "$ " + taxes.ToString("N2");
             total = subtotal - discount + delivery_fee + taxes;
-            GrandTotal.Text = "$" + total.ToString("N2");
+            GrandTotal.Text = "$ " + total.ToString("N2");
 
             CartTotal.Text = total_qty.ToString();
         }
@@ -184,8 +183,11 @@ namespace InfiniteMeals.NewUI
                               now.Minute.ToString("D2") + ":" +
                               now.Second.ToString("D2"));
         }
-        public async void checkoutAsync(object sender, EventArgs e)
+        public void checkoutAsync(object sender, EventArgs e)
         {
+
+            cardframe.Height = this.Height / 2;
+
             purchaseObject.items = createItemsJSON(cartItems);
             purchaseObject.start_delivery_date = DateTime.Today.ToString();
             purchaseObject.pay_coupon_id = "";
@@ -193,12 +195,56 @@ namespace InfiniteMeals.NewUI
             purchaseObject.amount_discount = discount.ToString("N2");
             purchaseObject.amount_paid = total.ToString("N2");
             purchaseObject.info_is_Addon = "FALSE";
-            purchaseObject.cc_num = "4545";
-            purchaseObject.cc_exp_date = DateTime.Today.AddYears(1).ToString();
-            purchaseObject.cc_cvv = "666";
-            purchaseObject.cc_zip = purchaseObject.delivery_zip;
+
+            // HERE I HAVE ASSIGNED THE INFORMATION WE WILL BE RECORDING FROM
+            // USER'S CARD INFO
+            purchaseObject.cc_num = cardNumber.Text;
+            purchaseObject.cc_exp_date = cardExpMonth.Text + "/" + cardExpYear;
+            purchaseObject.cc_cvv = cardCVV.Text;
+            purchaseObject.cc_zip = cardZip.Text;
+
+
             purchaseObject.charge_id = "";
             purchaseObject.payment_type = ((Button)sender).Text == "Checkout with Paypal" ? "PAYPAL" : "STRIPE";
+
+            //purchaseObject.items = createItemsJSON(cartItems);
+            //purchaseObject.start_delivery_date = DateTime.Today.ToString();
+            //purchaseObject.pay_coupon_id = "";
+            //purchaseObject.amount_due = total.ToString("N2");
+            //purchaseObject.amount_discount = discount.ToString("N2");
+            //purchaseObject.amount_paid = total.ToString("N2");
+            //purchaseObject.info_is_Addon = "FALSE";
+            //purchaseObject.cc_num = "4545";
+            //purchaseObject.cc_exp_date = DateTime.Today.AddYears(1).ToString();
+            //purchaseObject.cc_cvv = "666";
+            //purchaseObject.cc_zip = purchaseObject.delivery_zip;
+            //purchaseObject.charge_id = "";
+            //purchaseObject.payment_type = ((Button)sender).Text == "Checkout with Paypal" ? "PAYPAL" : "STRIPE";
+            //var purchaseString = JsonConvert.SerializeObject(purchaseObject);
+            //Console.WriteLine(purchaseString);
+            //var purchaseMessage = new StringContent(purchaseString, Encoding.UTF8, "application/json");
+            //var httpClient = new HttpClient();
+            //var request = new HttpRequestMessage();
+            //request.Method = HttpMethod.Post;
+            //request.Content = purchaseMessage;
+            //var httpResponse = await httpClient.PostAsync("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/purchase_Data_SF", purchaseMessage);
+            //string responseStr = await httpResponse.Content.ReadAsStringAsync();
+            //PurchaseResponse data = JsonConvert.DeserializeObject<PurchaseResponse>(responseStr);
+            //Console.WriteLine(data.message);
+        }
+
+        // COMPLETE PAYMENT
+        // I THINK THE FLOW OF PROCESSING A PAYMENT WITH STRIPE SHOULD BE
+        // 1. SEND A JSON OBJECT WITH USERS CREDENTIALS AND AMOUNT
+        // 2. RECEIVE A RESPONSE UP ON PROCESS
+        // 3. IF THE RESPONSE IS PAID, THEN WRITE EVERYTHING ABOUT THE ORDER AND DELIVERY INFO TO DATABASE
+        // 4. IF THE RESPONSE IS NOT PAID, THEN DO NOT WRITE THE ORDER TO THE BATABASE AND LET USER KNOW THAT ORDER WAS NOT SUCESSFUL
+
+        // LASTLY, WE NEED TO MODIFY THE PURCHASE DATA SF JSON OBJECT
+
+        // COMPLETE PAYMENT
+        async void CompletePaymentClick(System.Object sender, System.EventArgs e)
+        {
             var purchaseString = JsonConvert.SerializeObject(purchaseObject);
             Console.WriteLine(purchaseString);
             var purchaseMessage = new StringContent(purchaseString, Encoding.UTF8, "application/json");
@@ -206,10 +252,20 @@ namespace InfiniteMeals.NewUI
             var request = new HttpRequestMessage();
             request.Method = HttpMethod.Post;
             request.Content = purchaseMessage;
-            var httpResponse = await httpClient.PostAsync("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/purchase_Data_SF", purchaseMessage);
-            string responseStr = await httpResponse.Content.ReadAsStringAsync();
-            PurchaseResponse data = JsonConvert.DeserializeObject<PurchaseResponse>(responseStr);
-            Console.WriteLine(data.message);
+
+            //var httpResponse = await httpClient.PostAsync("https://tsx3rnuidi.execute-api.us-west-1.amazonaws.com/dev/api/v2/purchase_Data_SF", purchaseMessage);
+            //string responseStr = await httpResponse.Content.ReadAsStringAsync();
+            //PurchaseResponse data = JsonConvert.DeserializeObject<PurchaseResponse>(responseStr);
+            //Console.WriteLine(data.message);
+
+            cardframe.Height = 0;
+            await DisplayAlert("You have successfully paid your order!", "", "OK");
+        }
+
+        // CANCEL
+        void CancelPaymentClick(System.Object sender, System.EventArgs e)
+        {
+            cardframe.Height = 0;
         }
         public void increase_qty(object sender, EventArgs e)
         {
@@ -233,6 +289,22 @@ namespace InfiniteMeals.NewUI
         {
             Application.Current.MainPage = new HistoryPage();
         }
+
+        public async void ChangeAddressClick(System.Object sender, System.EventArgs e)
+        {
+            await DisplayAlert("You want to change your address", "", "OK");
+        }
+
+        void DriverTip_Completed(System.Object sender, System.EventArgs e)
+        {
+            DriverTip.Focus();
+        }
+
+        public async void ChangeContactInfoClick(System.Object sender, System.EventArgs e)
+        {
+            await DisplayAlert("You want to change your contact info", "", "OK");
+        }
+
         public void openRefund(object sender, EventArgs e)
         {
             Application.Current.MainPage = new RefundPage();
