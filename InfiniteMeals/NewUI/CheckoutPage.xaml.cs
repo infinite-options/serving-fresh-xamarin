@@ -233,6 +233,40 @@ namespace InfiniteMeals.NewUI
         {
             Application.Current.MainPage = new HistoryPage();
         }
+<<<<<<< Updated upstream
+=======
+
+        public void ChangeAddressClick(System.Object sender, System.EventArgs e)
+        {
+            addressframe.Height = this.Height / 2;
+        }
+        private async void UpdateAddressClick(object sender, EventArgs e)
+        {
+            await DisplayAlert("You want to change your address", "", "OK");
+        }
+        private void CancelAddressClick(object sender, EventArgs e)
+        {
+            addressframe.Height = 0;
+        }
+
+        void DriverTip_Completed(System.Object sender, System.EventArgs e)
+        {
+            DriverTip.Focus();
+        }
+
+        public void ChangeContactInfoClick(System.Object sender, System.EventArgs e)
+        {
+            contactframe.Height = this.Height / 2;
+        }
+        private async void UpdateContactClick(object sender, EventArgs e)
+        {
+            await DisplayAlert("You want to change your contact info", "", "OK");
+        }
+        private void CancelContactClick(object sender, EventArgs e)
+        {
+            contactframe.Height = 0;
+        }
+>>>>>>> Stashed changes
         public void openRefund(object sender, EventArgs e)
         {
             Application.Current.MainPage = new RefundPage();
@@ -256,5 +290,7 @@ namespace InfiniteMeals.NewUI
         {
             Application.Current.MainPage = new profileUser();
         }
+
+
     }
 }

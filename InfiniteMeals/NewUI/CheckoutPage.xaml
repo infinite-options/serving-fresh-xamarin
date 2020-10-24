@@ -13,6 +13,12 @@
                 <RowDefinition Height="0.5"></RowDefinition>
                 <RowDefinition Height="65"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
+<<<<<<< Updated upstream
+=======
+                <RowDefinition x:Name="cardframe" Height="0" ></RowDefinition>
+                <RowDefinition x:Name="addressframe" Height="0" ></RowDefinition>
+                <RowDefinition x:Name="contactframe" Height="0" ></RowDefinition>
+>>>>>>> Stashed changes
                 <RowDefinition Height="80"></RowDefinition>
             </Grid.RowDefinitions>
             <Label Grid.Row="0" BackgroundColor="#136D74"></Label>
@@ -214,7 +220,112 @@
                     </StackLayout>
                 </ScrollView>
             </StackLayout>
+<<<<<<< Updated upstream
             <Grid Grid.Row="5" BackgroundColor="WhiteSmoke">
+=======
+            <Frame Grid.Row="5" x:Name="CardInfo" >
+                <StackLayout>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0" Text="Payment Information" TextColor="Black" FontAttributes="Bold" FontSize="Medium" ></Label>
+                        <Entry Grid.Row="1" Placeholder="Cardholder Name" x:Name="cardHolderName"></Entry>
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="100"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Entry Grid.Row="0" Grid.Column="0" Placeholder="Card Number" x:Name="cardNumber"></Entry>
+                            <Entry Grid.Row="0" Grid.Column="1" Placeholder="CVV" x:Name="cardCVV"></Entry>
+                        </Grid>
+                        <Grid Grid.Row="3">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Entry Grid.Row="0" Grid.Column="0" Placeholder="Exp MM" x:Name="cardExpMonth"></Entry>
+                            <Entry Grid.Row="0" Grid.Column="1" Placeholder="Exp YYYY" x:Name="cardExpYear"></Entry>
+                            <Entry Grid.Row="0" Grid.Column="2" Placeholder="ZIP" x:Name="cardZip"></Entry>
+                        </Grid>
+                    </Grid>
+
+                    <Button Text="Complete Payment" TextColor="White" FontAttributes="Bold" Clicked="CompletePaymentClick" BackgroundColor="#FF8500"></Button>
+                    <Button Text="Cancel" TextColor="#FF8500" FontAttributes="Bold" BorderColor="LightGray" BorderWidth="0.5" Clicked="CancelPaymentClick"></Button>
+                </StackLayout>
+            </Frame>
+            <Frame Grid.Row="6" x:Name="AddressInfo" >
+                <StackLayout>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0" Text="Enter your Address" TextColor="Black" FontAttributes="Bold" FontSize="Medium" ></Label>
+                        <Entry Grid.Row="1" Placeholder="Address" x:Name="userAddress"></Entry>
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Entry Grid.Row="0" Grid.Column="0" Placeholder="Appartment Number" x:Name="userAptNum"></Entry>
+                            <Entry Grid.Row="0" Grid.Column="1" Placeholder="City" x:Name="userCity"></Entry>
+                        </Grid>
+                        <Grid Grid.Row="3">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Entry Grid.Row="0" Grid.Column="0" Placeholder="State" x:Name="userState"></Entry>
+                            <Entry Grid.Row="0" Grid.Column="2" Placeholder="ZIP" x:Name="userZip"></Entry>
+                        </Grid>
+                    </Grid>
+                    <Button Text="Update Address" TextColor="White" FontAttributes="Bold" Clicked="UpdateAddressClick" BackgroundColor="#FF8500"></Button>
+                    <Button Text="Cancel" TextColor="#FF8500" FontAttributes="Bold" BorderColor="LightGray" BorderWidth="0.5" Clicked="CancelAddressClick"></Button>
+                </StackLayout>
+            </Frame>
+            <Frame Grid.Row="7" x:Name="ContactInfo" >
+                <StackLayout>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0" Text="Enter new Contact Info" TextColor="Black" FontAttributes="Bold" FontSize="Medium" ></Label>
+                        <Entry Grid.Row="1" Placeholder="EmailAddress" x:Name="userEmail"></Entry>
+                        <Entry Grid.Row="2" Placeholder="Phone Number" x:Name="userPhone"></Entry>
+                        <Grid Grid.Row="3">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Entry Grid.Row="0" Grid.Column="0" Placeholder="First Name" x:Name="userFirstName"></Entry>
+                            <Entry Grid.Row="0" Grid.Column="1" Placeholder="Last Name" x:Name="userLastName"></Entry>
+                        </Grid>
+                    </Grid>
+                    <Button Text="Update Contact" TextColor="White" FontAttributes="Bold" Clicked="UpdateContactClick" BackgroundColor="#FF8500"></Button>
+                    <Button Text="Cancel" TextColor="#FF8500" FontAttributes="Bold" BorderColor="LightGray" BorderWidth="0.5" Clicked="CancelContactClick"></Button>
+                </StackLayout>
+            </Frame>
+            <Grid Grid.Row="8" BackgroundColor="WhiteSmoke">
+>>>>>>> Stashed changes
                 <Grid.RowDefinitions>
                     <RowDefinition Height="45"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
